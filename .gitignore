@@ -34,6 +34,7 @@ build/Release
 
 # Dependency directories
 node_modules/
+target/
 jspm_packages/
 
 # TypeScript v1 declaration files
@@ -60,4 +61,20 @@ typings/
 # next.js build output
 .next
 
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 .idea
