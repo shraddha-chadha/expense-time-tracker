@@ -1,0 +1,8 @@
+logging:
+  level: INFO
+  loggers:
+    com.plaid: DEBUG
+
+plaidClientID: '5d34c578dc87a60014247747'
+plaidPublicKey: '408076128548bef334534e21b01171'
+plaidSecret: '625b4630199b5418cb7eb17e41746b'

@@ -1,0 +1,10 @@
+com/plaid/quickstart/resources/IndexResource.class
+com/plaid/quickstart/QuickstartApplication.class
+com/plaid/quickstart/resources/IndexResource$IndexView.class
+com/plaid/quickstart/resources/ItemResource.class
+com/plaid/quickstart/resources/AccessTokenResource.class
+com/plaid/quickstart/resources/ItemResource$ItemResponse.class
+com/plaid/quickstart/QuickstartConfiguration.class
+com/plaid/quickstart/resources/TransactionsResource.class
+com/plaid/quickstart/resources/PublicTokenResource.class
+com/plaid/quickstart/resources/AccountsResource.class
