@@ -6,6 +6,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.plaid.client.PlaidClient;
+import com.plaid.client.request.CategoriesGetRequest;
 import com.plaid.client.request.TransactionsGetRequest;
 import com.plaid.client.response.ErrorResponse;
 import com.plaid.client.response.ItemStatus;
@@ -17,6 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.graalvm.compiler.nodes.CallTargetNode;
 import retrofit2.Response;
 
 @Path("/transactions")
