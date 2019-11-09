@@ -2,9 +2,17 @@ const express = require('express');
 const app = express();
 var bodyParser = require('body-parser')
 const axios = require('axios');
+const port = 3001;
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
+
+// Welcome Page
+app.get('/', (req, res) => {
+    res.send("Welcome to the Voice Personal Assistant Server")
+});
+
+// API where all Alexa request comes
 app.post('/', (req, res) => {
     let request_type = req.body.request.type
     console.log("Request Type", request_type);
@@ -51,4 +59,4 @@ function handleTransactionIntent(response) {
     });
     
 }
-app.listen(3000, () => console.log('Example app listening on port 3000!'));
+app.listen(port, () => console.log('Voice Assistant Server listening on port 3001!'));
