@@ -52,6 +52,11 @@
       <version>${dropwizard.version}</version>
     </dependency>
     <dependency>
+      <groupId>io.dropwizard</groupId>
+      <artifactId>dropwizard-auth</artifactId>
+      <version>${dropwizard.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.plaid</groupId>
       <artifactId>plaid-java</artifactId>
       <version>5.1.0</version>

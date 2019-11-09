@@ -1,10 +1,13 @@
 package com.plaid.quickstart.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.plaid.quickstart.core.User;
+import io.dropwizard.auth.Auth;
 import io.dropwizard.views.View;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
 
 @Path("/")
 public class IndexResource {
@@ -17,8 +20,8 @@ public class IndexResource {
   }
 
   @GET
-  public IndexView get() {
-    return new IndexView(plaidEnvironment, plaidPublicKey);
+  public Response get(@Auth User user) {
+    return Response.ok(new IndexView(plaidEnvironment, plaidPublicKey)).build();
   }
 
   public class IndexView extends View {

@@ -1,7 +1,13 @@
 package com.plaid.quickstart;
 
+import com.plaid.quickstart.auth.ExpenseAndTimeAuthenticator;
+import com.plaid.quickstart.core.User;
+import com.plaid.quickstart.resources.*;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.AuthValueFactoryProvider;
+import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.setup.Bootstrap;
@@ -9,12 +15,6 @@ import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 
 import com.plaid.client.PlaidClient;
-import com.plaid.quickstart.resources.AccessTokenResource;
-import com.plaid.quickstart.resources.AccountsResource;
-import com.plaid.quickstart.resources.IndexResource;
-import com.plaid.quickstart.resources.ItemResource;
-import com.plaid.quickstart.resources.PublicTokenResource;
-import com.plaid.quickstart.resources.TransactionsResource;
 
 public class QuickstartApplication extends Application<QuickstartConfiguration> {
   private PlaidClient plaidClient;
@@ -49,11 +49,15 @@ public class QuickstartApplication extends Application<QuickstartConfiguration> 
       .developmentBaseUrl() // or equivalent, depending on which environment you're calling into
       .build();
 
+    environment.jersey().register(new AuthDynamicFeature(new BasicCredentialAuthFilter.Builder<User>()
+                .setAuthenticator(new ExpenseAndTimeAuthenticator()).buildAuthFilter()));
+    environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
     environment.jersey().register(new AccessTokenResource(plaidClient));
     environment.jersey().register(new AccountsResource(plaidClient));
     environment.jersey().register(new IndexResource("development", configuration.getPlaidPublicKey()));
     environment.jersey().register(new ItemResource(plaidClient));
     environment.jersey().register(new PublicTokenResource(plaidClient));
     environment.jersey().register(new TransactionsResource(plaidClient));
+    environment.jersey().register(new CategoryResource(plaidClient));
   }
 }
