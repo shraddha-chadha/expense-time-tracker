@@ -6,6 +6,7 @@ import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import com.plaid.quickstart.QuickstartApplication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import retrofit2.Response;
 
@@ -17,7 +18,7 @@ public class AccessTokenController {
 private PlaidClient plaidClient;
 
     @PostMapping("/get_access_token")
-    public ItemPublicTokenExchangeResponse getAccessToken(@PathVariable("public_token") String publicToken) throws IOException {
+    public ItemPublicTokenExchangeResponse getAccessToken(@RequestParam("public_token") String publicToken) throws IOException {
         plaidClient = QuickstartApplication.plaidClient;
         Response<ItemPublicTokenExchangeResponse> itemResponse = plaidClient.service()
                 .itemPublicTokenExchange(new ItemPublicTokenExchangeRequest(publicToken))
