@@ -9,7 +9,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 @EnableJpaAuditing
 public class QuickstartApplication {
-	private static PlaidClient plaidClient;
+	public static PlaidClient plaidClient;
+	public static String accessToken;
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(QuickstartApplication.class, args);
 
