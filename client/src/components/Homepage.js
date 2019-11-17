@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 
   banner: {
     color: theme.palette.primary,
-    height: 600
+    height: 'calc(100vh - 68)'
   },
 
   bannerBackground: {
@@ -46,7 +46,7 @@ export default function HomePage() {
 
   const classes = useStyles();
   const width = window.innerWidth;
-  const height = 600;
+  const height = window.innerHeight;
   const videoOptions = {
     height: height,
     width: width,
