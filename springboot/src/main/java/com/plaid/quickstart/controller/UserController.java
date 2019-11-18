@@ -24,7 +24,12 @@ public class UserController {
     }
 
     //Get user by username / email
-
+    @GetMapping("/login")
+    public User login(@RequestParam String username, @RequestParam String password){
+        System.out.println(username);
+        System.out.println(password);
+        return userRepository.findByUsernameAndPassword(username,password);
+    }
 
     //Update a User
 
