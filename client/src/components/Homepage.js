@@ -14,32 +14,39 @@ const useStyles = makeStyles(theme => ({
     overflow: 'hidden'
   },
 
-  form: {
+  formBackground: {
     justifyContent: 'center',
     alignContent: 'center',
     margin: 35
   },
 
-  banner: {
+  bannerBackground: {
     color: theme.palette.primary,
     height: 'calc(100vh - 68)'
   },
 
-  bannerBackground: {
+  videoBackground: {
     position: 'relative'
+  },
+
+  banner: {
+    alignText: 'center'
   },
 
   bannerText: {
     position: 'absolute',
-    color: '#EE8558',
+    color: 'white',
     top: '50%',
     left: '50%',
-    fontSize: 25,
+    fontSize: 50,
+    alignText: 'center !important',
     transform: 'translate(-50%, -50%)',
-    fontWeight: 'bold',
+    fontWeight: 'bold'
+  },
 
+  bannerp: {
+    textAlign: 'center'
   }
-
 }));
 
 export default function HomePage() {
@@ -65,26 +72,30 @@ export default function HomePage() {
   return (
     <div className={classes.root}>
       <Grid container spacing={10}>
-        <Grid item xs={12}>
-          <Paper className={classes.banner}>
-            <div className={classes.bannerBackground}>
-              <div>
-              <YouTube
-                videoId="mEqcala-NiE"
-                opts={videoOptions}
-                onEnd={_onEnd}
-              />
+        <Grid item xs={12} className={classes.bannerBackground}>
+          <Paper>
+            <div className={classes.banner}>
+              <div className={classes.bannerBackground}>
+                <YouTube
+                  videoId="mEqcala-NiE"
+                  opts={videoOptions}
+                  onEnd={_onEnd}
+                />
               </div>
               <div className={classes.bannerText}>
                 <Typing>
-                  <span>Expense and Time Manager with Personal Voice Assistants</span>
+                  <div className={classes.bannerp}>
+                    <p>Expense and Time Manager</p>
+                    <p>with</p>
+                    <p>Personal Voice Assistants</p>
+                  </div>
                 </Typing>
               </div>
             </div>
           </Paper>
         </Grid>
 
-        <Grid container spacing={10} className={classes.form}>
+        <Grid container spacing={10} className={classes.formBackground}>
           <Grid item xs={4}>
             <Paper>
               <Login />
