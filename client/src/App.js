@@ -8,22 +8,17 @@ import {
   useRouteMatch,
   useParams
 } from "react-router-dom";
-import NavBar from './components/NavBar';
-import Login from './components/Login';
-import HomePage from './components/Homepage';
+import Homepage from './components/HomePage/Homepage';
+import Expense from './components/Expense/Expense'
+
 
 function App() {
   return (
     <div>
-      <NavBar />
       <Router>
         <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/">
-            <HomePage />
-          </Route>
+          <Route exact path="/" component={Homepage} />
+          <Route path="/expense" component={Expense} />
         </Switch>
       </Router>
     </div>

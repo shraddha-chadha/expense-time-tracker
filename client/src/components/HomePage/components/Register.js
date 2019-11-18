@@ -11,7 +11,11 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: theme.palette.grey[50]
+    backgroundColor: theme.palette.background.default
+  },
+
+  formContainer: {
+    flexDirection: 'row',
   },
 
   title: {
@@ -34,15 +38,44 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export default function Login() {
+export default function Register() {
   const classes = useStyles();
   return (
-    <div className={classes.root} id="login">
-      <Typography className={classes.title} type="title" color="secondary" >
-        Login
+    <div className={classes.root} id="register">
+      <Typography className={classes.title} type="title" color="primary" >
+        Register
         </Typography>
 
       <Grid container>
+        <Grid item xs={12} className={classes.inputContainer}>
+          <Grid container spacing={3} className={classes.formContainer}>
+            <Grid item xs={6}>
+              <TextField
+                id="login-firstname"
+                label="First Name"
+                placeholder="First Name"
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <TextField
+                id="login-lastname"
+                label="Last Name"
+                placeholder="Last Name"
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid item xs={12} className={classes.inputContainer}>
+          <TextField
+            id="login-email"
+            label="Email"
+            placeholder="Email"
+            fullWidth
+          />
+        </Grid>
+
         <Grid item xs={12} className={classes.inputContainer}>
           <TextField
             id="login-username"
@@ -61,8 +94,17 @@ export default function Login() {
           />
         </Grid>
 
+        <Grid item xs={12} className={classes.inputContainer}>
+          <TextField
+            id="login-confirm-password"
+            label="Confirm Password"
+            placeholder="Confirm Password"
+            fullWidth
+          />
+        </Grid>
+
         <Grid item xs={12} className={classes.button}>
-          <Button variant="contained" color="secondary">
+          <Button variant="contained" color="primary">
             Submit
           </Button>
         </Grid>

@@ -1,12 +1,12 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Login from './Login';
-import Register from './Register';
+import Login from './components/Login';
+import Register from './components/Register';
 import YouTube from 'react-youtube';
-import '../styles.css';
 import { makeStyles } from '@material-ui/core/styles';
 import Typing from 'react-typing-animation';
+import NavBar from '../NavBar';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -71,6 +71,8 @@ export default function HomePage() {
 
   return (
     <div className={classes.root}>
+      <NavBar />
+
       <Grid container spacing={10}>
         <Grid item xs={12} className={classes.bannerBackground}>
           <Paper>
