@@ -36,7 +36,7 @@ export default function NavBar() {
             <HomeCurrencyUsd color="secondary" />
           </Fab>
           <Typography type="title" className={classes.title}>
-            CashClick
+            CashClock
         </Typography>
 
           <Link

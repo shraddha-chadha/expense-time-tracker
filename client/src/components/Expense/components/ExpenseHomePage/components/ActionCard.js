@@ -9,6 +9,8 @@ import { HomeCurrencyUsd } from 'mdi-material-ui';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import { Typography } from '@material-ui/core';
+import { shadows } from '@material-ui/system';
 
 const styles = {
   icon: {
@@ -24,15 +26,32 @@ const useStyles = makeStyles(theme => ({
 
   card: {
     maxWidth: 500,
+    borderStyle: 'solid',
+    borderColor: '#F4F8F8',
+    borderWidth: 1,
+    boxShadow: '5px 5px 15px grey'
   },
 
   content: {
-    width: 350,
+    width: 300,
     textAlign: 'center'
+  },
+
+  text: {
+    fontSize: 15,
+    marginBottom: 10
+  },
+
+  iconButton: {
+    padding: 0
+  },
+
+  button: {
+    boxShadow: '5px 5px 15px grey'
   }
 }));
 
-export default function ActionCard() {
+export default function ActionCard(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -40,15 +59,22 @@ export default function ActionCard() {
           <CardContent component="div" className={classes.content}>
             <Grid container direction="column" spacing={3}>
               <Grid item xs={12}>
-                <IconButton>
+                <IconButton className={classes.iconButton}>
                   <SvgIcon style={styles.icon} color="primary">
-                    <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" />
+                    <path d={props.icon} />
                   </SvgIcon>
                 </IconButton>
               </Grid>
+
               <Grid item xs={12}>
-                <Button variant="contained" color="primary" className={classes.button}>
-                  Link Bank Account
+                <Typography color="textPrimary" className={classes.text}>
+                  {props.subtitle}
+                </Typography>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Button variant="contained" color="secondary" className={classes.button}>
+                {props.buttonTitle}
             </Button>
               </Grid>
             </Grid>

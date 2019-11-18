@@ -39,13 +39,9 @@ const useStyles = makeStyles(theme => ({
     top: '50%',
     left: '50%',
     fontSize: 50,
-    alignText: 'center !important',
+    textAlign: 'center',
     transform: 'translate(-50%, -50%)',
     fontWeight: 'bold'
-  },
-
-  bannerp: {
-    textAlign: 'center'
   }
 }));
 
@@ -86,7 +82,8 @@ export default function HomePage() {
               </div>
               <div className={classes.bannerText}>
                 <Typing>
-                  <div className={classes.bannerp}>
+                  <div>
+                    <Typing.Delay ms={1000} />
                     <p>Expense and Time Manager</p>
                     <p>with</p>
                     <p>Personal Voice Assistants</p>

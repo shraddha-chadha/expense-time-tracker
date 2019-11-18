@@ -10,7 +10,7 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    background: theme.palette.grey[50],
+    background: theme.palette.grey[200],
   },
 
   button: {
@@ -45,7 +45,7 @@ export default function NavBar() {
             <HomeCurrencyUsd />
           </Fab>
           <Typography color="primary" type="title" className={classes.title}>
-            CashClick
+            CashClock
         </Typography>
 
           <Typography>
