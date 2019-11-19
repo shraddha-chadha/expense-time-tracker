@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ExpenseDashboard() {
+export default function ExpenseAnalytics() {
   const classes = useStyles();
 
   return(
@@ -39,8 +39,8 @@ export default function ExpenseDashboard() {
       <Grid item xs={12} className={classes.titleBackground}>
           <Typing>
             <div className={classes.titleText}>
-              <p>Expense Dashboard</p>
-              <p className={classes.subtitle}>Get a snapshot of your expenses</p>
+              <p>Expense Insights</p>
+              <p className={classes.subtitle}>Get deeper insights of your expenses</p>
             </div>
           </Typing>
         </Grid>

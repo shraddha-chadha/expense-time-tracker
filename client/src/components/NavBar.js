@@ -7,6 +7,7 @@ import Fab from '@material-ui/core/Fab';
 import { HomeCurrencyUsd } from 'mdi-material-ui';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link, animateScroll as scroll } from "react-scroll";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,6 +24,10 @@ const useStyles = makeStyles(theme => ({
     margin: 15,
     fontWeight: 'bold',
     fontSize: 25
+  },
+
+  routerLink: {
+    textDecoration: 'none'
   }
 }));
 
@@ -60,6 +65,10 @@ export default function NavBar() {
           >
             <Button className={classes.button} variant="contained">Login</Button>
           </Link>
+
+          <RouterLink exact to="/expense" className={classes.routerLink}>
+            <Button className={classes.button} variant="contained">Expense</Button>
+          </RouterLink>
         </Toolbar>
       </AppBar>
     </div>

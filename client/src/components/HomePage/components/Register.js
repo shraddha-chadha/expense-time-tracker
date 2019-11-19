@@ -104,7 +104,7 @@ export default function Register() {
         </Grid>
 
         <Grid item xs={12} className={classes.button}>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="secondary">
             Submit
           </Button>
         </Grid>

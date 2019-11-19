@@ -118,9 +118,9 @@ export default function ExpenseHomePage() {
       <NavBar />
       <Grid container>
         <Grid item xs={12} className={classes.titleBackground}>
-          <Typing speed={10}>
+          <Typing>
             <div className={classes.titleText}>
-              <p>Expense Manager Home Page</p>
+              <p>Expense Manager Home</p>
               <p className={classes.subtitle}>Take actions to manage your expenses</p>
             </div>
           </Typing>
