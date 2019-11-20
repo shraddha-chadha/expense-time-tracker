@@ -3,6 +3,7 @@ const app = express();
 var bodyParser = require('body-parser')
 const axios = require('axios');
 const port = 3001;
+const googleHome = require('./google_home');
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
@@ -230,6 +231,7 @@ function handleGetBalanceIntent(res) {
     )
 }
 
+app.post('/google', googleHome);
 
 
 app.listen(port, () => console.log('Voice Assistant Server listening on port 3001!'));
