@@ -86,12 +86,16 @@ function handleLaunchRequest(res) {
 function handleAddExpenseIntent(req, res) {
     console.log('Inside add expense')
     console.log(req.body.request.intent.slots)
-    var dollar = req.body.request.intent.slots['dollars']['value'];
-    var cents = req.body.request.intent.slots['cents']['value'];
-    amount = parseFloat(dollar.toString() + '.' + cents.toString())
+    let amount = 0
+    let dollar = req.body.request.intent.slots['dollars']['value'];
+    let cents = req.body.request.intent.slots['cents']['value'];
+    if(dollar === undefined)
+        amount = parseFloat('.' + cents.toString())
+    else if(cents === undefined)
+        amount = parseFloat(dollar.toString())
     console.log(typeof(amount))
-    var date = req.body.request.intent.slots['time']['value'];
-    var category = req.body.request.intent.slots['class']['value'];
+    let date = req.body.request.intent.slots['time']['value'];
+    let category = req.body.request.intent.slots['class']['value'];
     console.log('********************************')
     console.log(amount, date, category)
     console.log('********************************')
@@ -144,7 +148,7 @@ function handleAddBudgetIntent(req, res) {
     console.log('Inside add budget')
     console.log(req.body.request.intent.slots)
     let dollars = req.body.request.intent.slots['dollars']['value'];
-    let date = req.body.request.intent.slots['mon']['value'];
+    let date = req.body.request.intent.slots['time']['value'];
     let category = req.body.request.intent.slots['class']['value'];
     console.log('********************************')
     console.log(dollars, date, category)
@@ -203,7 +207,7 @@ function handleAddCategoryIntent(req, res) {
 function handleGetExpenseIntent(req, res) {
     console.log('Inside get expense')
     console.log(req.body.request.intent.slots)
-    let month = req.body.request.intent.slots['mon']['value'];
+    let month = req.body.request.intent.slots['time']['value'];
     console.log('********************************')
     console.log(month)
     console.log('********************************')
@@ -222,7 +226,7 @@ function handleGetExpenseIntent(req, res) {
 function handleGetBudgetIntent(req, res) {
     console.log('Inside get budget')
     console.log(req.body.request.intent.slots)
-    let month = req.body.request.intent.slots['mon']['value'];
+    let month = req.body.request.intent.slots['time']['value'];
     console.log('********************************')
     console.log(month)
     console.log('********************************')
@@ -241,7 +245,7 @@ function handleGetBudgetIntent(req, res) {
 function handleGetIncomeIntent(req, res) {
     console.log('Inside get income')
     console.log(req.body.request.intent.slots)
-    let month = req.body.request.intent.slots['mon']['value'];
+    let month = req.body.request.intent.slots['time']['value'];
     console.log('********************************')
     console.log(month)
     console.log('********************************')
@@ -260,7 +264,7 @@ function handleGetIncomeIntent(req, res) {
 function handleGetSavingIntent(req, res) {
     console.log('Inside get savings')
     console.log(req.body.request.intent.slots)
-    let month = req.body.request.intent.slots['mon']['value'];
+    let month = req.body.request.intent.slots['time']['value'];
     console.log('********************************')
     console.log(month)
     console.log('********************************')
