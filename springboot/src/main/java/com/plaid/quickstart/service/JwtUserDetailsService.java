@@ -35,11 +35,12 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public User save(User user) throws RollbackException, RegistrationFailedException {
-        User newUser = new User();
+        User newUser = null;
         newUser = userRepository.findByUsername(user.getUsername());
         if(newUser!=null)
             throw new RegistrationFailedException();
         else {
+            newUser = new User();
             newUser.setUsername(user.getUsername());
             newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
             newUser.setEmail(user.getEmail());

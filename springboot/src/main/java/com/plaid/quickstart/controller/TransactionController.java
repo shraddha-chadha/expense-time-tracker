@@ -5,6 +5,7 @@ import com.plaid.client.request.TransactionsGetRequest;
 import com.plaid.client.response.ErrorResponse;
 import com.plaid.client.response.TransactionsGetResponse;
 import com.plaid.quickstart.QuickstartApplication;
+import com.plaid.quickstart.model.Transaction;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import retrofit2.Response;
@@ -32,6 +33,10 @@ public class TransactionController {
         for (int i = 0; i < 5; i++) {
             response = plaidClient.service().transactionsGet(request).execute();
             if (response.isSuccessful()) {
+                for(TransactionsGetResponse.Transaction transaction: response.body().getTransactions())
+                {
+
+                }
                 break;
             } else {
                 try {

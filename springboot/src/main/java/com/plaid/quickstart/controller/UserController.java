@@ -55,6 +55,7 @@ public class UserController {
         return userRepository.findByUsernameAndPassword(username,password);
     }
 
+
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 

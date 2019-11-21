@@ -1,6 +1,8 @@
 package com.plaid.quickstart.model;
 
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -8,8 +10,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+@Data
+@EqualsAndHashCode(exclude = "transactions")
 @EntityListeners(AuditingEntityListener.class)
 @Entity // This tells Hibernate to make a table out of this class
 public class User implements Serializable {
@@ -46,6 +52,11 @@ public class User implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
+
+
+
+
+    //Getters and Setters
     public Integer getId() {
         return id;
     }
@@ -125,4 +136,6 @@ public class User implements Serializable {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+
 }
