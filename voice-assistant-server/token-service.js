@@ -1,6 +1,6 @@
 const APP_ENV = require('./env');
 module.exports = {
-    getAmazonToken: async (amazonId) => {
+    getAmazonToken: (amazonId) => {
         const URL = APP_ENV.backendUrl;
         const OPTIONS = {
             method: 'GET',
@@ -13,8 +13,7 @@ module.exports = {
                 "type": "AMAZON"
             })
         };
-        const results = await fetch(URL, OPTIONS);
-        return results;
+        return fetch(URL, OPTIONS);
     },
     getGoogleToken: async (googleId) => {
         const URL = APP_ENV.backendUrl;
