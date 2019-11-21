@@ -325,13 +325,14 @@ function handleGetTopCategoriesIntent(req, res) {
 }
 
 function hangeGetYearlyExpense(req, res) {
-    console.log(req.body);
+    const slots = req.body.request.intent.slots;
+
     return res.send({
         "version": "1.0",
         "response": {
             "outputSpeech": {
                 "type": "SSML",
-                "ssml": "<speak>Your yearly expense was bahut jyada.</speak>"
+                "ssml": "<speak>Your yearly expense for " + slots.year.value + " was $4500.</speak>"
                 }
             }
         }
