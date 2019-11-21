@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.RollbackException;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/expense")
@@ -26,7 +27,8 @@ public class ExpenseController {
     private TransactionService transactionService;
 
     @PostMapping(path = "/{username}/{vpaIndicator}")
-    public ResponseEntity<?> addExpense(@PathVariable("username") String username,@PathVariable("vpaIndicator") Integer vpaIndicator, @RequestBody Transaction transaction) throws RollbackException, ResourceNotFoundException {
+    public ResponseEntity<?> addExpense(@PathVariable("username") String username,@PathVariable("vpaIndicator") Integer vpaIndicator,
+                                        @RequestBody Transaction transaction) throws RollbackException, ResourceNotFoundException, IOException {
         System.out.println(username);
         System.out.println("Amount:::"+transaction.getAmount());
         User user = userRepository.findByUsername(username);
