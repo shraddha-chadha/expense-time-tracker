@@ -14,7 +14,7 @@ export default function GoogleButton() {
 
   return (
     <div>
-      <Button variant="contained" color="secondary" className={classes.button}>
+        <Button id="my-signin2" variant="contained" color="secondary" className={classes.button}>
         Enable Google Home
       </Button>
     </div>

@@ -66,6 +66,9 @@ app.post('/', (req, res) => {
             case 'GetTopCategories':
                 handleGetTopCategoriesIntent(req, res);
                 break;
+            case 'GetYearlyExpense':
+                hangeGetYearlyExpense(req, res);
+                break;
         }
     }
 });
@@ -307,6 +310,7 @@ function handleGetTopCategoriesIntent(req, res) {
 }
 
 app.post('/google', googleHome);
+
 function handleGetTopCategoriesIntent(req, res) {
     return res.send({
         "version": "1.0",
@@ -319,5 +323,20 @@ function handleGetTopCategoriesIntent(req, res) {
     }
     )
 }
+
+function hangeGetYearlyExpense(req, res) {
+    console.log(req.body);
+    return res.send({
+        "version": "1.0",
+        "response": {
+            "outputSpeech": {
+                "type": "SSML",
+                "ssml": "<speak>Your yearly expense was bahut jyada.</speak>"
+                }
+            }
+        }
+    );
+}
+
 
 app.listen(port, () => console.log('Voice Assistant Server listening on port 3001!'));
