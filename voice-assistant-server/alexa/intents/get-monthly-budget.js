@@ -1,12 +1,14 @@
 const APP_ENV = require('../../env');                       // application environment variables
 const tokenService =require('../../token-service');         // token service
-const URL = APP_ENV.backendUrl + '/add-expense';            // BACKEND API URL
+const URL = APP_ENV.backendUrl + '/monthly-budget';       // BACKEND API URL
+
 
 module.exports = async (req, res) => {
     const slots = req.body.request.intent.slots;
-    console.log("===> ADD EXPENSE", slots);
+    console.log("===> GET MONTHLY BUDGET", slots);
     /*
     const tokenResponse = await tokenService.getAmazonToken();
+    const url = APP_ENV.backendUrl;
     const API_PARAMS = {
         month: slots.month.value,
         year: slots.year.value
@@ -19,14 +21,14 @@ module.exports = async (req, res) => {
         },
         body: JSON.stringify(API_PARAMS)
     };
-    const results = await fetch(URL, options);
+    const results = await fetch(url, options);
     */
     return res.send({
         "version": "1.0",
         "response": {
             "outputSpeech": {
                 "type": "SSML",
-                "ssml": "<speak>Add expense intent called</speak>"
+                "ssml": "<speak>Get monthly budget intent called</speak>"
                 }
             }
         }

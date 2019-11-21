@@ -6,8 +6,8 @@ const URL = APP_ENV.backendUrl + '/last-transaction';       // BACKEND API URL
 module.exports = async (req, res) => {
     const slots = req.body.request.intent.slots;
     console.log("===> GET YEARLY EXPENSE", slots);
-    const tokenResponse = { token: "testToken.123.123"};
-    // const tokenResponse = await tokenService.getAmazonToken();
+    /*
+    const tokenResponse = await tokenService.getAmazonToken();
     const url = APP_ENV.backendUrl;
     const API_PARAMS = {
         year: slots.year.value
@@ -20,7 +20,8 @@ module.exports = async (req, res) => {
         },
         body: JSON.stringify(API_PARAMS)
     };
-    // const results = await fetch(url, options);
+    const results = await fetch(url, options);
+    */
     return res.send({
         "version": "1.0",
         "response": {

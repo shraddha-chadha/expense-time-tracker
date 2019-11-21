@@ -56,6 +56,33 @@ module.exports = (req, res) => {
                 IntentHandler.getYearlyExpense(req, res);
                 break;
 
+            // BUDGET BY MONTH / QUARTER / YEAR
+            case 'GetMonthlyBudget':
+                IntentHandler.getMonthlyBudget(req, res);
+                break;
+
+            case 'GetQuarterlyBudget':
+                IntentHandler.getQuarterlyBudget(req, res);
+                break;
+
+            case 'GetYearlyBudget':
+                IntentHandler.getYearlyBudget(req, res);
+                break;
+
+
+            // TOP CATEGORIES BY MONTH / QUARTER / YEAR
+            case 'GetMonthlyTopCategories':
+                IntentHandler.getMonthlyTopCategories(req, res);
+                break;
+
+            case 'GetQuarterlyTopCategories':
+                IntentHandler.getQuarterlyTopCategories(req, res);
+                break;
+
+            case 'GetYearlyTopCategories':
+                IntentHandler.getYearlyTopCategories(req, res);
+                break;
+
             // WRITE OPERATIONS
             case 'AddBuget':
                 IntentHandler.addBudget(req, res);
@@ -75,16 +102,12 @@ module.exports = (req, res) => {
             
             // READ OPERATIONS
 
-            case 'GetBudget':
-                handleGetBudgetIntent(req, res);
-                break;
-
             case 'GetBalance':
-                handleGetBalanceIntent(req, res);
+                IntentHandler.getBalance(req, res);
                 break;
 
             case 'GetTopCategories':
-                handleGetTopCategoriesIntent(req, res);
+                IntentHandler.getTopCategories(req, res);
                 break;
 
             // MISC

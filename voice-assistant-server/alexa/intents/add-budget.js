@@ -5,8 +5,8 @@ const URL = APP_ENV.backendUrl + '/add-budget';             // BACKEND API URL
 module.exports = async (req, res) => {
     const slots = req.body.request.intent.slots;
     console.log("===> ADD BUDGET", slots);
-    const tokenResponse = { token: "testToken.123.123"};
-    // const tokenResponse = await tokenService.getAmazonToken();
+    /*
+    const tokenResponse = await tokenService.getAmazonToken();
     const API_PARAMS = {
         month: slots.month.value,
         year: slots.year.value
@@ -19,7 +19,8 @@ module.exports = async (req, res) => {
         },
         body: JSON.stringify(API_PARAMS)
     };
-    // const results = await fetch(URL, options);
+    const results = await fetch(URL, options);
+    */
     return res.send({
         "version": "1.0",
         "response": {
