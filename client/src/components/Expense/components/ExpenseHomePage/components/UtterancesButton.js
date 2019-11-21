@@ -18,7 +18,7 @@ export default function UtterancesButton() {
 
   return (
     <div>
-      <RouterLink exact to="/voice" className={classes.routerLink}>
+      <RouterLink to="/voice" className={classes.routerLink}>
         <Button variant="contained" color="secondary" className={classes.button}>
           Voice Assistant Features
       </Button>
