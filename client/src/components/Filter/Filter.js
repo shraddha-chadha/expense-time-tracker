@@ -42,7 +42,7 @@ const years = (() => {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: 20,
+    margin: 15,
     justifyContent: 'center'
   },
 

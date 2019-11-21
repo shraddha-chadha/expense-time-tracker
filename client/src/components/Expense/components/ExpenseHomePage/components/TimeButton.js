@@ -19,7 +19,7 @@ export default function TimeButton() {
 
   return (
     <div>
-      <RouterLink exact to="/time" className={classes.routerLink}>
+      <RouterLink to="/time" className={classes.routerLink}>
         <Button variant="contained" color="secondary" className={classes.button}>
           Time Tracker
       </Button>
