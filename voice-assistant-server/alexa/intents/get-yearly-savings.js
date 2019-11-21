@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
         },
         body: JSON.stringify(API_PARAMS)
     };
-    const results = await fetch(url, options);
+    const results = await fetch(URL, options);
     */
     return res.send({
         "version": "1.0",
