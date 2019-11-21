@@ -37,7 +37,7 @@ export default function NavBar() {
     <div id="nav-bar">
       <AppBar position="static" className={classes.root}>
         <Toolbar >
-          <Fab aria-label="like" color="inherit">
+          <Fab color="inherit">
             <HomeCurrencyUsd color="secondary" />
           </Fab>
           <Typography type="title" className={classes.title}>
@@ -66,7 +66,7 @@ export default function NavBar() {
             <Button className={classes.button} variant="contained">Login</Button>
           </Link>
 
-          <RouterLink exact to="/expense" className={classes.routerLink}>
+          <RouterLink to="/expense" className={classes.routerLink}>
             <Button className={classes.button} variant="contained">Expense</Button>
           </RouterLink>
         </Toolbar>

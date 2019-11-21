@@ -18,53 +18,59 @@ app.post('/', (req, res) => {
     let request_type = req.body.request.type
     console.log("Request Body", req.body);
     // console.log("Request Type", request_type);
-    switch(request_type) {
-        case 'LaunchRequest': 
-            handleLaunchRequest(res);
-            break;
-        case 'IntentRequest':
-            handleTransactionIntent(res);
-            break;
-    }
+    // switch(request_type) {
+    //     case 'LaunchRequest': 
+    //         handleLaunchRequest(res);
+    //         break;
+    //     case 'IntentRequest':
+    //         handleTransactionIntent(res);
+    //         break;
+    // }
 
-//     if(request_type === 'LaunchRequest') {
-//             handleLaunchRequest(res);
-//     }
-//     else if (request_type === 'IntentRequest'){
-//         let request_intent = req.body.request.intent.name
-//         switch(request_intent){
-//             case 'LastTransaction':
-//                 handleTransactionIntent(res);
-//                 break;
-//             case 'AddExpense':
-//                 handleAddExpenseIntent(res);
-//                 break;
-//             case 'AddBudget':
-//                 handleAddBudgetIntent(res);
-//                 break;
-//             case 'AddIncome':
-//                 handleAddIncomeIntent(res);
-//                 break;
-//             case 'AddCategory':
-//                 handleAddCategoryIntent(res);
-//                 break;
-//             case 'GetExpense':
-//                 handleGetExpenseIntent(res);
-//                 break;
-//             case 'GetBudget':
-//                 handleGetBudgetIntent(res);
-//                 break;
-//             case 'GetIncome':
-//                 handleGetIncomeIntent(res);
-//                 break;
-//             case 'GetSaving':
-//                 handleGetSavingIntent(res);
-//                 break;
-//             case 'GetBalance':
-//                 handleGetBalanceIntent(res);
-//                 break;
-//         }
-//     }
+    if(request_type === 'LaunchRequest') {
+            handleLaunchRequest(res);
+    }
+    else if (request_type === 'IntentRequest'){
+        let request_intent = req.body.request.intent.name
+        switch(request_intent){
+            case 'LastTransaction':
+                handleTransactionIntent(res);
+                break;
+            case 'AddExpense':
+                handleAddExpenseIntent(req, res);
+                break;
+            case 'AddBudget':
+                handleAddBudgetIntent(req, res);
+                break;
+            case 'AddIncome':
+                handleAddIncomeIntent(req, res);
+                break;
+            case 'AddCategory':
+                handleAddCategoryIntent(req, res);
+                break;
+            case 'GetExpense':
+                handleGetExpenseIntent(req, res);
+                break;
+            case 'GetBudget':
+                handleGetBudgetIntent(req, res);
+                break;
+            case 'GetIncome':
+                handleGetIncomeIntent(req, res);
+                break;
+            case 'GetSaving':
+                handleGetSavingIntent(req, res);
+                break;
+            case 'GetBalance':
+                handleGetBalanceIntent(req, res);
+                break;
+            case 'GetTopCategories':
+                handleGetTopCategoriesIntent(req, res);
+                break;
+            case 'GetYearlyExpense':
+                hangeGetYearlyExpense(req, res);
+                break;
+        }
+    }
 });
 
 function handleLaunchRequest(res) {
@@ -80,14 +86,28 @@ function handleLaunchRequest(res) {
     )
 }
 
-function handleAddExpenseIntent(res) {
-
+function handleAddExpenseIntent(req, res) {
+    console.log('Inside add expense')
+    console.log(req.body.request.intent.slots)
+    let amount = 0
+    let dollar = req.body.request.intent.slots['dollars']['value'];
+    let cents = req.body.request.intent.slots['cents']['value'];
+    if(dollar === undefined)
+        amount = parseFloat('.' + cents.toString())
+    else if(cents === undefined)
+        amount = parseFloat(dollar.toString())
+    console.log(typeof(amount))
+    let date = req.body.request.intent.slots['time']['value'];
+    let category = req.body.request.intent.slots['class']['value'];
+    console.log('********************************')
+    console.log(amount, date, category)
+    console.log('********************************')
     return res.send({
         "version": "1.0",
         "response": {
             "outputSpeech": {
                 "type": "SSML",
-                "ssml": "<speak>Inside Add Expense</speak>"
+                "ssml": "<speak>The amount has been added to your expenses</speak>"
             }
         }
     }
@@ -127,104 +147,162 @@ function handleTransactionIntent(response) {
     
 }
 
-function handleAddBudgetIntent(res) {
+function handleAddBudgetIntent(req, res) {
+    console.log('Inside add budget')
+    console.log(req.body.request.intent.slots)
+    let dollars = req.body.request.intent.slots['dollars']['value'];
+    let date = req.body.request.intent.slots['time']['value'];
+    let category = req.body.request.intent.slots['class']['value'];
+    console.log('********************************')
+    console.log(dollars, date, category)
+    console.log('********************************')
     return res.send({
         "version": "1.0",
         "response": {
             "outputSpeech": {
                 "type": "SSML",
-                "ssml": "<speak>Inside Add Budget</speak>"
+                "ssml": `<speak>Your budget for ${category} has been set </speak>`
             }
         }
     }
     )
 }
 
-function handleAddIncomeIntent(res) {
+function handleAddIncomeIntent(req, res) {
+    console.log('Inside add income')
+    console.log(req.body.request.intent.slots)
+    let dollars = req.body.request.intent.slots['dollars']['value'];
+    let date = req.body.request.intent.slots['time']['value'];
+    console.log('********************************')
+    console.log(dollars, date)
+    console.log('********************************')
     return res.send({
         "version": "1.0",
         "response": {
             "outputSpeech": {
                 "type": "SSML",
-                "ssml": "<speak>Inside Add Income</speak>"
+                "ssml": "<speak>Your income has been added</speak>"
             }
         }
     }
     )
 }
 
-function handleAddCategoryIntent(res) {
+function handleAddCategoryIntent(req, res) {
+    console.log('Inside add category')
+    console.log(req.body.request.intent.slots)
+    let category = req.body.request.intent.slots['class']['value'];
+    console.log('********************************')
+    console.log(category)
+    console.log('********************************')
     return res.send({
         "version": "1.0",
         "response": {
             "outputSpeech": {
                 "type": "SSML",
-                "ssml": "<speak>Inside Add Category</speak>"
+                "ssml": `<speak>Your new spending category ${category} has been created</speak>`
             }
         }
     }
     )
 }
 
-function handleGetExpenseIntent(res) {
+function handleGetExpenseIntent(req, res) {
+    console.log('Inside get expense')
+    console.log(req.body.request.intent.slots)
+    let month = req.body.request.intent.slots['time']['value'];
+    console.log('********************************')
+    console.log(month)
+    console.log('********************************')
     return res.send({
         "version": "1.0",
         "response": {
             "outputSpeech": {
                 "type": "SSML",
-                "ssml": "<speak>Inside get expense</speak>"
+                "ssml": `<speak>Your spending for ${month} is </speak>`
             }
         }
     }
     )
 }
 
-function handleGetBudgetIntent(res) {
+function handleGetBudgetIntent(req, res) {
+    console.log('Inside get budget')
+    console.log(req.body.request.intent.slots)
+    let month = req.body.request.intent.slots['time']['value'];
+    console.log('********************************')
+    console.log(month)
+    console.log('********************************')
     return res.send({
         "version": "1.0",
         "response": {
             "outputSpeech": {
                 "type": "SSML",
-                "ssml": "<speak>Inside get budget</speak>"
+                "ssml": `<speak>Your budget for ${month} is </speak>`
             }
         }
     }
     )
 }
 
-function handleGetIncomeIntent(res) {
+function handleGetIncomeIntent(req, res) {
+    console.log('Inside get income')
+    console.log(req.body.request.intent.slots)
+    let month = req.body.request.intent.slots['time']['value'];
+    console.log('********************************')
+    console.log(month)
+    console.log('********************************')
     return res.send({
         "version": "1.0",
         "response": {
             "outputSpeech": {
                 "type": "SSML",
-                "ssml": "<speak>Inside get income</speak>"
+                "ssml": `<speak>Your income for ${month} is </speak>`
             }
         }
     }
     )
 }
 
-function handleGetSavingIntent(res) {
+function handleGetSavingIntent(req, res) {
+    console.log('Inside get savings')
+    console.log(req.body.request.intent.slots)
+    let month = req.body.request.intent.slots['time']['value'];
+    console.log('********************************')
+    console.log(month)
+    console.log('********************************')
     return res.send({
         "version": "1.0",
         "response": {
             "outputSpeech": {
                 "type": "SSML",
-                "ssml": "<speak>Inside get savings</speak>"
+                "ssml": `<speak>Your savings for ${month} is </speak>`
             }
         }
     }
     )
 }
 
-function handleGetBalanceIntent(res) {
+function handleGetBalanceIntent(req, res) {
     return res.send({
         "version": "1.0",
         "response": {
             "outputSpeech": {
                 "type": "SSML",
-                "ssml": "<speak>Inside get balance</speak>"
+                "ssml": "<speak>Your current balance is </speak>"
+            }
+        }
+    }
+    )
+}
+
+function handleGetTopCategoriesIntent(req, res) {
+    return res.send({
+        "version": "1.0",
+        "response": {
+            "outputSpeech": {
+                "type": "SSML",
+                "ssml": "<speak>Your top categories are </speak>"
             }
         }
     }
@@ -232,6 +310,34 @@ function handleGetBalanceIntent(res) {
 }
 
 app.post('/google', googleHome);
+
+function handleGetTopCategoriesIntent(req, res) {
+    return res.send({
+        "version": "1.0",
+        "response": {
+            "outputSpeech": {
+                "type": "SSML",
+                "ssml": "<speak>Your top categories are</speak>"
+            }
+        }
+    }
+    )
+}
+
+function hangeGetYearlyExpense(req, res) {
+    const slots = req.body.request.intent.slots;
+
+    return res.send({
+        "version": "1.0",
+        "response": {
+            "outputSpeech": {
+                "type": "SSML",
+                "ssml": "<speak>Your yearly expense for " + slots.year.value + " was $4500.</speak>"
+                }
+            }
+        }
+    );
+}
 
 
 app.listen(port, () => console.log('Voice Assistant Server listening on port 3001!'));

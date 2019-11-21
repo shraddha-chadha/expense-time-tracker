@@ -32,7 +32,7 @@ const categories = [
   { key: '3', value: 'Bills' },
   { key: '4', value: 'Auto' },
   { key: '5', value: 'Holidays' },
-  { key: '6', value: 'Entertainment' },
+  { key: '6', value: 'Leisure' },
   { key: '7', value: 'Shopping' },
   { key: '8', value: 'Fuel' },
   { key: '9', value: 'Health' },

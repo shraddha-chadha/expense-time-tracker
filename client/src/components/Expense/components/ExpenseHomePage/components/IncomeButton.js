@@ -52,7 +52,6 @@ export default function IncomeButton() {
   let date = new Date();
   let current_year = date.getFullYear().toString();
   let current_month = months[ date.getMonth() ].value;
-  console.log("current_month", current_month);
   const [month, setMonth] = React.useState(current_month);
   const [year, setYear] = React.useState(current_year);
 

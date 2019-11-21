@@ -14,6 +14,7 @@ import AlexaButton from './components/AlexaButton';
 import GoogleButton from './components/GoogleButton';
 import UtterancesButton from './components/UtterancesButton'
 import TimeButton from './components/TimeButton';
+import Header from '../../../Header';
 
 const iconTitleMap = {
   linkAccount: {
@@ -27,12 +28,12 @@ const iconTitleMap = {
   },
 
   setBudget: {
-    icon: 'M7,2H17A2,2 0 0,1 19,4V20A2,2 0 0,1 17,22H7A2,2 0 0,1 5,20V4A2,2 0 0,1 7,2M7,4V8H17V4H7M7,10V12H9V10H7M11,10V12H13V10H11M15,10V12H17V10H15M7,14V16H9V14H7M11,14V16H13V14H11M15,14V16H17V14H15M7,18V20H9V18H7M11,18V20H13V18H11M15,18V20H17V18H15Z',
+    icon: 'M2,5H22V20H2V5M20,18V7H4V18H20M17,8A2,2 0 0,0 19,10V15A2,2 0 0,0 17,17H7A2,2 0 0,0 5,15V10A2,2 0 0,0 7,8H17M17,13V12C17,10.9 16.33,10 15.5,10C14.67,10 14,10.9 14,12V13C14,14.1 14.67,15 15.5,15C16.33,15 17,14.1 17,13M15.5,11A0.5,0.5 0 0,1 16,11.5V13.5A0.5,0.5 0 0,1 15.5,14A0.5,0.5 0 0,1 15,13.5V11.5A0.5,0.5 0 0,1 15.5,11M13,13V12C13,10.9 12.33,10 11.5,10C10.67,10 10,10.9 10,12V13C10,14.1 10.67,15 11.5,15C12.33,15 13,14.1 13,13M11.5,11A0.5,0.5 0 0,1 12,11.5V13.5A0.5,0.5 0 0,1 11.5,14A0.5,0.5 0 0,1 11,13.5V11.5A0.5,0.5 0 0,1 11.5,11M8,15H9V10H8L7,10.5V11.5L8,11V15Z',
     subtitle: 'Set monthly budget to control spendings'
   },
 
   setIncome: {
-    icon: 'M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z',
+    icon: 'M5,6H23V18H5V6M14,9A3,3 0 0,1 17,12A3,3 0 0,1 14,15A3,3 0 0,1 11,12A3,3 0 0,1 14,9M9,8A2,2 0 0,1 7,10V14A2,2 0 0,1 9,16H19A2,2 0 0,1 21,14V10A2,2 0 0,1 19,8H9M1,10H3V20H19V22H1V10Z',
     subtitle: 'Set monthly income to know your savings'
   },
 
@@ -64,12 +65,6 @@ const iconTitleMap = {
 };
 
 const useStyles = makeStyles(theme => ({
-  titleBackground: {
-    position: 'relative',
-    height: 320,
-    background: 'linear-gradient(180deg, #FE6B8B 30%, #FF8E53 90%)',
-  },
-
   cardContainer1: {
     background: theme.palette.grey[300],
     justifyContent: "center"
@@ -85,28 +80,12 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center"
   },
 
-  titleText: {
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%,-50%)',
-    fontSize: 45,
-    color: 'white',
-    textAlign: 'center',
-    fontWeight: 'bold'
-  },
-
   actionPannelText: {
     textAlign: 'center',
     fontWeight: 'bold',
     color: '#696969',
     fontSize: 25,
     marginTop: 40
-  },
-
-  subtitle: {
-    fontSize: 25,
-    fontWeight: 'normal'
   }
 
 }));
@@ -116,16 +95,9 @@ export default function ExpenseHomePage() {
   return (
     <div>
       <NavBar />
+      <Header title="Take actions to manage your expenses" />
+      
       <Grid container>
-        <Grid item xs={12} className={classes.titleBackground}>
-          <Typing>
-            <div className={classes.titleText}>
-              <p>Expense Manager Home</p>
-              <p className={classes.subtitle}>Take actions to manage your expenses</p>
-            </div>
-          </Typing>
-        </Grid>
-
         <Grid item xs={12}>
           <Grid container className={classes.cardContainer1} >
             <Grid item xs={12}>

@@ -30,7 +30,7 @@ export default function CategoryButton() {
     { key: 3, value: 'Bills' },
     { key: 4, value: 'Auto' },
     { key: 5, value: 'Holidays' },
-    { key: 6, value: 'Entertainment' },
+    { key: 6, value: 'Leisure' },
     { key: 7, value: 'Shopping' },
     { key: 8, value: 'Fuel' },
     { key: 9, value: 'Health' },
@@ -82,7 +82,14 @@ export default function CategoryButton() {
         </DialogTitle>
           <DialogContent>
             <Grid container spacing={1} direction="column">
-            {categoryElements}
+              {categories.map(category => (
+                <Grid item key={category.key}>
+                  <Typography color="black">
+                    {category.value}
+                  </Typography>
+                </Grid>
+              )
+              )}
             </Grid>
 
             <TextField
