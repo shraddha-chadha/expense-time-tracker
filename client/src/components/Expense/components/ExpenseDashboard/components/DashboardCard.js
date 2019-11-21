@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     borderColor: '#F4F8F8',
     borderWidth: 1,
     boxShadow: '5px 5px 15px grey',
-    background: theme.palette.grey[300]
+    background: theme.palette.grey[100]
   },
 
   content: {

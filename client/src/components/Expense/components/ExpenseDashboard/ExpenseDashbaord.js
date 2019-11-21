@@ -5,6 +5,11 @@ import Typing from 'react-typing-animation';
 import { makeStyles } from '@material-ui/core/styles';
 import Filter from '../../../Filter/Filter';
 import DashboardCard from './components/DashboardCard';
+import CategoryIcon from './components/CategoryIcon';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import { Typography } from '@material-ui/core';
+import BudgetChecker from './components/BudgetChecker';
 
 const iconTitleMap = {
   totalExpense: {
@@ -49,17 +54,37 @@ const useStyles = makeStyles(theme => ({
   subtitle: {
     fontSize: 25,
     fontWeight: 'normal'
+  },
+
+  card: {
+    maxWidth: 400,
+    borderStyle: 'solid',
+    borderColor: '#F4F8F8',
+    borderWidth: 1,
+    boxShadow: '5px 5px 15px grey',
+    background: theme.palette.grey[100]
+  },
+
+  content: {
+    width: 350,
+    textAlign: 'center',
+    marginBottom: 0
+  },
+
+  header: {
+    background: '#E94155',
+    color: 'white'
   }
 }));
 
 export default function ExpenseDashboard() {
   const classes = useStyles();
 
-  return(
+  return (
     <div>
       <NavBar />
-      
-      <Grid container direction="column">
+
+      <Grid container direction="column" spacing={1}>
         <Grid item className={classes.titleBackground}>
           <Typing>
             <div className={classes.titleText}>
@@ -76,36 +101,120 @@ export default function ExpenseDashboard() {
         <Grid item>
           <Grid container spacing={2} direction="row" justify='center'>
             <Grid item>
-              <DashboardCard 
-              icon={iconTitleMap.totalExpense.icon}
-              title={iconTitleMap.totalExpense.title}
-              amount="$4500"
+              <DashboardCard
+                icon={iconTitleMap.totalExpense.icon}
+                title={iconTitleMap.totalExpense.title}
+                amount="$4500"
               />
             </Grid>
 
             <Grid item>
-              <DashboardCard 
-              icon={iconTitleMap.totalBudget.icon}
-              title={iconTitleMap.totalBudget.title}
-              amount="$4500"
+              <DashboardCard
+                icon={iconTitleMap.totalBudget.icon}
+                title={iconTitleMap.totalBudget.title}
+                amount="$4500"
               />
             </Grid>
 
             <Grid item>
-              <DashboardCard 
-              icon={iconTitleMap.totalIncome.icon}
-              title={iconTitleMap.totalIncome.title}
-              amount="$4500"
+              <DashboardCard
+                icon={iconTitleMap.totalIncome.icon}
+                title={iconTitleMap.totalIncome.title}
+                amount="$4500"
               />
             </Grid>
 
             <Grid item>
-              <DashboardCard 
-              icon={iconTitleMap.totalSavings.icon}
-              title={iconTitleMap.totalSavings.title}
-              amount="$4500"
+              <DashboardCard
+                icon={iconTitleMap.totalSavings.icon}
+                title={iconTitleMap.totalSavings.title}
+                amount="$4500"
               />
             </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid item>
+          <Grid container direction="row" justify='center' spacing={10} style={{ marginTop: 10 }}>
+            <Grid item>
+              <Card className={classes.card}>
+                <CardContent component="div" className={classes.content}>
+                  <Grid container style={{ marginTop: 10, marginBottom: 20 }} justify="center" spacing={6} >
+                    <Grid item className={classes.header}>
+                      <Typography component="h5" variant="h5">
+                        Top Spending Categories
+                    </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" justify='center' spacing={6}>
+                    <Grid item>
+                      <CategoryIcon category="home" amount="$400" />
+                    </Grid>
+                    <Grid item>
+                      <CategoryIcon category="bills" amount="$500" />
+                    </Grid>
+                    <Grid item>
+                      <CategoryIcon category="auto" amount="$500" />
+                    </Grid>
+                    <Grid item>
+                      <CategoryIcon category="holidays" amount="$500" />
+                    </Grid>
+                    <Grid item>
+                      <CategoryIcon category="leisure" amount="$500" />
+                    </Grid>
+                    <Grid item>
+                      <CategoryIcon category="shopping" amount="$500" />
+                    </Grid>
+                    <Grid item>
+                      <CategoryIcon category="fuel" amount="$500" />
+                    </Grid>
+                    <Grid item>
+                      <CategoryIcon category="health" amount="$500" />
+                    </Grid>
+                    <Grid item>
+                      <CategoryIcon category="general" amount="$500" />
+                    </Grid>
+                    <Grid item>
+                      <CategoryIcon category="food" amount="$500" />
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            <Grid item>
+              <Card className={classes.card}>
+                <CardContent component="div" className={classes.content}>
+                  <Grid container style={{ marginTop: 10, marginBottom: 20 }} justify="center" spacing={6} >
+                    <Grid item className={classes.header}>
+                      <Typography component="h5" variant="h5">
+                        Linked Bank Accounts
+                    </Typography>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            <Grid item>
+              <Card className={classes.card}>
+                <CardContent component="div" className={classes.content}>
+                  <Grid container style={{ marginTop: 10, marginBottom: 20 }} justify="center" spacing={6} >
+                    <Grid item className={classes.header}>
+                      <Typography component="h5" variant="h5">
+                        Budget Checker
+                    </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container>
+                    <Grid item>
+                      <BudgetChecker />
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
+
           </Grid>
         </Grid>
 
