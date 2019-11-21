@@ -17,7 +17,7 @@ const styles = {
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    margin: 25
+    margin: 15
   },
 
   card: {

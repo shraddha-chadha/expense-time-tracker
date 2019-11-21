@@ -10,6 +10,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { Typography } from '@material-ui/core';
 import BudgetChecker from './components/BudgetChecker';
+import BankAccounts from './components/BankAccounts';
+import Header from '../../../Header';
 
 const iconTitleMap = {
   totalExpense: {
@@ -34,28 +36,6 @@ const iconTitleMap = {
 };
 
 const useStyles = makeStyles(theme => ({
-  titleBackground: {
-    position: 'relative',
-    height: 320,
-    background: 'linear-gradient(180deg, #FE6B8B 30%, #FF8E53 90%)',
-  },
-
-  titleText: {
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%,-50%)',
-    fontSize: 45,
-    color: 'white',
-    textAlign: 'center',
-    fontWeight: 'bold'
-  },
-
-  subtitle: {
-    fontSize: 25,
-    fontWeight: 'normal'
-  },
-
   card: {
     maxWidth: 400,
     borderStyle: 'solid',
@@ -83,17 +63,9 @@ export default function ExpenseDashboard() {
   return (
     <div>
       <NavBar />
+      <Header title="Get a snapshot of your expenses" />
 
       <Grid container direction="column" spacing={1}>
-        <Grid item className={classes.titleBackground}>
-          <Typing>
-            <div className={classes.titleText}>
-              <p>Expense Dashboard</p>
-              <p className={classes.subtitle}>Get a snapshot of your expenses</p>
-            </div>
-          </Typing>
-        </Grid>
-
         <Grid item>
           <Filter />
         </Grid>
@@ -192,6 +164,11 @@ export default function ExpenseDashboard() {
                     </Typography>
                     </Grid>
                   </Grid>
+                  <Grid container>
+                    <Grid item>
+                      <BankAccounts />
+                    </Grid>
+                  </Grid>
                 </CardContent>
               </Card>
             </Grid>
@@ -208,7 +185,7 @@ export default function ExpenseDashboard() {
                   </Grid>
                   <Grid container>
                     <Grid item>
-                      <BudgetChecker />
+                      <BudgetChecker type="overbudget" amount="$300" />
                     </Grid>
                   </Grid>
                 </CardContent>

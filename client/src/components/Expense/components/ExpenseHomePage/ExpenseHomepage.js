@@ -14,6 +14,7 @@ import AlexaButton from './components/AlexaButton';
 import GoogleButton from './components/GoogleButton';
 import UtterancesButton from './components/UtterancesButton'
 import TimeButton from './components/TimeButton';
+import Header from '../../../Header';
 
 const iconTitleMap = {
   linkAccount: {
@@ -64,12 +65,6 @@ const iconTitleMap = {
 };
 
 const useStyles = makeStyles(theme => ({
-  titleBackground: {
-    position: 'relative',
-    height: 320,
-    background: 'linear-gradient(180deg, #FE6B8B 30%, #FF8E53 90%)',
-  },
-
   cardContainer1: {
     background: theme.palette.grey[300],
     justifyContent: "center"
@@ -85,28 +80,12 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center"
   },
 
-  titleText: {
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%,-50%)',
-    fontSize: 45,
-    color: 'white',
-    textAlign: 'center',
-    fontWeight: 'bold'
-  },
-
   actionPannelText: {
     textAlign: 'center',
     fontWeight: 'bold',
     color: '#696969',
     fontSize: 25,
     marginTop: 40
-  },
-
-  subtitle: {
-    fontSize: 25,
-    fontWeight: 'normal'
   }
 
 }));
@@ -116,16 +95,9 @@ export default function ExpenseHomePage() {
   return (
     <div>
       <NavBar />
+      <Header title="Take actions to manage your expenses" />
+      
       <Grid container>
-        <Grid item xs={12} className={classes.titleBackground}>
-          <Typing>
-            <div className={classes.titleText}>
-              <p>Expense Manager Home</p>
-              <p className={classes.subtitle}>Take actions to manage your expenses</p>
-            </div>
-          </Typing>
-        </Grid>
-
         <Grid item xs={12}>
           <Grid container className={classes.cardContainer1} >
             <Grid item xs={12}>
