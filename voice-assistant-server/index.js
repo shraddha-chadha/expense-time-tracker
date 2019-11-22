@@ -5,7 +5,14 @@ const PORT = 3001;                                      // PORT NUMBER
 const express = require('express');
 const app = express();
 var bodyParser = require('body-parser')
+<<<<<<< Updated upstream
 const axios = require('axios');                        
+=======
+const axios = require('axios');
+const port = 3001;
+const googleHome = require('./google_home');
+const {dialogflow} = require('actions-on-google');
+>>>>>>> Stashed changes
 
 /// MIDDLEWARE CONFIG
 app.use(bodyParser.json());                             // support json encoded bodies
