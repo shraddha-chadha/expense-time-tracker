@@ -59,10 +59,11 @@ public class TransactionMetricsController {
                                                   @PathVariable("year") Integer year) throws RollbackException, ResourceNotFoundException {
 
         User user = userRepository.findByUsername(username);
+        List<CompareExpenseDTO> map1 = null;
         Map<String,Double> map = null;
         if (user!=null)
         {
-            map = transactionService.getAllTotalsByFilter(user.getId(),filterType,month,quarter,year);
+            map = transactionService.getExpensesByCategory(user.getId(),filterType,month,quarter,year);
         }
         else
         {
@@ -75,7 +76,7 @@ public class TransactionMetricsController {
     }
 
 
-    @PostMapping(path = "/compareExpense/{username}/{year1}{year2}")
+    @PostMapping(path = "/compareExpense/{username}/{year1}/{year2}")
     public ResponseEntity<?> compareYearlyExpensesByMonth(@PathVariable("username") String username,
                                                    @PathVariable("year1") Integer year1,
                                                    @PathVariable("year2") Integer year2) throws RollbackException, ResourceNotFoundException {

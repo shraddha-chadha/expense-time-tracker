@@ -1,6 +1,7 @@
 package com.plaid.quickstart.controller;
 
 import com.plaid.quickstart.exception.RegistrationFailedException;
+import com.plaid.quickstart.exception.ResourceNotFoundException;
 import com.plaid.quickstart.model.JwtRequest;
 import com.plaid.quickstart.model.JwtResponse;
 import com.plaid.quickstart.model.User;
@@ -82,7 +83,40 @@ public class UserController {
         }
     }
 
+    @PostMapping(path = "/token/{username}/{tokenIdentifier}/{tokenValue}")
+    public ResponseEntity<?> storeAccessToken(@PathVariable("username") String username,
+                                              @PathVariable("tokenIdentifier") String tokenIdentifier,
+                                              @PathVariable("tokenValue") String tokenValue)
+            throws RollbackException, ResourceNotFoundException {
 
+        User user = userRepository.findByUsername(username);
+        if(tokenIdentifier.equalsIgnoreCase("amazon")){
+            user.setAmazonId(tokenValue);
+        }
+        else if(tokenIdentifier.equalsIgnoreCase("google"))
+        {
+            user.setGoogleId(tokenValue);
+        }
+
+        user = userRepository.save(user);
+        if(user!=null)
+            return ResponseEntity.ok("Succesfully inserted in to database");
+
+        return ResponseEntity.ok("User not found");
+
+
+    }
+
+
+    @PostMapping(path = "/getToken/{username}")
+    public ResponseEntity<?> getApiToken(@PathVariable("username") String username){
+
+        User user = userRepository.findByUsername(username);
+        if(user!=null)
+            return ResponseEntity.ok(user);
+
+        return ResponseEntity.ok("User not found");
+    }
     //Update a User
 
 

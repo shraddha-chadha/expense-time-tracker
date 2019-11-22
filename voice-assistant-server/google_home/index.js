@@ -50,19 +50,30 @@ function addExpense(req, res) {
     console.log(req.body.queryResult.parameters); 
     let amount = 0
     let dollar = req.body.queryResult.parameters['dollars'];
-    console.log(dollar); 
     let cents = req.body.queryResult.parameters['cents'];
-    if(dollar === undefined)
-        amount = parseFloat('.' + cents.toString())
-    else if(cents === undefined)
-        amount = parseFloat(dollar.toString())
-    console.log(typeof(amount))
-    amount = dollar + (cents/100)
-    console.log(amount)
-    let date = req.body.queryResult.parameters['time'];
+    let time = req.body.queryResult.parameters['time'];
     let category = req.body.queryResult.parameters['class'];
+    if(dollar === '' && cents !== '') 
+        amount = parseFloat('.' + cents.toString())
+    else if(dollar !== '' && cents === 0)
+        amount = parseFloat(dollar.toString())
+    else if (dollar === '' && cents === '')
+    return res.send({
+        "fulfillmentText" : "Please mention the expense amount"
+    })
+    else if (dollar !== '' && cents !== '') {
+    amount = (dollar + (cents/100)).toString()
+    console.log(amount)
+    if (time === '')
+    return res.send({
+        "fulfillmentText" : "Please mention the expense time"
+    })
+    if (category === '')
+    return res.send({
+        "fulfillmentText" : "Please mention the expense category"
+    })
     console.log('********************************')
-    console.log(amount, date, category)
+    console.log(amount, time, category)
     console.log('********************************')
     return res.send({
         
@@ -71,42 +82,71 @@ function addExpense(req, res) {
         
     
     )
-}
+        }
+    }
 
 
 function addBudget(req, res) {
     console.log('Inside add budget')
     console.log(req.body.queryResult.parameters)
     let dollars = req.body.queryResult.parameters['dollars'];
-    let date = req.body.queryResult.parameters['time'];
+    let month = req.body.queryResult.parameters['month'];
     let category = req.body.queryResult.parameters['class'];
+    if (dollars === '')
+    return res.send({
+        "fulfillmentText": "Please mention dollar amount"})
+    else if (category === '')
+    return res.send({
+        "fulfillmentText": "Please mention budget category"})
+    else if (month === '')
+    return res.send({
+        "fulfillmentText": "Please mention budget month"})
+    else {
     console.log('********************************')
-    console.log(dollars, date, category)
+    console.log(dollars, month, category)
     console.log('********************************')
     return res.send({
         
         "fulfillmentText": `Your budget for ${category} has been set.`
     })
 }
+}
 
 function addIncome(req, res) {
     console.log('Inside add income')
     console.log(req.body.queryResult.parameters)
     let dollars = req.body.queryResult.parameters['dollars'];
-    let date = req.body.queryResult.parameters['customDate'];
+    let time = req.body.queryResult.parameters['time'];
+    if (dollars === '')
+    return res.send({
+        
+        "fulfillmentText": "Please mention dollar amount."
+    })
+    else if (time === '')
+    return res.send({
+        
+        "fulfillmentText": "Please mention the income date."
+    })
+    else {
     console.log('********************************')
-    console.log(dollars, date)
+    console.log(dollars, time)
     console.log('********************************')
     return res.send({
         
         "fulfillmentText": `Your income amount of ${dollars} dollars has been added.`
     })
 }
+}
 
 function addCategory(req, res) {
     console.log('Inside add category')
     console.log(req.body.queryResult.parameters)
     let category = req.body.queryResult.parameters['class'];
+    if (category === '')
+    return res.send({
+        "fulfillmentText" : "Please mention your expense category"
+    }) 
+    else {
     console.log('********************************')
     console.log(category)
     console.log('********************************')
@@ -115,58 +155,83 @@ function addCategory(req, res) {
         "fulfillmentText": `Your new spending category ${category} has been created.`
     })
 }
+}
 
 function getExpense(req, res) {
     console.log('Inside get expense')
     console.log(req.body.queryResult.parameters)
-    let month = req.body.queryResult.parameters['time'];
+    let time = req.body.queryResult.parameters['time'];
+    if (time === '')
+    return res.send({
+        "fulfillmentText": "Please mention month of expense."
+    }) 
+    else {
     console.log('********************************')
-    console.log(month)
+    console.log(time)
     console.log('********************************')
     return res.send({
         
-        "fulfillmentText": `Your spending for ${month} is`
+        "fulfillmentText": `Your spending for ${time} was`
     })
+}
 }
 
 function getBudget(req, res) {
     console.log('Inside get budget')
     console.log(req.body.queryResult.parameters)
-    let month = req.body.queryResult.parameters['time'];
+    let time = req.body.queryResult.parameters['time'];
+    if (time === '')
+    return res.send({
+        "fulfillmentText": "Please mention month of budget."
+    }) 
+    else {
     console.log('********************************')
-    console.log(month)
+    console.log(time)
     console.log('********************************')
     return res.send({
         
-        "fulfillmentText": `Your budget for ${month} is`
+        "fulfillmentText": `Your budget for ${time} is`
     })
+}
 }
 
 
 function getIncome(req, res) {
     console.log('Inside get income')
     console.log(req.body.queryResult.parameters)
-    let month = req.body.queryResult.parameters['time'];
+    let time = req.body.queryResult.parameters['time'];
+    if (time === '')
+    return res.send({
+        "fulfillmentText": "Please mention month of income."
+    }) 
+    else {
     console.log('********************************')
-    console.log(month)
+    console.log(time)
     console.log('********************************')
     return res.send({
         
-        "fulfillmentText": `Your income for ${month} is`
+        "fulfillmentText": `Your income for ${time} is`
     })
+}
 }
 
 function getSaving(req, res) {
     console.log('Inside get savings')
     console.log(req.body.queryResult.parameters)
-    let month = req.body.queryResult.parameters['time'];
+    let time = req.body.queryResult.parameters['time'];
+    if (time === '')
+    return res.send({
+        "fulfillmentText": "Please mention month of income."
+    }) 
+    else {
     console.log('********************************')
-    console.log(month)
+    console.log(time)
     console.log('********************************')
     return res.send({
         
-        "fulfillmentText": `Your savings for ${month} is`
+        "fulfillmentText": `Your savings for ${time} is`
     })
+}
 }
 
 function getBalance(req, res) {
