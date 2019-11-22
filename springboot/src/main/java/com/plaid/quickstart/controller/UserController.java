@@ -10,13 +10,16 @@ import com.plaid.quickstart.service.JwtUserDetailsService;
 import com.plaid.quickstart.service.TransactionService;
 import com.plaid.quickstart.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import retrofit2.http.Path;
 
 import javax.transaction.RollbackException;
 import javax.validation.Valid;
@@ -41,6 +44,9 @@ public class UserController {
     @Autowired
     private TransactionService transactionService;
 
+    @Autowired
+    private PasswordEncoder bcryptEncoder;
+
 
     //Get all Users
 
@@ -48,6 +54,7 @@ public class UserController {
     //Create New User
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user) throws RollbackException, RegistrationFailedException {
+
         return ResponseEntity.ok(userDetailsService.save(user));
     }
 
@@ -71,6 +78,28 @@ public class UserController {
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token,userDetails.getUsername()));
+    }
+
+    @RequestMapping(value = "/authenticateVpa", method = RequestMethod.POST)
+    public ResponseEntity<?> createVpaAuthenticationToken(@RequestParam String vpaIndicator,
+                                                          @RequestParam String token) throws Exception {
+        User user = null;
+        if(vpaIndicator.equalsIgnoreCase("Amazon"))
+             user = userRepository.findByAmazonId(token);
+        else if(vpaIndicator.equalsIgnoreCase("Google"))
+            user = userRepository.findByGoogleId(token);
+        if(user!=null) {
+           // authenticate(user.getUsername(), user.getPassword());
+
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+
+            final String JwtToken = jwtTokenUtil.generateToken(userDetails);
+
+            return ResponseEntity.ok(new JwtResponse(JwtToken, userDetails.getUsername()));
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     private void authenticate(String username, String password) throws Exception {

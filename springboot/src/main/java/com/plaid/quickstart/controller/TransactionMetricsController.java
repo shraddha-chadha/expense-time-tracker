@@ -2,6 +2,7 @@ package com.plaid.quickstart.controller;
 
 import com.plaid.quickstart.dto.CompareExpenseDTO;
 import com.plaid.quickstart.exception.ResourceNotFoundException;
+import com.plaid.quickstart.model.Transaction;
 import com.plaid.quickstart.model.User;
 import com.plaid.quickstart.repository.UserRepository;
 import com.plaid.quickstart.service.TransactionService;
@@ -45,6 +46,29 @@ public class TransactionMetricsController {
             throw new ResourceNotFoundException("User","username","user_id");
         }
             return ResponseEntity.ok(map);
+
+
+
+    }
+
+    @PostMapping(path = "/allExpenses/{username}/{filterType}/{month}/{quarter}/{year}")
+    public ResponseEntity<?> getAllExpensesByFilter(@PathVariable("username") String username,
+                                                  @PathVariable("filterType") String filterType,
+                                                  @PathVariable("month") Integer month,
+                                                  @PathVariable("quarter") Integer quarter,
+                                                  @PathVariable("year") Integer year) throws RollbackException, ResourceNotFoundException {
+
+        User user = userRepository.findByUsername(username);
+        List<Transaction> map = null;
+        if (user!=null)
+        {
+            map = transactionService.getTransactionsByFilter(user.getId(),filterType,month,quarter,year);
+        }
+        else
+        {
+            throw new ResourceNotFoundException("User","username","user_id");
+        }
+        return ResponseEntity.ok(map);
 
 
 

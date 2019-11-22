@@ -17,6 +17,7 @@ import retrofit2.Response;
 import javax.persistence.RollbackException;
 import java.io.IOException;
 import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -51,6 +52,8 @@ public class TransactionService {
             transaction.setUser(user);
             transaction.setIsManuallyInserted(vpaIndicator);
             transaction.setAmount(amount);
+            SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+            transaction.setTransactionDate(format.format( new Date() ));
             if(incomeBudgetIndicator.equalsIgnoreCase("Income"))
                 transaction.setTransactionCategory("Income");
             else if (incomeBudgetIndicator.equalsIgnoreCase("Budget")){

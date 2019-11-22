@@ -34,6 +34,7 @@ public class BalanceController {
         {
             accounts = accountBalanceResponse.body().getAccounts();
             balance = accounts.get(0).getBalances().getAvailable();
+
         }
         return balance;
     }
