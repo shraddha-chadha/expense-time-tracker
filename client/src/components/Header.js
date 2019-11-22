@@ -36,7 +36,7 @@ export default function Header(props) {
       <Grid item xs={12} className={classes.titleBackground}>
           <Typing>
             <div className={classes.titleText}>
-              <p className={classes.subtitle}>{props.title}</p>
+              <p className={classes.subtitle}> {props.title} </p>
             </div>
           </Typing>
         </Grid>

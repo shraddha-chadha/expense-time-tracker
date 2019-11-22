@@ -37,19 +37,6 @@ export default function CategoryButton() {
     { key: 10, value: 'General' }
   ]);
 
-  let categoryElements = [];
-
-  categories.forEach((c) => {
-
-    categoryElements.push(
-      <Grid item>
-        <Typography color="black">
-          {c.value}
-        </Typography>
-      </Grid>
-    );
-  });
-
   const handleAddCategory = () => {
     let key = categories.length + 1;
     let cat = { 'key': key, 'value': newCategory };
