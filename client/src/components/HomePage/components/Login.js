@@ -75,6 +75,7 @@ export default function Login() {
       } else {
         console.log("Results", results);
         window.localStorage.setItem("webToken",results.token);
+        window.localStorage.setItem("username",results.username);
         setRedirect(true);
       }
     });
