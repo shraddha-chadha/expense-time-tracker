@@ -6,6 +6,7 @@ import com.plaid.quickstart.model.JwtResponse;
 import com.plaid.quickstart.model.User;
 import com.plaid.quickstart.repository.UserRepository;
 import com.plaid.quickstart.service.JwtUserDetailsService;
+import com.plaid.quickstart.service.TransactionService;
 import com.plaid.quickstart.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,9 @@ public class UserController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
+    @Autowired
+    private TransactionService transactionService;
+
 
     //Get all Users
 
@@ -54,6 +58,7 @@ public class UserController {
 
         return userRepository.findByUsernameAndPassword(username,password);
     }
+
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
