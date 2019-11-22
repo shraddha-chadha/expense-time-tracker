@@ -12,9 +12,12 @@ const useStyles = makeStyles(theme => ({
 export default function LinkAccountButton() {
   const classes = useStyles();
 
+  const handleClick = () => {
+    window.handler.open();
+  }
   return (
     <div>
-      <Button variant="contained" color="secondary" className={classes.button}>
+      <Button variant="contained" color="secondary" className={classes.button} onClick={handleClick}>
         Link Bank Account
       </Button>
     </div>
