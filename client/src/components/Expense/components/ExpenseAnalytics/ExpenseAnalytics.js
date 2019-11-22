@@ -115,12 +115,12 @@ export default function ExpenseAnalytics() {
           </TabPanel>
 
           <TabPanel value={value} index={2}>
-             <Grid container direction="column" spacing={2}>
+            <Grid container direction="column" spacing={2}>
               <Grid item>
                 <YearFilter />
               </Grid>
               <Grid item>
-                <div id="compare-expenses-chart">
+                <div id="compare-expenses-chart" >
                 </div>
                 <CompareExpense />
               </Grid>

@@ -82,7 +82,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const drawChart = () => {
-  document.getElementById('compare-expenses-chart')
   let container = d3.select(selector),
     width = 520,
     height = 400,
@@ -159,7 +158,7 @@ export default function CompareExpense(props) {
 
   return (
     <div className={classes.root}>
-      {drawChart()}
+      {drawChart(props.node)}
     </div>
   );
 }
