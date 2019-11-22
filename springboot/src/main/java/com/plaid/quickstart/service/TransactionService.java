@@ -5,6 +5,7 @@ import com.plaid.client.request.TransactionsGetRequest;
 import com.plaid.client.response.ErrorResponse;
 import com.plaid.client.response.TransactionsGetResponse;
 import com.plaid.quickstart.QuickstartApplication;
+import com.plaid.quickstart.dto.CompareExpenseDTO;
 import com.plaid.quickstart.exception.ResourceNotFoundException;
 import com.plaid.quickstart.model.Transaction;
 import com.plaid.quickstart.model.User;
@@ -166,6 +167,44 @@ public class TransactionService {
 
     public Map<String,Double> getAllTotalsByFilter(Integer userId, String filterType, Integer month, Integer quarter, Integer year) throws RollbackException, ResourceNotFoundException{
         Map<String,Double> map = new HashMap<>();
+
+        List<Transaction> transactions = getTransactionsByFilter(userId,filterType,month,quarter,year);
+
+        if(transactions!=null){
+            map = getAllTotalsByFilter(transactions);
+        }
+        else
+        {
+            throw new ResourceNotFoundException("Transactions","Year/Month/Quarter","Not found");
+        }
+
+        return map;
+    }
+
+    public Map<String,Double> getExpensesByCategory(Integer userId, String filterType, Integer month, Integer quarter, Integer year) throws RollbackException, ResourceNotFoundException{
+        Map<String,Double> map = new HashMap<>();
+
+        List<Transaction> transactions = getTransactionsByFilter(userId,filterType,month,quarter,year);
+
+        if(transactions!=null){
+            map = getExpensesByCategory(transactions);
+        }
+        else
+        {
+            throw new ResourceNotFoundException("Transactions","Year/Month/Quarter","Not found");
+        }
+
+        return map;
+
+    }
+
+    public List<CompareExpenseDTO> compareYearlyExpensesByMonth(Integer user_id, Integer year1, Integer year2){
+        List<CompareExpenseDTO> list = new ArrayList<>();
+
+        return list;
+    }
+
+    public List<Transaction> getTransactionsByFilter(Integer userId, String filterType, Integer month, Integer quarter, Integer year){
         List<Transaction> transactions = null;
         switch (filterType){
             case "M":
@@ -183,17 +222,8 @@ public class TransactionService {
 
         }
 
-        if(transactions!=null){
-            map = getAllTotalsByFilter(transactions);
-        }
-        else
-        {
-            throw new ResourceNotFoundException("Transactions","Year/Month/Quarter","Not found");
-        }
-
-        return map;
+        return transactions;
     }
-
     //totalExpense, totalIncome, totalBudget, totalSavings
     public Map<String,Double> getAllTotalsByFilter(List<Transaction> transactions)
     {
@@ -241,6 +271,29 @@ public class TransactionService {
         {
             map.put("totalSavings", map.get("totalIncome")-map.get("totalExpense"));
         }
+        return map;
+    }
+
+
+    public Map<String,Double> getExpensesByCategory(List<Transaction> transactions){
+        String[] arr = new String[]{"Budget","Income"};
+        List<String> list = Arrays.asList(arr);
+        Map<String,Double> map = new HashMap<>();
+
+        for (Transaction transaction:transactions) {
+
+            String category = transaction.getTransactionCategory();
+            if(!list.contains(category)) {
+
+                if (map.containsKey(category)) {
+                    map.put(category, map.get(category) + transaction.getAmount());
+                } else {
+                    map.put(category, transaction.getAmount());
+                }
+            }
+
+        }
+
         return map;
     }
 }
