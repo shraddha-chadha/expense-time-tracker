@@ -13,7 +13,6 @@ import java.io.IOException;
 public class AccessTokenController {
 
 private PlaidClient plaidClient;
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/get_access_token")
     public ItemPublicTokenExchangeResponse getAccessToken(@RequestParam("public_token") String publicToken) throws IOException {
         plaidClient = QuickstartApplication.plaidClient;
