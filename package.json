@@ -4,13 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "install": "concurrently \"npm run client-install\" \"npm run server-install \" \"npm run voice-assistant-install\" ",
+    "install": "concurrently \"npm run client-install\" \"npm run voice-assistant-install\" ",
     "client-install": "cd client && npm install",
-    "server-install": "cd springboot && mvn clean package",
     "voice-assistant-install": "cd voice-assistant-server && npm install",
     "start": "concurrently --kill-others \"npm run client\" \" npm run server \" \" npm run voice-assistant-server\" ",
     "client": "cd client && npm start",
-    "server": "cd springboot && java -jar target/quickstart-0.0.1-SNAPSHOT.jar",
+    "server": "cd springboot && mvn spring-boot:run",
     "voice-assistant-server": "cd voice-assistant-server && npm start"
   },
   "repository": {

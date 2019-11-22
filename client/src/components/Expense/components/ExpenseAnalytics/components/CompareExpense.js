@@ -1,12 +1,9 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, withStyles, lighten } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import IconButton from '@material-ui/core/IconButton';
-import SvgIcon from '@material-ui/core/SvgIcon';
 import * as d3 from 'd3';
 import '../../../../../styles.css';
+import * as $ from 'jquery';
 
 const selector = '#compare-expenses-chart';
 const response = [
@@ -82,6 +79,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const drawChart = () => {
+  $(selector).empty();
   let container = d3.select(selector),
     width = 520,
     height = 400,
@@ -158,7 +156,7 @@ export default function CompareExpense(props) {
 
   return (
     <div className={classes.root}>
-      {drawChart(props.node)}
+      {drawChart()}
     </div>
   );
 }
