@@ -4,8 +4,16 @@ import ExpenseHomePage from './components/ExpenseHomePage/ExpenseHomepage';
 import ExpenseDashboard from './components/ExpenseDashboard/ExpenseDashbaord';
 import ExpenseAnalytics from './components/ExpenseAnalytics/ExpenseAnalytics';
 import Transactions from './components/Transactions/Transactions';
+import AuthService from '../../services/AuthService';
+import {Redirect} from 'react-router-dom';
 
 export default function Expense(props) {
+  const TOKEN = localStorage.getItem("webToken");
+  const AUTH_SERVICE = new AuthService();
+  const username = AUTH_SERVICE.getUsername(TOKEN);
+  if(AUTH_SERVICE.isTokenExpired(TOKEN)) {
+    return <Redirect to='/'/>;
+  } else {
   return (
     <div>
       <Switch>
@@ -16,4 +24,5 @@ export default function Expense(props) {
       </Switch>
     </div>
   );
+}
 }

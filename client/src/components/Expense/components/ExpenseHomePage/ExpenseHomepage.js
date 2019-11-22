@@ -3,7 +3,6 @@ import ActionCard from './components/ActionCard';
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from '../../../NavBarLoggedIn';
 import Grid from '@material-ui/core/Grid';
-import Typing from 'react-typing-animation';
 import { Typography } from '@material-ui/core';
 import AddExpenseButton from './components/AddExpenseButton';
 import LinkAccountButton from './components/LinkAccountButton';
@@ -92,114 +91,115 @@ const useStyles = makeStyles(theme => ({
 
 export default function ExpenseHomePage() {
   const classes = useStyles();
-  return (
-    <div>
-      <NavBar />
-      <Header title="Take actions to manage your expenses" />
-      
-      <Grid container>
-        <Grid item xs={12}>
-          <Grid container className={classes.cardContainer1} >
-            <Grid item xs={12}>
-              <Typography className={classes.actionPannelText}>
-                Expense Tracking
-              </Typography>
-            </Grid>
 
-            <Grid item>
-              <ActionCard
-                icon={iconTitleMap.linkAccount.icon}
-                subtitle={iconTitleMap.linkAccount.subtitle}
-                button = {<LinkAccountButton />}
-              />
+    return (
+      <div>
+        <NavBar />
+        <Header title="Take actions to manage your expenses" />
+        
+        <Grid container>
+          <Grid item xs={12}>
+            <Grid container className={classes.cardContainer1} >
+              <Grid item xs={12}>
+                <Typography className={classes.actionPannelText}>
+                  Expense Tracking
+                </Typography>
+              </Grid>
+  
+              <Grid item>
+                <ActionCard
+                  icon={iconTitleMap.linkAccount.icon}
+                  subtitle={iconTitleMap.linkAccount.subtitle}
+                  button = {<LinkAccountButton />}
+                />
+              </Grid>
+  
+              <Grid item>
+                <ActionCard
+                  icon={iconTitleMap.addExpense.icon}
+                  subtitle={iconTitleMap.addExpense.subtitle}
+                  button = {<AddExpenseButton />}
+                />
+              </Grid>
+  
+              <Grid item>
+                <ActionCard
+                  icon={iconTitleMap.setBudget.icon}
+                  subtitle={iconTitleMap.setBudget.subtitle}
+                  button = {<BudgetButton />}
+                />
+              </Grid>
+  
+              <Grid item>
+                <ActionCard
+                  icon={iconTitleMap.setIncome.icon}
+                  subtitle={iconTitleMap.setIncome.subtitle}
+                  button = {<IncomeButton />}
+                />
+              </Grid>
+  
+              <Grid item>
+                <ActionCard
+                  icon={iconTitleMap.addCategory.icon}
+                  subtitle={iconTitleMap.addCategory.subtitle}
+                  button = {<CategoryButton />}
+                />
+              </Grid>
             </Grid>
-
-            <Grid item>
-              <ActionCard
-                icon={iconTitleMap.addExpense.icon}
-                subtitle={iconTitleMap.addExpense.subtitle}
-                button = {<AddExpenseButton />}
-              />
+          </Grid>
+  
+          <Grid item xs={12}>
+            <Grid container className={classes.cardContainer2}>
+              <Grid item xs={12}>
+                <Typography className={classes.actionPannelText}>
+                  Personal Voice Assistants
+                </Typography>
+              </Grid>
+  
+              <Grid item>
+                <ActionCard
+                  icon={iconTitleMap.alexa.icon}
+                  subtitle={iconTitleMap.alexa.subtitle}
+                  button = {<AlexaButton />}
+                />
+              </Grid>
+  
+              <Grid item>
+                <ActionCard
+                  icon={iconTitleMap.google.icon}
+                  subtitle={iconTitleMap.google.subtitle}
+                  button = {<GoogleButton />}
+                />
+              </Grid>
+  
+              <Grid item>
+                <ActionCard
+                  icon={iconTitleMap.utterances.icon}
+                  subtitle={iconTitleMap.utterances.subtitle}
+                  button = {<UtterancesButton />}
+                />
+              </Grid>
             </Grid>
-
-            <Grid item>
-              <ActionCard
-                icon={iconTitleMap.setBudget.icon}
-                subtitle={iconTitleMap.setBudget.subtitle}
-                button = {<BudgetButton />}
-              />
-            </Grid>
-
-            <Grid item>
-              <ActionCard
-                icon={iconTitleMap.setIncome.icon}
-                subtitle={iconTitleMap.setIncome.subtitle}
-                button = {<IncomeButton />}
-              />
-            </Grid>
-
-            <Grid item>
-              <ActionCard
-                icon={iconTitleMap.addCategory.icon}
-                subtitle={iconTitleMap.addCategory.subtitle}
-                button = {<CategoryButton />}
-              />
+          </Grid>
+  
+          <Grid item xs={12}>
+            <Grid container className={classes.cardContainer3}>
+              <Grid item xs={12}>
+                <Typography className={classes.actionPannelText}>
+                  Time Tracking
+                </Typography>
+              </Grid>
+  
+              <Grid item>
+                <ActionCard
+                  icon={iconTitleMap.time.icon}
+                  subtitle={iconTitleMap.time.subtitle}
+                  button = {<TimeButton />}
+                />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-
-        <Grid item xs={12}>
-          <Grid container className={classes.cardContainer2}>
-            <Grid item xs={12}>
-              <Typography className={classes.actionPannelText}>
-                Personal Voice Assistants
-              </Typography>
-            </Grid>
-
-            <Grid item>
-              <ActionCard
-                icon={iconTitleMap.alexa.icon}
-                subtitle={iconTitleMap.alexa.subtitle}
-                button = {<AlexaButton />}
-              />
-            </Grid>
-
-            <Grid item>
-              <ActionCard
-                icon={iconTitleMap.google.icon}
-                subtitle={iconTitleMap.google.subtitle}
-                button = {<GoogleButton />}
-              />
-            </Grid>
-
-            <Grid item>
-              <ActionCard
-                icon={iconTitleMap.utterances.icon}
-                subtitle={iconTitleMap.utterances.subtitle}
-                button = {<UtterancesButton />}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Grid container className={classes.cardContainer3}>
-            <Grid item xs={12}>
-              <Typography className={classes.actionPannelText}>
-                Time Tracking
-              </Typography>
-            </Grid>
-
-            <Grid item>
-              <ActionCard
-                icon={iconTitleMap.time.icon}
-                subtitle={iconTitleMap.time.subtitle}
-                button = {<TimeButton />}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </div>
-  );
+      </div>
+    );
 }

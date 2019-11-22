@@ -66,9 +66,9 @@ export default function NavBar() {
             <Button className={classes.button} variant="contained">Login</Button>
           </Link>
 
-          <RouterLink to="/expense" className={classes.routerLink}>
+          {/* <RouterLink to="/expense" className={classes.routerLink}>
             <Button className={classes.button} variant="contained">Expense</Button>
-          </RouterLink>
+          </RouterLink> */}
         </Toolbar>
       </AppBar>
     </div>

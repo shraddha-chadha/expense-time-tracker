@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import retrofit2.Response;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @Path("/get_access_token")
 @Produces(MediaType.APPLICATION_JSON)
 public class AccessTokenResource {
