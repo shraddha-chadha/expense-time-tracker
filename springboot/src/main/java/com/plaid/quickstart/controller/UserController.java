@@ -106,6 +106,17 @@ public class UserController {
 
 
     }
+
+
+    @PostMapping(path = "/getToken/{username}")
+    public ResponseEntity<?> getApiToken(@PathVariable("username") String username){
+
+        User user = userRepository.findByUsername(username);
+        if(user!=null)
+            return ResponseEntity.ok(user);
+
+        return ResponseEntity.ok("User not found");
+    }
     //Update a User
 
 
