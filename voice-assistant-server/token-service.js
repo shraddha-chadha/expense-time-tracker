@@ -1,17 +1,14 @@
 const APP_ENV = require('./env');
+const fetch = require('node-fetch');
 module.exports = {
     getAmazonToken: (amazonId) => {
-        const URL = APP_ENV.backendUrl;
+        const URL = APP_ENV.backendUrl + '/user/getToken/' + amazonId;
         const OPTIONS = {
             method: 'GET',
-            header: {
+            headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify({
-                "id": amazonId,
-                "type": "AMAZON"
-            })
+            }
         };
         return fetch(URL, OPTIONS);
     },

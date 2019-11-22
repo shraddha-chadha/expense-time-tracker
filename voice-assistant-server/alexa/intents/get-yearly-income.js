@@ -13,6 +13,7 @@ module.exports = async (req, res) => {
         year: slots.year.value
     };
     const options = {
+        method: 'POST',
         header: {
             'Authorization': 'Bearer ' + tokenResponse.token,
             'Accept': 'application/json',
@@ -27,7 +28,7 @@ module.exports = async (req, res) => {
         "response": {
             "outputSpeech": {
                 "type": "SSML",
-                "ssml": "<speak>Your yearly expense for " + slots.month.value + " " + slots.year.value + " was $4500.</speak>"
+                "ssml": "<speak>Your yearly expense for " + slots.year.value + " was $4500.</speak>"
                 }
             }
         }
