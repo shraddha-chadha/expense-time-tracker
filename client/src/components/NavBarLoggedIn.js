@@ -38,6 +38,10 @@ const useStyles = makeStyles(theme => ({
 
   fab: {
     margin: theme.spacing(1)
+  },
+
+  logo: {
+    color: 'white'
   }
 }));
 
@@ -50,7 +54,7 @@ export default function NavBar() {
         <Toolbar >
           <Link exact to="/">
             <Fab aria-label="like" color="primary">
-              <HomeCurrencyUsd />
+              <HomeCurrencyUsd className={classes.logo}/>
             </Fab>
           </Link>
           <Typography color="primary" type="title" className={classes.title}>

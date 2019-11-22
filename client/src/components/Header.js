@@ -10,20 +10,15 @@ const useStyles = makeStyles(theme => ({
     background: 'linear-gradient(180deg, #FE6B8B 30%, #FF8E53 90%)',
   },
 
-  titleText: {
+  text: {
     position: 'absolute',
     left: '50%',
-    top: '50%',
+    top: '25%',
     transform: 'translate(-50%,-50%)',
-    fontSize: 45,
-    color: 'white',
-    textAlign: 'center',
-    fontWeight: 'bold'
-  },
-
-  subtitle: {
     fontSize: 25,
-    fontWeight: 'normal'
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center'
   }
 }));
 
@@ -35,9 +30,7 @@ export default function Header(props) {
       <Grid container>
       <Grid item xs={12} className={classes.titleBackground}>
           <Typing>
-            <div className={classes.titleText}>
-              <p className={classes.subtitle}> {props.title} </p>
-            </div>
+            <p className={classes.text}> {props.title} </p>
           </Typing>
         </Grid>
       </Grid>
