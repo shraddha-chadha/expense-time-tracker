@@ -5,7 +5,6 @@ const PORT = 3001;                                      // PORT NUMBER
 const express = require('express');
 const app = express();
 var bodyParser = require('body-parser')
-const axios = require('axios');                        
 
 /// MIDDLEWARE CONFIG
 app.use(bodyParser.json());                             // support json encoded bodies
