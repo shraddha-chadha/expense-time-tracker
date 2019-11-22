@@ -16,6 +16,7 @@ import retrofit2.Response;
 
 import javax.persistence.RollbackException;
 import java.io.IOException;
+import java.text.DateFormatSymbols;
 import java.util.*;
 
 @Service
@@ -198,11 +199,57 @@ public class TransactionService {
 
     }
 
-    public List<CompareExpenseDTO> compareYearlyExpensesByMonth(Integer user_id, Integer year1, Integer year2){
+    public List<CompareExpenseDTO> compareYearlyExpensesByMonth(Integer user_id, Integer year1, Integer year2) throws RollbackException, ResourceNotFoundException{
         List<CompareExpenseDTO> list = new ArrayList<>();
+        Map<String,Double> firstMap = new HashMap<>();
+        Map<String,Double> secondMap = new HashMap<>();
+        List<Transaction> transactions1 = transactionRepository.findByYearAndUser_id(year1,user_id);
+        firstMap = transactionMap(transactions1);
+        List<Transaction> transactions2 = transactionRepository.findByYearAndUser_id(year2,user_id);
+        secondMap = transactionMap(transactions2);
 
+        for(int i =1;i<=12;i++)
+        {
+            CompareExpenseDTO dto = new CompareExpenseDTO();
+            String month = getMonth(i);
+            dto.setMonth(month);
+            if(firstMap.containsKey(month))
+            {
+                dto.setYear1(firstMap.get(month));
+            }
+            if(secondMap.containsKey(month))
+            {
+                dto.setYear2(secondMap.get(month));
+            }
+            list.add(dto);
+        }
         return list;
     }
+
+
+    public Map<String,Double> transactionMap(List<Transaction> transactions){
+        Map<String,Double> map = new HashMap<>();
+        for (Transaction transaction:transactions) {
+            String month = "";
+            if(transaction.getMonth()!=null)
+            {
+                month = getMonth(transaction.getMonth());
+            }
+
+            if(map.containsKey(month)){
+                map.put(month, map.get(month)+transaction.getAmount());
+            }
+            else
+            {
+                map.put(month,transaction.getAmount());
+            }
+
+        }
+
+        return map;
+
+    }
+
 
     public List<Transaction> getTransactionsByFilter(Integer userId, String filterType, Integer month, Integer quarter, Integer year){
         List<Transaction> transactions = null;
@@ -295,5 +342,9 @@ public class TransactionService {
         }
 
         return map;
+    }
+
+    public String getMonth(int month) {
+        return new DateFormatSymbols().getMonths()[month-1];
     }
 }
