@@ -6,7 +6,10 @@ import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import APP_ENV from '../../../env';
+import {Redirect} from 'react-router-dom';
 
+const LOGIN_URL = `${APP_ENV.backendUrl}/user/authenticate`;
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -36,37 +39,87 @@ const useStyles = makeStyles(theme => ({
 
 export default function Login() {
   const classes = useStyles();
-  return (
-    <div className={classes.root} id="login">
-      <Typography className={classes.title} type="title" color="primary" >
-        Login
-        </Typography>
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [redirect, setRedirect] = React.useState(false);
+  
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  }
 
-      <Grid container>
-        <Grid item xs={12} className={classes.inputContainer}>
-          <TextField
-            id="login-username"
-            label="Username"
-            placeholder="Username"
-            fullWidth
-          />
-        </Grid>
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  }
 
-        <Grid item xs={12} className={classes.inputContainer}>
-          <TextField
-            id="login-password"
-            label="Password"
-            placeholder="Password"
-            fullWidth
-          />
-        </Grid>
+  const handleSubmit = async() => {
+     // Post the values to the Login url
+     const API_PARAMS = {
+      "username": username,
+      "password": password
+    };
 
-        <Grid item xs={12} className={classes.button}>
-          <Button variant="contained" color="secondary">
-            Submit
-          </Button>
+    const options = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      },
+      body: JSON.stringify(API_PARAMS)
+    };
+
+    const response = await fetch(LOGIN_URL, options).then(async (response) => {
+      const results = await response.json();
+      if(results.status === 404) {
+        console.log("ErrorResults", results);
+
+      } else {
+        console.log("Results", results);
+        window.localStorage.setItem("webToken",results.token);
+        setRedirect(true);
+      }
+    });
+  }
+
+  if(redirect) {
+    return <Redirect to='/expense'/>;
+  } else {
+    return (
+      <div className={classes.root} id="login">
+        <Typography className={classes.title} type="title" color="primary" >
+          Login
+          </Typography>
+  
+        <Grid container>
+          <Grid item xs={12} className={classes.inputContainer}>
+            <TextField
+              id="login-username"
+              label="Username"
+              placeholder="Username"
+              fullWidth
+              value={username}
+              onChange={handleUsernameChange}
+            />
+          </Grid>
+  
+          <Grid item xs={12} className={classes.inputContainer}>
+            <TextField
+              id="login-password"
+              label="Password"
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={handlePasswordChange}
+              fullWidth
+            />
+          </Grid>
+  
+          <Grid item xs={12} className={classes.button}>
+            <Button variant="contained" color="secondary" onClick={handleSubmit}>
+              Submit
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
-  );
+      </div>
+    );
+  }
 }
