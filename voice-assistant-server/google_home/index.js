@@ -36,6 +36,12 @@ module.exports = (req, res) => {
             break; 
         case "Get Top Categories":
             getTopCategories(req, res); 
+        case "Get Yearly Expense":
+            getYearlyExpense(req, res);
+            break; 
+        case "Get Monthly Expense":
+            getMonthlyExpense(req, res);
+            break; 
         default:
             res.send(defaultResponse());
     }
@@ -246,6 +252,47 @@ function getTopCategories(req, res) {
         "fulfillmentText": `Your top categories are`
     }
     )
+}
+
+function getYearlyExpense(req, res) {
+    console.log('Inside get yearly expense')
+    console.log(req.body.queryResult.parameters)
+    let year = req.body.queryResult.parameters['year'];
+    if (year === '')
+    return res.send({
+        "fulfillmentText": "Please mention year of expense."
+    }) 
+    else {
+    console.log('********************************')
+    console.log(year)
+    console.log('********************************')
+    return res.send({
+        
+        "fulfillmentText": `Your yearly expenses for ${year} was`
+    })
+}
+}
+
+function getMonthlyExpense(req, res) {
+    console.log('Inside get monthly expense')
+    console.log(req.body.queryResult.parameters)
+    let year = req.body.queryResult.parameters['year'];
+    let month = req.body.queryResult.parameters['month'];
+    if (year === '' && month === '')
+    return res.send({
+        "fulfillmentText": "Please mention month of expense."
+    }) 
+    if (month !== '' && year === '')
+    return res.send({
+        "fulfillmentText": "Please mention year of expense."
+    }) 
+    console.log('********************************')
+    console.log(month, year)
+    console.log('********************************')
+    return res.send({
+        
+        "fulfillmentText": `Your monthly expenses for ${month} ${year} was`
+    })
 }
     
 
