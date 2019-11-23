@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
         "response": {
             "outputSpeech": {
                 "type": "SSML",
-                "ssml": "<speak>Your qaurterly expense for " + slots.month.value + " " + slots.year.value + " was $4500.</speak>"
+                "ssml": "<speak>Your quarterly expense for " + slots.quarter.value + " " + slots.year.value + " was $4500.</speak>"
                 }
             }
         }
