@@ -134,7 +134,11 @@ public class TransactionService {
     public void setDateParams(Transaction transaction){
         if(transaction.getTransactionDate()!=null)
         {
-            String[] x = transaction.getTransactionDate().split("/");
+            String[] x = null;
+            if(transaction.getTransactionDate().contains("/"))
+                x = transaction.getTransactionDate().split("/");
+            if(transaction.getTransactionDate().contains("-"))
+                x = transaction.getTransactionDate().split("-");
             if(x.length>2) {
                 String day = x[1];
                 String month = x[0];
