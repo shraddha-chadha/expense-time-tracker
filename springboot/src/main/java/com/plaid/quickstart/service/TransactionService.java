@@ -141,9 +141,9 @@ public class TransactionService {
             if(transaction.getTransactionDate().contains("-"))
                 x = transaction.getTransactionDate().split("-");
             if(x.length>2) {
-                String day = x[1];
-                String month = x[0];
-                String year = x[2];
+                String month = x[1];
+                String year = x[0];
+                String day = x[2];
                 System.out.println("day" + day);
                 System.out.println("month" + month);
                 System.out.println("year" + year);
