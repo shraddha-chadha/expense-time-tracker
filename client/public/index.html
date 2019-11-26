@@ -70,33 +70,37 @@
   <script type="text/javascript">
     (function ($) {
       const TOKEN = localStorage.getItem("webToken");
-      const GETACCESS_URL = 'https://f0eda4f8.ngrok.io/get_access_token';
+      const USERNAME = localStorage.getItem("username");
 
       const handleGetAccess = async (public_token) => {
         // Post the values to the Login url
-        const API_PARAMS = {
-          "public_token": public_token,
-        };
-
+        const GETACCESS_URL = `http://localhost/get_access_token?public_token=${public_token}`;
+        const TRANSACTION_URL = `http://localhost/transaction/${USERNAME}`;
         const options = {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Access-Control-Allow-Origin': 'http://localhost:3000'
-          },
-          body: JSON.stringify(API_PARAMS)
+            'Content-Type': 'application/json;charset=UTF-8'
+          }
         };
 
         const response = await fetch(GETACCESS_URL, options).then(async (response) => {
           const results = await response.json();
-          if (results.status === 404) {
-            console.log("ErrorResults", results);
+          console.log("Results", results);
 
-          } else {
-            console.log("Results", results);
+          const opt = {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${TOKEN}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8'
           }
+        };
+          await fetch(TRANSACTION_URL, opt).then(async (response) => {
+            const results = await response.json();
+            console.log("Transactions Response", results);
+          });
         });
       }
 
@@ -106,6 +110,7 @@
         key: '408076128548bef334534e21b01171',
         product: ['transactions'],
         onSuccess: function (public_token, metadata) {
+          console.log("public_token", public_token);
           handleGetAccess(public_token);
         }
       });

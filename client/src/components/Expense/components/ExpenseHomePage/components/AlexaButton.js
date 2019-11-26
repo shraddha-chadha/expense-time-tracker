@@ -11,47 +11,42 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default class AlexaButton extends React.Component{
+export default function AlexaButton(){
 
-    constructor() {
-        super();
-        this.amazon = window.amazon;
-    }
+    // constructor() {
+    //     super();
+    //     this.amazon = window.amazon;
+    // }
 
     /**
      * When button is clicked, login with amazon and post that redirect to given URL
      */
-    onButtonClick = () => {
-        const options = {}
-        options.scope = 'profile';
-        options.scope_data = {
-            'profile' : {'essential': false} 
-        };
-        this.amazon.Login.authorize(options,
-            (response) => {
-                    this.amazon.Login.retrieveProfile(response.access_token, function(user) {
-                        console.log(user);
-                        alert('Hello, ' + user.profile.Name);
-                        alert('Your e-mail address is ' + user.profile.PrimaryEmail);
-                        alert('Your unique ID is ' + user.profile.CustomerId);
-                    });
-        });
+    // onButtonClick = () => {
+    //     const options = {}
+    //     options.scope = 'profile';
+    //     options.scope_data = {
+    //         'profile' : {'essential': false} 
+    //     };
+    //     this.amazon.Login.authorize(options,
+    //         AMAZON_REDIRECT_URL);
+    //     return false;
+    // };
 
-            
-        return false;
-    };
-
-    render() {
+    // render() {
+        const classes = useStyles();
         return (
             <div id="amazon-root">
-                <a href id="LoginWithAmazon" onClick={this.onButtonClick}>
+                <Button variant="contained" color="secondary" className={classes.button}>
+                    Enable Alexa
+                </Button> 
+                {/* <a href id="LoginWithAmazon" onClick={this.onButtonClick}>
                 <img border="0" alt="Login with Amazon"
                     src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png"
                     width="156" height="32" />
-                </a>
+                </a> */}
             </div>
         );
-    }
+    // }
 
 }
 

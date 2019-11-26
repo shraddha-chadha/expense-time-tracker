@@ -43,4 +43,6 @@ module.exports = {
     addIncome: addIncome,
     addCategory: addCategory,
     addExpense: addExpense,
+    getMonthlyIncome: getMonthlyIncome,
+    getYearlyTopCategories: getYearlyTopCategories
 };
