@@ -52,7 +52,7 @@ export default function AddExpenseButton() {
   const [category, setCategory] = React.useState('Home');
   const [name, setName] = React.useState('');
   const [amount, setAmount] = React.useState(0);
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+  const [selectedDate, setSelectedDate] = React.useState(new Date(new Date()));
   const [openSuccess, setOpenSuccess] = React.useState(false);
   const [openError, setOpenError] = React.useState(false);
 
@@ -132,7 +132,6 @@ export default function AddExpenseButton() {
       "isManuallyInserted":1
     };
 
-    console.log("Request JSON", API_PARAMS );
     const options = {
       method: 'POST',
       headers: {
@@ -142,7 +141,7 @@ export default function AddExpenseButton() {
       },
       body: JSON.stringify(API_PARAMS)
     };
-    console.log("Request options", options );
+
     const response = await fetch(URL, options).then(async (response) => {
       const results = await response.json();
       if(results.status === 404) {
