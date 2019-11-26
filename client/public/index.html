@@ -73,8 +73,8 @@
         const TOKEN = localStorage.getItem("webToken");
         const USERNAME = localStorage.getItem("username");
         // Post the values to the Login url
-        const GETACCESS_URL = `https://8080-ddde7944-15c1-4915-88a3-2a5271a9064b.ws-us02.gitpod.io/get_access_token?public_token=${public_token}`;
-        const TRANSACTION_URL = `https://8080-ddde7944-15c1-4915-88a3-2a5271a9064b.ws-us02.gitpod.io/transactions/${USERNAME}`;
+        const GETACCESS_URL = `http://localhost:8080/get_access_token?public_token=${public_token}`;
+        const TRANSACTION_URL = `http://localhost:8080/transactions/${USERNAME}`;
         const options = {
           method: 'POST',
           headers: {
