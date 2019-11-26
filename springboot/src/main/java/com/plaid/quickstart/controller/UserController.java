@@ -25,7 +25,7 @@ import javax.transaction.RollbackException;
 import javax.validation.Valid;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RequestMapping("/user")
 public class UserController {
 
