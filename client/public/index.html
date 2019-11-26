@@ -67,7 +67,55 @@
   <script src="https://d3js.org/d3.v5.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
   <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
-  <script src="../src/services/PlaidService.js" type="text/javascript"></script>
+   <script type="text/javascript">
+    (function ($) {
+      const handleGetAccess = async (public_token) => {
+        const TOKEN = localStorage.getItem("webToken");
+        const USERNAME = localStorage.getItem("username");
+        // Post the values to the Login url
+        const GETACCESS_URL = `https://8080-ddde7944-15c1-4915-88a3-2a5271a9064b.ws-us02.gitpod.io/get_access_token?public_token=${public_token}`;
+        const TRANSACTION_URL = `https://8080-ddde7944-15c1-4915-88a3-2a5271a9064b.ws-us02.gitpod.io/transactions/${USERNAME}`;
+        const options = {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${TOKEN}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8'
+          }
+        };
+
+        const response = await fetch(GETACCESS_URL, options).then(async (response) => {
+          const results = await response.json();
+          console.log("Results", results);
+
+          const opt = {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${TOKEN}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8'
+          }
+        };
+          await fetch(TRANSACTION_URL, opt).then(async (response) => {
+            const results = await response.json();
+            console.log("Transactions Response", results);
+          });
+        });
+      }
+
+      window.handler = Plaid.create({
+        clientName: 'Plaid Quickstart',
+        env: 'development',
+        key: '408076128548bef334534e21b01171',
+        product: ['transactions'],
+        onSuccess: function (public_token, metadata) {
+          console.log("public_token", public_token);
+          handleGetAccess(public_token);
+        }
+      });
+
+    })(jQuery);
+  </script>
 
   <div id="root"></div>
   <!--
