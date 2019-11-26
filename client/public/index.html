@@ -67,51 +67,7 @@
   <script src="https://d3js.org/d3.v5.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
   <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
-  <script type="text/javascript">
-    (function ($) {
-      const TOKEN = localStorage.getItem("webToken");
-      const GETACCESS_URL = 'https://f0eda4f8.ngrok.io/get_access_token';
-
-      const handleGetAccess = async (public_token) => {
-        // Post the values to the Login url
-        const API_PARAMS = {
-          "public_token": public_token,
-        };
-
-        const options = {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${TOKEN}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Access-Control-Allow-Origin': 'http://localhost:3000'
-          },
-          body: JSON.stringify(API_PARAMS)
-        };
-
-        const response = await fetch(GETACCESS_URL, options).then(async (response) => {
-          const results = await response.json();
-          if (results.status === 404) {
-            console.log("ErrorResults", results);
-
-          } else {
-            console.log("Results", results);
-          }
-        });
-      }
-
-      window.handler = Plaid.create({
-        clientName: 'Plaid Quickstart',
-        env: 'development',
-        key: '408076128548bef334534e21b01171',
-        product: ['transactions'],
-        onSuccess: function (public_token, metadata) {
-          handleGetAccess(public_token);
-        }
-      });
-
-    })(jQuery);
-  </script>
+  <script src="../src/services/PlaidService.js" type="text/javascript"></script>
 
   <div id="root"></div>
   <!--

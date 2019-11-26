@@ -99,6 +99,7 @@ public class TransactionService {
             Response<TransactionsGetResponse> response = null;
             for (int i = 0; i < 5; i++) {
                 response = plaidClient.service().transactionsGet(request).execute();
+                System.out.println("Response plaid"+ response);
                 if (response.isSuccessful()) {
 
                     for(TransactionsGetResponse.Transaction transaction: response.body().getTransactions())
@@ -143,13 +144,12 @@ public class TransactionService {
                 String day = x[1];
                 String month = x[0];
                 String year = x[2];
-
+                System.out.println("day" + day);
+                System.out.println("month" + month);
+                System.out.println("year" + year);
                 transaction.setDay(Integer.parseInt(day));
                 transaction.setMonth(Integer.parseInt(month));
                 transaction.setYear(Integer.parseInt(year));
-
-
-
                 transaction.setQuarter(getQuarter(month));
             }
         }

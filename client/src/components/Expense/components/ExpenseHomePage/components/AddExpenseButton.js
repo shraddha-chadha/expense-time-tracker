@@ -15,6 +15,13 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import APP_ENV from '../../../../../env';
+
+const USERNAME = localStorage.getItem("username");
+const TOKEN = localStorage.getItem("webToken");
+const vpaIndicator = 1;
+const URL= `${APP_ENV.backendUrl}/expense/${USERNAME}/${vpaIndicator}`;
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -27,23 +34,27 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const categories = [
-  { key: '1', value: 'Home' },
-  { key: '2', value: 'Food' },
-  { key: '3', value: 'Bills' },
-  { key: '4', value: 'Auto' },
-  { key: '5', value: 'Holidays' },
-  { key: '6', value: 'Leisure' },
-  { key: '7', value: 'Shopping' },
-  { key: '8', value: 'Fuel' },
-  { key: '9', value: 'Health' },
-  { key: '10', value: 'General' }
+  { key: 'home', value: 'Home' },
+  { key: 'food', value: 'Food' },
+  { key: 'bills', value: 'Bills' },
+  { key: 'auto', value: 'Auto' },
+  { key: 'holidays', value: 'Holidays' },
+  { key: 'leisure', value: 'Leisure' },
+  { key: 'shopping', value: 'Shopping' },
+  { key: 'fuel', value: 'Fuel' },
+  { key: 'health', value: 'Health' },
+  { key: 'general', value: 'General' }
 ];
 
 export default function AddExpenseButton() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [category, setCategory] = React.useState('Home');
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+  const [name, setName] = React.useState('');
+  const [amount, setAmount] = React.useState(0);
+  const [selectedDate, setSelectedDate] = React.useState(new Date(new Date()));
+  const [openSuccess, setOpenSuccess] = React.useState(false);
+  const [openError, setOpenError] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -60,6 +71,89 @@ export default function AddExpenseButton() {
   const handleDateChange = date => {
     setSelectedDate(date);
   };
+
+  const handleNameChange = event => {
+    setName(event.target.value);
+  };
+
+  const handleAmountChange = event => {
+    setAmount(event.target.value);
+  };
+
+  const getMonth = date => {
+    let m;
+    return (m = date.getMonth() + 1) < 10 ? `0${m}` : `${m}`;
+  };
+
+  const getYear = date => {
+    return date.getFullYear();
+  };
+
+  const getQuarter = date => {
+    let month = date.getMonth() + 1;
+    return (Math.ceil(month / 3));
+  };
+
+  const getDay = date => {
+    let d;
+    return (d = date.getDate()) < 10 ? `0${d}` : `${d}`;
+  };
+
+  const formatDate = date => {
+    let month = getMonth(date);
+    let day = getDay(date);
+    let year = getYear(date);
+    return [year, month, day].join('-');
+  }
+
+  const handleSuccessClose = () => {
+    setOpenSuccess(false);
+  };
+
+  const handleErrorClose = () => {
+    setOpenError(false);
+  };
+
+  const handleSave = async() => {
+    // Post the values to the Add expense url
+    const API_PARAMS = {
+      "transactionDate":formatDate(selectedDate),
+      "transactionType": "Expense",
+      "transactionCategory": category,
+      "name": name,
+      "amount": amount,
+      "isoCurrencyCode": "USD",
+      "unofficialCurrencyCode": "",
+      "location":"",
+      "month": getMonth(selectedDate),
+      "year": getYear(selectedDate),
+      "quarter": getQuarter(selectedDate),
+      "day":getDay(selectedDate),
+      "isManuallyInserted":1
+    };
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      },
+      body: JSON.stringify(API_PARAMS)
+    };
+
+    const response = await fetch(URL, options).then(async (response) => {
+      const results = await response.json();
+      if(results.status === 404) {
+        setOpenError(true);
+        console.log("ErrorResults", results);
+      } else {
+        setOpenSuccess(true);
+        console.log("Results", results);
+      }
+    });
+
+  }
 
   return (
     <div>
@@ -104,6 +198,8 @@ export default function AddExpenseButton() {
                   margin="dense"
                   id="expense_name"
                   label="Name"
+                  value={name}
+                  onChange={handleNameChange}
                   className={classes.textField}
                 />
               </Grid>
@@ -114,6 +210,8 @@ export default function AddExpenseButton() {
                   margin="dense"
                   id="expense_amount"
                   label="Amount"
+                  value={amount}
+                  onChange={handleAmountChange}
                   InputProps={{
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                   }}
@@ -141,8 +239,44 @@ export default function AddExpenseButton() {
             <Button onClick={handleClose} color="primary">
               Cancel
           </Button>
-            <Button color="primary">
+            <Button color="primary" onClick={handleSave}>
               Save
+          </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      <div className="dialogContainer">
+        <Dialog open={openSuccess} onClose={handleSuccessClose}>
+          <DialogTitle id="form-dialog-title" color="primary">
+            Add Expense
+        </DialogTitle>
+          <DialogContent>
+            <Typography>
+              Expense is Saved Successfully
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleSuccessClose} color="primary">
+              Ok
+          </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+      
+      <div className="dialogContainer">
+        <Dialog open={openError} onClose={handleErrorClose}>
+          <DialogTitle id="form-dialog-title-error" className={classes.error}>
+            Add Expense
+        </DialogTitle>
+          <DialogContent>
+            <Typography>
+              There was a problem saving expense
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleErrorClose} color="primary">
+              Ok
           </Button>
           </DialogActions>
         </Dialog>

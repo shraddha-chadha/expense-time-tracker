@@ -53,6 +53,7 @@ public class TransactionController {
                     ErrorResponse errorResponse = plaidClient.parseError(response);
                     Thread.sleep(3000);
                 } catch(InterruptedException e) {
+                    e.printStackTrace();
                     // catch error
                 }
             }
