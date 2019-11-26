@@ -1,18 +1,16 @@
 const APP_ENV = require('./env');
+const fetch = require('node-fetch');
 module.exports = {
-    getAmazonToken: (amazonId) => {
-        const URL = APP_ENV.backendUrl;
+    getAmazonToken: async (amazonId) => {
+        const URL = APP_ENV.backendUrl + '/user/authenticateVpa?vpaIndicator=amazon&token=gygy';
         const OPTIONS = {
-            method: 'GET',
-            header: {
+            method: 'POST',
+            headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify({
-                "id": amazonId,
-                "type": "AMAZON"
-            })
+                'Content-Type': 'application/json;charset=UTF-8'
+            }
         };
+        console.log(URL);
         return fetch(URL, OPTIONS);
     },
     getGoogleToken: async (googleId) => {

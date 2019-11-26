@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-const AMAZON_REDIRECT_URL = "https://3000-f924bff3-eea9-4b61-b545-6ebfd54a297b.ws-us02.gitpod.io";   // AMAZON REDIRECT URL after users login to Amazon website
+const AMAZON_REDIRECT_URL = "https://3000-ddde7944-15c1-4915-88a3-2a5271a9064b.ws-us02.gitpod.io/expense";   // AMAZON REDIRECT URL after users login to Amazon website
 
 const useStyles = makeStyles(theme => ({
   button: {
