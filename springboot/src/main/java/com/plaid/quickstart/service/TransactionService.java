@@ -46,7 +46,7 @@ public class TransactionService {
 
     public Transaction addIncomeAndBudget(Transaction transaction, User user, Integer vpaIndicator,
                                           String incomeBudgetIndicator, String dayOrMonth, Double amount,
-                                          Integer day, Integer month, Integer year) throws RollbackException {
+                                          Integer day, Integer month, Integer quarter, Integer year) throws RollbackException {
         try{
 
             transaction.setUser(user);
@@ -73,6 +73,7 @@ public class TransactionService {
             {
                 transaction.setMonth(month);
             }
+            transaction.setQuarter(quarter);
             transaction.setYear(year);
 
 

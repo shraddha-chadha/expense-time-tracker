@@ -30,6 +30,7 @@ public class IncomeAndBudgetController {
                                                 @RequestParam Double amount,
                                                 @RequestParam Integer day,
                                                 @RequestParam Integer month,
+                                                @RequestParam Integer quarter,
                                                 @RequestParam Integer year)
             throws RollbackException, ResourceNotFoundException, IOException {
         User user = userRepository.findByUsername(username);
@@ -37,7 +38,7 @@ public class IncomeAndBudgetController {
         if(user!=null)
         {
             transaction = transactionService.addIncomeAndBudget(transaction,user,1,
-                    incomeBudgetIndicator,dayOrMonth,amount,day,month,year);
+                    incomeBudgetIndicator,dayOrMonth,amount,day,month,quarter,year);
 
         }
 
