@@ -51,7 +51,7 @@ export default function AddExpenseButton() {
   const [open, setOpen] = React.useState(false);
   const [category, setCategory] = React.useState('Home');
   const [name, setName] = React.useState('');
-  const [amount, setAmount] = React.useState(0);
+  const [amount, setAmount] = React.useState();
   const [selectedDate, setSelectedDate] = React.useState(new Date(new Date()));
   const [openSuccess, setOpenSuccess] = React.useState(false);
   const [openError, setOpenError] = React.useState(false);
@@ -253,7 +253,7 @@ export default function AddExpenseButton() {
         </DialogTitle>
           <DialogContent>
             <Typography>
-              Expense is Saved Successfully
+              Expense is saved successfully
             </Typography>
           </DialogContent>
           <DialogActions>

@@ -208,12 +208,12 @@ export default function BudgetButton() {
       </div>
       <div className="dialogContainer">
         <Dialog open={openSuccess} onClose={handleSuccessClose}>
-          <DialogTitle id="form-dialog-title" color="primary">
-            Add Expense
+          <DialogTitle color="primary">
+            Add Budget
         </DialogTitle>
           <DialogContent>
             <Typography>
-              Expense is Saved Successfully
+              Budget is saved successfully
             </Typography>
           </DialogContent>
           <DialogActions>
@@ -226,12 +226,12 @@ export default function BudgetButton() {
       
       <div className="dialogContainer">
         <Dialog open={openError} onClose={handleErrorClose}>
-          <DialogTitle id="form-dialog-title-error" className={classes.error}>
-            Add Expense
+          <DialogTitle className={classes.error}>
+            Add Budget
         </DialogTitle>
           <DialogContent>
             <Typography>
-              There was a problem saving expense
+              There was a problem saving budget
             </Typography>
           </DialogContent>
           <DialogActions>

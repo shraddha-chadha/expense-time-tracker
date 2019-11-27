@@ -8,6 +8,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import APP_ENV from '../../../../../env';
+import Typography from '@material-ui/core/Typography';
+
+const USERNAME = localStorage.getItem("username");
+const TOKEN = localStorage.getItem("webToken");
+const BUDINC_INDICATOR = 'Income';
+const DAYMON_INDIACTOR = 'M';
+const URL= `${APP_ENV.backendUrl}/addTransaction/${USERNAME}/${BUDINC_INDICATOR}/${DAYMON_INDIACTOR}?`;
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -50,10 +58,13 @@ export default function IncomeButton() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   let date = new Date();
-  let current_year = date.getFullYear().toString();
-  let current_month = months[ date.getMonth() ].value;
+  let current_year = date.getFullYear();
+  let current_month = date.getMonth();
   const [month, setMonth] = React.useState(current_month);
   const [year, setYear] = React.useState(current_year);
+  const [amount, setAmount] = React.useState(0);
+  const [openSuccess, setOpenSuccess] = React.useState(false);
+  const [openError, setOpenError] = React.useState(false);
 
   const handleMonthChange = event => {
     setMonth(event.target.value);
@@ -69,6 +80,49 @@ export default function IncomeButton() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleAmountChange = (event) => {
+    setAmount(event.target.value);
+  };
+
+  const handleSuccessClose = () => {
+    setOpenSuccess(false);
+  };
+
+  const handleErrorClose = () => {
+    setOpenError(false);
+  };
+
+  const getQuarter = month => {
+    return (Math.ceil(month / 3));
+  };
+
+  const handleSave = async() => {
+    // Post the values to the Add Budget url
+    let quarter = getQuarter(month);
+    let incomeURL = `${URL}amount=${amount}&day=0&month=${month}&quarter=${quarter}&year=${year}`
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
+
+    const response = await fetch(incomeURL, options).then(async (response) => {
+      const results = await response.json();
+      if(results.status === 404) {
+        setOpenError(true);
+        console.log("ErrorResults", results);
+      } else {
+        setOpenSuccess(true);
+        console.log("Results", results);
+      }
+    });
+
   };
 
   return (
@@ -98,7 +152,7 @@ export default function IncomeButton() {
                   margin="normal"
                 >
                   {months.map(option => (
-                    <option key={option.key} value={option.value}>
+                    <option key={option.key} value={option.key}>
                       {option.value}
                     </option>
                   ))}
@@ -119,7 +173,7 @@ export default function IncomeButton() {
                   margin="normal"
                 >
                   {years.map(option => (
-                    <option key={option.key} value={option.value}>
+                    <option key={option.key} value={option.key}>
                       {option.value}
                     </option>
                   ))}
@@ -132,6 +186,8 @@ export default function IncomeButton() {
                   margin="dense"
                   id="income_amount"
                   label="Income"
+                  value={amount}
+                  onChange={handleAmountChange}
                   InputProps={{
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                   }}
@@ -144,8 +200,44 @@ export default function IncomeButton() {
             <Button onClick={handleClose} color="primary">
               Cancel
           </Button>
-            <Button color="primary">
+            <Button color="primary" onClick={handleSave}>
               Save
+          </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      <div className="dialogContainer">
+        <Dialog open={openSuccess} onClose={handleSuccessClose}>
+          <DialogTitle color="primary">
+            Add Income
+        </DialogTitle>
+          <DialogContent>
+            <Typography>
+              Income is saved successfully
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleSuccessClose} color="primary">
+              Ok
+          </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+      
+      <div className="dialogContainer">
+        <Dialog open={openError} onClose={handleErrorClose}>
+          <DialogTitle className={classes.error}>
+            Add Income
+        </DialogTitle>
+          <DialogContent>
+            <Typography>
+              There was a problem saving income
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleErrorClose} color="primary">
+              Ok
           </Button>
           </DialogActions>
         </Dialog>
