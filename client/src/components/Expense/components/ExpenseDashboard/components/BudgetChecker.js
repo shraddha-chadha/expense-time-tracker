@@ -77,7 +77,7 @@ export default function BudgetChecker(props) {
 
         <Grid item>
           <Typography color="textSecondary" className={classes.amountText}>
-             {subtitle} {amount}
+             {subtitle} ${amount}
           </Typography>
         </Grid>
       </Grid>

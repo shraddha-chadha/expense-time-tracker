@@ -65,7 +65,26 @@ const useStyles = makeStyles(theme => ({
 export default function ExpenseDashboard() {
   const classes = useStyles();
   const [totals, setTotals] = React.useState({totalExpense: 0, totalIncome: 0, totalBudget: 0, totalSavings: 0});
+  const [budgetCheck, setBudgetCheck] = React.useState({type: 'underbudget', amount: 0});
 
+  React.useEffect(() => {
+    setBudgetChecker();
+  }, [totals]);
+
+  const setBudgetChecker = () => {
+    let {totalExpense, totalBudget} = totals;
+    console.log("Set budget checker", totalExpense, totalBudget);
+    let amount = 0;
+
+    if(totalExpense > totalBudget) {
+      amount = totalExpense - totalBudget;
+      setBudgetCheck({type: 'overbudget', amount: amount});
+    } else {
+      amount = totalBudget - totalExpense;
+      setBudgetCheck({type: 'underbudget', amount: amount})
+    }
+    
+  }
   const searchCallBack = async (values) => {
     let {type, month, quarter, year} = values
 
@@ -238,7 +257,7 @@ export default function ExpenseDashboard() {
                   </Grid>
                   <Grid container>
                     <Grid item>
-                      <BudgetChecker type="overbudget" amount="$300" />
+                      <BudgetChecker type={budgetCheck.type} amount={budgetCheck.amount} />
                     </Grid>
                   </Grid>
                 </CardContent>

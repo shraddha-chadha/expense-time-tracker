@@ -51,7 +51,7 @@ export default function AddExpenseButton() {
   const [open, setOpen] = React.useState(false);
   const [category, setCategory] = React.useState('Home');
   const [name, setName] = React.useState('');
-  const [amount, setAmount] = React.useState();
+  const [amount, setAmount] = React.useState(0);
   const [selectedDate, setSelectedDate] = React.useState(new Date(new Date()));
   const [openSuccess, setOpenSuccess] = React.useState(false);
   const [openError, setOpenError] = React.useState(false);
