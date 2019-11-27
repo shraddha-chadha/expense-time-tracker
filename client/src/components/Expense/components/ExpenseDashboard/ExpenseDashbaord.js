@@ -1,7 +1,6 @@
 import React from 'react';
 import NavBar from '../../../NavBarLoggedIn';
 import Grid from '@material-ui/core/Grid';
-import Typing from 'react-typing-animation';
 import { makeStyles } from '@material-ui/core/styles';
 import Filter from '../../../Filter/Filter';
 import DashboardCard from './components/DashboardCard';

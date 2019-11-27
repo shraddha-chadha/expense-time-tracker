@@ -6,74 +6,75 @@ import '../../../../../styles.css';
 import * as $ from 'jquery';
 import APP_ENV from '../../../../../env';
 import YearFilter from '../../../../Filter/YearFilter';
+import { Typography } from '@material-ui/core';
 
 const USERNAME = localStorage.getItem("username");
 const TOKEN = localStorage.getItem("webToken");
 const URL = `${APP_ENV.backendUrl}/metrics/compareExpense/${USERNAME}`;
 
 const selector = '#compare-expenses-chart';
-const response = [
-  {
-    "month": "Jan",
-    "year1": 987,
-    "year2": 567
-  },
-  {
-    "month": "Feb",
-    "year1": 398,
-    "year2": 678
-  },
-  {
-    "month": "March",
-    "year1": 345,
-    "year2": 564
-  },
-  {
-    "month": "April",
-    "year1": 321,
-    "year2": 455
-  },
-  {
-    "month": "May",
-    "year1": 432,
-    "year2": 790
-  },
-  {
-    "month": "June",
-    "year1": 789,
-    "year2": 456
-  },
-  {
-    "month": "July",
-    "year1": 345,
-    "year2": 322
-  },
-  {
-    "month": "August",
-    "year1": 300,
-    "year2": 343
-  },
-  {
-    "month": "September",
-    "year1": 345,
-    "year2": 355
-  },
-  {
-    "month": "October",
-    "year1": 345,
-    "year2": 567
-  },
-  {
-    "month": "November",
-    "year1": 790,
-    "year2": 654
-  },
-  {
-    "month": "December",
-    "year1": 900,
-    "year2": 600
-  }
-];
+// const response = [
+//   {
+//     "month": "Jan",
+//     "year1": 987,
+//     "year2": 567
+//   },
+//   {
+//     "month": "Feb",
+//     "year1": 398,
+//     "year2": 678
+//   },
+//   {
+//     "month": "March",
+//     "year1": 345,
+//     "year2": 564
+//   },
+//   {
+//     "month": "April",
+//     "year1": 321,
+//     "year2": 455
+//   },
+//   {
+//     "month": "May",
+//     "year1": 432,
+//     "year2": 790
+//   },
+//   {
+//     "month": "June",
+//     "year1": 789,
+//     "year2": 456
+//   },
+//   {
+//     "month": "July",
+//     "year1": 345,
+//     "year2": 322
+//   },
+//   {
+//     "month": "August",
+//     "year1": 300,
+//     "year2": 343
+//   },
+//   {
+//     "month": "September",
+//     "year1": 345,
+//     "year2": 355
+//   },
+//   {
+//     "month": "October",
+//     "year1": 345,
+//     "year2": 567
+//   },
+//   {
+//     "month": "November",
+//     "year1": 790,
+//     "year2": 654
+//   },
+//   {
+//     "month": "December",
+//     "year1": 900,
+//     "year2": 600
+//   }
+// ];
 
 const styles = {
   chartSvg: {
@@ -82,6 +83,10 @@ const styles = {
   }
 }
 const useStyles = makeStyles(theme => ({
+  text: {
+    color: 'grey',
+    textAlign: 'center'
+  }
 }));
 
 const drawChart = (response) => {
@@ -216,6 +221,11 @@ export default function CompareExpense(props) {
   return (
     <div className={classes.root}>
       <Grid container direction="column" spacing={2}>
+        <Grid item className={classes.text}>
+          <Typography>
+            Select exactly 2 years to see the comparison
+          </Typography>
+        </Grid>
         <Grid item>
           <YearFilter parentCallback={handleSearch}/>
         </Grid>
