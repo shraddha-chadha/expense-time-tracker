@@ -42,8 +42,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function TransactionTable() {
+export default function TransactionTable(props) {
   const classes = useStyles();
+  let results = props.rows;
 
   return (
     <div>
@@ -54,24 +55,30 @@ export default function TransactionTable() {
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Transaction</StyledTableCell>
+                  <StyledTableCell align="right">Name</StyledTableCell>
+                  <StyledTableCell align="right">Date</StyledTableCell>
                   <StyledTableCell align="right">Category</StyledTableCell>
                   <StyledTableCell align="right">Amount</StyledTableCell>
                   <StyledTableCell align="right">Month</StyledTableCell>
                   <StyledTableCell align="right">Quarter</StyledTableCell>
                   <StyledTableCell align="right">Year</StyledTableCell>
+                  <StyledTableCell align="right">Manually Inserted</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map(row => (
+                {results.map(row => (
                   <StyledTableRow key={row.id}>
                     <StyledTableCell component="th" scope="row">
-                      {row.transaction}
+                      {row.transactionType}
                     </StyledTableCell>
-                    <StyledTableCell align="right">{row.category === ''? '-': row.category}</StyledTableCell>
-                    <StyledTableCell align="right">{row.amount === ''? '-': row.amount}</StyledTableCell>
-                    <StyledTableCell align="right">{row.month === ''? '-': row.month}</StyledTableCell>
-                    <StyledTableCell align="right">{row.quarter === ''? '-': row.quarter}</StyledTableCell>
-                    <StyledTableCell align="right">{row.year === ''? '-': row.year}</StyledTableCell>
+                    <StyledTableCell align="right">{(row.name === ''|| row.name === null)? '-': row.name}</StyledTableCell>
+                    <StyledTableCell align="right">{(row.transactionDate === ''|| row.transactionDate === null)? '-': row.transactionDate}</StyledTableCell>
+                    <StyledTableCell align="right">{(row.transactionCategory === '' || row.transactionCategory === null)? '-': row.transactionCategory}</StyledTableCell>
+                    <StyledTableCell align="right">{(row.amount === '' || row.amount === null)? '-': row.amount}</StyledTableCell>
+                    <StyledTableCell align="right">{(row.month === '' || row.month === null)? '-': row.month}</StyledTableCell>
+                    <StyledTableCell align="right">{(row.quarter === '' || row.quarter === null)? '-': row.quarter}</StyledTableCell>
+                    <StyledTableCell align="right">{(row.year === '' || row.year === null)? '-': row.year}</StyledTableCell>
+                    <StyledTableCell align="right">{row.isManuallyInserted === 1? 'Yes': 'No'}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

@@ -122,7 +122,7 @@ export default function TransactionFilter(props) {
   return (
     <div>
       <Grid container className={classes.root} spacing={4}>
-      <Grid item>
+      {/* <Grid item>
           <FormControl className={classes.formControl}>
             <InputLabel id="transaction-label">
               Transaction
@@ -139,7 +139,7 @@ export default function TransactionFilter(props) {
               <MenuItem value={3}>Income</MenuItem>
             </Select>
           </FormControl>
-        </Grid>
+        </Grid> */}
 
         <Grid item>
           <FormControl className={classes.formControl}>

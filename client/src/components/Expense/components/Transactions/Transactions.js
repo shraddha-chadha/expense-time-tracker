@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Transactions() {
   const classes = useStyles();
+  const [rows, setRows] = React.useState([]);
 
   const searchCallBack = async (values) => {
     let {type, month, quarter, year} = values
@@ -46,6 +47,7 @@ export default function Transactions() {
         console.log("ErrorResults", results);
       } else {
         console.log("Totals Results", results);
+        setRows(results);
       }
     });
   };
@@ -60,7 +62,7 @@ export default function Transactions() {
           <TransactionFilter parentCallback= {searchCallBack}/>
         </Grid>
         <Grid item>
-          <TransactionTable />
+          <TransactionTable rows={rows} />
         </Grid>
       </Grid>
     </div>
