@@ -21,7 +21,7 @@ private PlaidClient plaidClient;
                 .execute();
 
         // Ideally, we would store this somewhere more persistent
-        QuickstartApplication.accessToken = itemResponse.body().getAccessToken();
+        QuickstartApplication.accessToken = itemResponse.body().getAccessToken(); // {username: accesstoken}
 
         System.out.println("public token: " + publicToken);
         System.out.println("access token: " + QuickstartApplication.accessToken);

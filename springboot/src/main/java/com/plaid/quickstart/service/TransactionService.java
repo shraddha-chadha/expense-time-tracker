@@ -105,11 +105,12 @@ public class TransactionService {
 
                     for(TransactionsGetResponse.Transaction transaction: response.body().getTransactions())
                     {
+                        if(!transaction.getCategory().get(0).equalsIgnoreCase("Transfer")) {
                         t = new Transaction();
                         t.setUser(user);
                         t.setIsManuallyInserted(vpaIndicator);
                         t.setTransactionDate(transaction.getDate());
-                        t.setTransactionType(transaction.getTransactionType());
+                        t.setTransactionType("Expense");
                         t.setTransactionCategory(transaction.getCategory().get(0));
                         t.setName(transaction.getName());
                         t.setAmount((transaction.getAmount()));
@@ -118,6 +119,7 @@ public class TransactionService {
                         t.setLocation(transaction.getLocation().getRegion());
                         setDateParams(t);
                         transactionRepository.save(t);
+                    }
                     }
 
                     break;
@@ -288,9 +290,9 @@ public class TransactionService {
         Map<String,Double> map = new HashMap<>();
         for(Transaction transaction: transactions)
         {
-        if(list.contains(transaction.getTransactionCategory()))
+        if(list.contains(transaction.getTransactionType()))
         {
-            if(transaction.getTransactionCategory().equalsIgnoreCase("Income"))
+            if(transaction.getTransactionType().equalsIgnoreCase("Income"))
             {
                 if(map.containsKey("totalIncome")){
                     map.put("totalIncome", map.get("totalIncome")+transaction.getAmount());

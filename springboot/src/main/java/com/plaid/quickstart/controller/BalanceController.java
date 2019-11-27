@@ -25,7 +25,7 @@ public class BalanceController {
     public Double getBalance() throws IOException {
 
         plaidClient = QuickstartApplication.plaidClient;
-        String accessToken = QuickstartApplication.accessToken;
+        String accessToken = QuickstartApplication.accessToken; //Getting null here
         Response<AccountsBalanceGetResponse> accountBalanceResponse = plaidClient.service()
                 .accountsBalanceGet(new AccountsBalanceGetRequest(accessToken)).execute();
         List<Account> accounts = new ArrayList<>();
