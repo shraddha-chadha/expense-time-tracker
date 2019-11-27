@@ -138,13 +138,13 @@ export default function ExpenseHomePage() {
                 />
               </Grid>
   
-              <Grid item>
+              {/* <Grid item>
                 <ActionCard
                   icon={iconTitleMap.addCategory.icon}
                   subtitle={iconTitleMap.addCategory.subtitle}
                   button = {<CategoryButton />}
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
           </Grid>
   

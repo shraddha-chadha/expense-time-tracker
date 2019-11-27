@@ -12,6 +12,11 @@ import { Typography } from '@material-ui/core';
 import BudgetChecker from './components/BudgetChecker';
 import BankAccounts from './components/BankAccounts';
 import Header from '../../../Header';
+import APP_ENV from '../../../../env';
+
+const USERNAME = localStorage.getItem("username");
+const TOKEN = localStorage.getItem("webToken");
+const URL= `${APP_ENV.backendUrl}/metrics/all/${USERNAME}/`;
 
 const iconTitleMap = {
   totalExpense: {
@@ -59,6 +64,54 @@ const useStyles = makeStyles(theme => ({
 
 export default function ExpenseDashboard() {
   const classes = useStyles();
+  const [totals, setTotals] = React.useState({totalExpense: 0, totalIncome: 0, totalBudget: 0, totalSavings: 0});
+
+  const searchCallBack = async (values) => {
+    let {type, month, quarter, year} = values
+
+    // Get method
+    let totalURL = `${URL}${type}/${month}/${quarter}/${year}`;
+    console.log("URL", totalURL);
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
+
+    const response = await fetch(totalURL, options).then(async (response) => {
+      const results = await response.json();
+      if(results.status === 404) {
+        console.log("ErrorResults", results);
+      } else {
+        console.log("Results", results);
+        let t = {
+          totalExpense: 0, 
+          totalIncome: 0, 
+          totalBudget: 0, 
+          totalSavings: 0
+        }
+
+        if('totalExpense' in results) {
+          t['totalExpense'] = results.totalExpense;
+        } 
+        if ('totalIncome' in results) {
+          t['totalIncome'] = results.totalIncome;
+        }
+        if ('totalBudget' in results) {
+          t['totalBudget'] = results.totalBudget;
+        }
+        if ('totalSavings' in results) {
+          t['totalSavings'] = results.totalSavings;
+        }
+
+        setTotals(t);
+      }
+    });
+  };
 
   return (
     <div>
@@ -67,7 +120,7 @@ export default function ExpenseDashboard() {
 
       <Grid container direction="column" spacing={1}>
         <Grid item>
-          <Filter />
+          <Filter parentCallback= {searchCallBack}/>
         </Grid>
 
         <Grid item>
@@ -76,7 +129,7 @@ export default function ExpenseDashboard() {
               <DashboardCard
                 icon={iconTitleMap.totalExpense.icon}
                 title={iconTitleMap.totalExpense.title}
-                amount="$4500"
+                amount={totals.totalExpense}
               />
             </Grid>
 
@@ -84,7 +137,7 @@ export default function ExpenseDashboard() {
               <DashboardCard
                 icon={iconTitleMap.totalBudget.icon}
                 title={iconTitleMap.totalBudget.title}
-                amount="$4500"
+                amount={totals.totalBudget}
               />
             </Grid>
 
@@ -92,7 +145,7 @@ export default function ExpenseDashboard() {
               <DashboardCard
                 icon={iconTitleMap.totalIncome.icon}
                 title={iconTitleMap.totalIncome.title}
-                amount="$4500"
+                amount={totals.totalIncome}
               />
             </Grid>
 
@@ -100,7 +153,7 @@ export default function ExpenseDashboard() {
               <DashboardCard
                 icon={iconTitleMap.totalSavings.icon}
                 title={iconTitleMap.totalSavings.title}
-                amount="$4500"
+                amount={totals.totalSavings}
               />
             </Grid>
           </Grid>

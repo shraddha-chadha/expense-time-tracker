@@ -86,7 +86,7 @@ export default function DashboardCard(props) {
 
             <Grid item xs={12}>
               <Typography color="textPrimary" className={classes.amountText}>
-                {props.amount}
+                ${props.amount}
               </Typography>
             </Grid>
           </Grid>

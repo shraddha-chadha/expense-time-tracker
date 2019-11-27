@@ -55,9 +55,9 @@ public class TransactionService {
             SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
             transaction.setTransactionDate(format.format( new Date() ));
             if(incomeBudgetIndicator.equalsIgnoreCase("Income"))
-                transaction.setTransactionType("Income");
+                transaction.setTransactionCategory("Income");
             else if (incomeBudgetIndicator.equalsIgnoreCase("Budget")){
-                transaction.setTransactionType("Budget");
+                transaction.setTransactionCategory("Budget");
             }
             else
             {
