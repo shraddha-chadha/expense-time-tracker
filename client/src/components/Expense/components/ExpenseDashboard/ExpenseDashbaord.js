@@ -88,7 +88,7 @@ export default function ExpenseDashboard() {
   const searchCallBack = async (values) => {
     let {type, month, quarter, year} = values
 
-    // Get method
+    // Post method
     let totalURL = `${URL}${type}/${month}/${quarter}/${year}`;
     console.log("URL", totalURL);
 
@@ -106,7 +106,7 @@ export default function ExpenseDashboard() {
       if(results.status === 404) {
         console.log("ErrorResults", results);
       } else {
-        console.log("Results", results);
+        console.log("Totals Results", results);
         let t = {
           totalExpense: 0, 
           totalIncome: 0, 

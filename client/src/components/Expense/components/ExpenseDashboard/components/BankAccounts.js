@@ -8,6 +8,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
+import APP_ENV from '../../../../../env';
+
+const USERNAME = localStorage.getItem("username");
+const TOKEN = localStorage.getItem("webToken");
+const URL= `${APP_ENV.backendUrl}/get_balance`;
 
 const styles = {
   icon: {
@@ -35,8 +40,30 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const fetchData = async () => {
+   // Post Method
+   const options = {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${TOKEN}`,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  };
+
+  const response = await fetch(URL, options).then(async (response) => {
+    const results = await response.json();
+    if(results.status === 404) {
+      console.log("ErrorResults", results);
+    } else {
+      console.log("Bank Balance Results", results);
+    }
+  });
+}
+
 export default function BankAccounts(props) {
   const classes = useStyles();
+  fetchData();
   return (
     <div className={classes.root}>
      <Paper className={classes.root}>

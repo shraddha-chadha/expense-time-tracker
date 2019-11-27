@@ -4,6 +4,12 @@ import { makeStyles, withStyles, lighten } from '@material-ui/core/styles';
 import * as d3 from 'd3';
 import '../../../../../styles.css';
 import * as $ from 'jquery';
+import APP_ENV from '../../../../../env';
+import YearFilter from '../../../../Filter/YearFilter';
+
+const USERNAME = localStorage.getItem("username");
+const TOKEN = localStorage.getItem("webToken");
+const URL = `${APP_ENV.backendUrl}/metrics/compareExpense/${USERNAME}`;
 
 const selector = '#compare-expenses-chart';
 const response = [
@@ -78,7 +84,7 @@ const styles = {
 const useStyles = makeStyles(theme => ({
 }));
 
-const drawChart = () => {
+const drawChart = (response) => {
   $(selector).empty();
   let container = d3.select(selector),
     width = 520,
@@ -89,7 +95,7 @@ const drawChart = () => {
 
   let svg = container
     .append("svg")
-    .attr("className","chartSvg")
+    .attr("className", "chartSvg")
     .attr("width", width)
     .attr("height", height)
     .append("g")
@@ -113,7 +119,7 @@ const drawChart = () => {
     .attr("transform", d => `translate(${xScale0(d.month)},0)`);
 
   /* Add year1 bars */
-  month.selectAll(".bar.year1")
+  month.selectAll(".bar-year1")
     .data(d => [d])
     .enter()
     .append("rect")
@@ -127,7 +133,7 @@ const drawChart = () => {
     });
 
   /* Add year2 bars */
-  month.selectAll(".bar.year2")
+  month.selectAll(".bar-year2")
     .data(d => [d])
     .enter()
     .append("rect")
@@ -144,19 +150,78 @@ const drawChart = () => {
   svg.append("g")
     .attr("className", "x-axis")
     .attr("transform", `translate(0,${height - margin.top - margin.bottom})`)
-    
+    .call(xAxis)
+    .selectAll("text")	
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".35em")
+        .attr("transform", "rotate(-65)");;
+
   // Add the Y Axis
   svg.append("g")
     .attr("className", "y-axis")
     .call(yAxis);
 
 }
+
 export default function CompareExpense(props) {
   const classes = useStyles();
 
+  const handleSearch = async(years) => {
+    let compareURL = URL;
+    years.forEach((year) => {
+      compareURL += `/${year}`;
+    });
+
+    // Post method
+    const options = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
+
+    const response = await fetch(compareURL, options).then(async (response) => {
+      const results = await response.json();
+      if(results.status === 404) {
+        console.log("ErrorResults", results);
+      } else {
+        let formatedResults = [];
+        console.log("Compare Expense Results", results);
+        results.forEach((result) => {
+          let temp = {};
+          temp['month'] = result.month;
+          if(result.year1 === null) {
+            temp['year1'] = 0;
+          } else {
+            temp['year1'] = result.year1;
+          }
+
+          if(result.year2 === null) {
+            temp['year2'] = 0;
+          } else {
+            temp['year2'] = result.year2;
+          }
+
+          formatedResults.push(temp);
+        });
+        console.log("Formated Compare results", formatedResults);
+        drawChart(formatedResults);
+      }
+    });
+  }
+  
   return (
     <div className={classes.root}>
-      {drawChart()}
+      <Grid container direction="column" spacing={2}>
+        <Grid item>
+          <YearFilter parentCallback={handleSearch}/>
+        </Grid>
+        <Grid item id="compare-expenses-chart">
+        </Grid>
+      </Grid>
     </div>
   );
 }

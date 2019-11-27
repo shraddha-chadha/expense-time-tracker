@@ -36,25 +36,19 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export default function YearFilter() {
+export default function YearFilter(props) {
   const classes = useStyles();
   let date = new Date();
   const [year, setYear] = React.useState([]);
 
   const handleYearChange = event => {
-    setYear(event.target.value);
-  };
-
-  const handleChangeMultiple = event => {
-    const { options } = event.target;
-    const value = [];
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
+    let value = event.target.value;
     setYear(value);
   };
+
+  const handleSearch = () => {
+    props.parentCallback(year);
+  }
 
   return (
     <div>
@@ -82,7 +76,7 @@ export default function YearFilter() {
         </Grid>
 
         <Grid item>
-          <Button variant="contained" color="secondary" className={classes.button}>
+          <Button variant="contained" color="secondary" className={classes.button} onClick={handleSearch}>
             Search
           </Button>
         </Grid>

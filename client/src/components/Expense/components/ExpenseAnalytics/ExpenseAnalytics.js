@@ -13,7 +13,6 @@ import SwipeableViews from 'react-swipeable-views';
 import Filter from '../../../Filter/Filter';
 import SpendingOnIncome from './components/SpendingOnIncome';
 import SpendingOnBudget from './components/SpendingOnBudget';
-import YearFilter from '../../../Filter/YearFilter';
 import CompareExpense from './components/CompareExpense';
 
 function TabPanel(props) {
@@ -115,16 +114,9 @@ export default function ExpenseAnalytics() {
           </TabPanel>
 
           <TabPanel value={value} index={2}>
-            <Grid container direction="column" spacing={2}>
               <Grid item>
-                <YearFilter />
+                  <CompareExpense />
               </Grid>
-              <Grid item>
-                <div id="compare-expenses-chart" >
-                </div>
-                <CompareExpense />
-              </Grid>
-            </Grid>
           </TabPanel>
         </SwipeableViews>
       </div>
