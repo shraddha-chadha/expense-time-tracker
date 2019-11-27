@@ -23,10 +23,10 @@ const months = [
 ];
 
 const quarters = [
-  { key: 'q1', value: 'Quarter 1' },
-  { key: 'q2', value: 'Quarter 2' },
-  { key: 'q3', value: 'Quarter 3' },
-  { key: 'q4', value: 'Quarter 4' },
+  { key: 1, value: 'Quarter 1' },
+  { key: 2, value: 'Quarter 2' },
+  { key: 3, value: 'Quarter 3' },
+  { key: 4, value: 'Quarter 4' },
 ];
 
 const years = (() => {
@@ -58,15 +58,15 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export default function Filter() {
+export default function TransactionFilter(props) {
   const classes = useStyles();
   let date = new Date();
   let current_year = date.getFullYear().toString();
   let current_month = date.getMonth();
   const [transaction, setTransaction] = React.useState(1);
-  const [type, setType] = React.useState(1);
+  const [type, setType] = React.useState('M');
   const [month, setMonth] = React.useState(current_month);
-  const [quarter, setQuarter] = React.useState('q1');
+  const [quarter, setQuarter] = React.useState(1);
   const [year, setYear] = React.useState(current_year);
   const [monthVisible, setMonthVisible] = React.useState({ display: 'inline' });
   const [quarterVisible, setQuarterVisible] = React.useState({ display: 'none' });
@@ -108,6 +108,17 @@ export default function Filter() {
     setYear(event.target.value);
   };
 
+  const handleSearch = () => {
+    let values = {
+      type: type,
+      month: month,
+      quarter: quarter,
+      year: year
+    }
+    
+    props.parentCallback(values);
+  }
+
   return (
     <div>
       <Grid container className={classes.root} spacing={4}>
@@ -142,9 +153,9 @@ export default function Filter() {
               value={type}
               onChange={handleTypeChange}
             >
-              <MenuItem value={1}>Monthly</MenuItem>
-              <MenuItem value={2}>Quarterly</MenuItem>
-              <MenuItem value={3}>Yearly</MenuItem>
+               <MenuItem value="M">Monthly</MenuItem>
+              <MenuItem value="Q">Quarterly</MenuItem>
+              <MenuItem value="Y">Yearly</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -213,7 +224,7 @@ export default function Filter() {
         </Grid>
 
         <Grid item>
-          <Button variant="contained" color="secondary" className={classes.button}>
+          <Button variant="contained" color="secondary" className={classes.button} onClick={handleSearch}>
             Search
           </Button>
         </Grid>
