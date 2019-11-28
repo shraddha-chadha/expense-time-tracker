@@ -15,7 +15,7 @@ import APP_ENV from '../../../../env';
 
 const USERNAME = localStorage.getItem("username");
 const TOKEN = localStorage.getItem("webToken");
-const URL= `${APP_ENV.backendUrl}/metrics/all/${USERNAME}/`;
+const URL= `${APP_ENV.backendUrl}/metrics`;
 
 const iconTitleMap = {
   totalExpense: {
@@ -87,8 +87,8 @@ export default function ExpenseDashboard() {
   const searchCallBack = async (values) => {
     let {type, month, quarter, year} = values
 
-    // Post method
-    let totalURL = `${URL}${type}/${month}/${quarter}/${year}`;
+    // Post method for totals
+    let totalURL = `${URL}/all/${USERNAME}/${type}/${month}/${quarter}/${year}`;
     console.log("URL", totalURL);
 
     const options = {
@@ -127,6 +127,28 @@ export default function ExpenseDashboard() {
         }
 
         setTotals(t);
+      }
+    });
+
+    // Post method for top spending categories
+    let categoryURL = `${URL}/expensesByCategory/${USERNAME}/${type}/${month}/${quarter}/${year}`;
+    console.log("URL", categoryURL);
+
+    const categoryOptions = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
+
+    const categoryResponse = await fetch(categoryURL, categoryOptions).then(async (response) => {
+      const results = await response.json();
+      if(results.status === 404) {
+        console.log("ErrorResults", results);
+      } else {
+        console.log("Category Results", results);
       }
     });
   };

@@ -54,18 +54,19 @@ export default function BankAccounts(props) {
        'Content-Type': 'application/json;charset=UTF-8'
      }
    };
-   console.log("I got called too");
    const response = await fetch(URL, options).then(async (response) => {
-     const results = await response.json();
-     if(results.status === 404) {
-       console.log("ErrorResults", results);
-     } else {
-       console.log("Bank Balance Results", results);
-       setRows(results.accounts);
-     }
+      const results = await response.json();
+      if(results.status === 404) {
+        console.log("ErrorResults", results);
+      } else {
+        console.log("Bank Balance Results", results);
+        setRows(results.accounts);
+      }
    });
  }
+ if(USERNAME !== null) {
   fetchData();
+ }
   return (
     <div className={classes.root}>
      <Paper className={classes.root}>
@@ -81,7 +82,7 @@ export default function BankAccounts(props) {
           {rows.map(row => (
             <TableRow key={row.accountId}>
               <TableCell>{row.name}</TableCell>
-              <TableCell align="right">{row.subtype.charAt(0).toUpperCase()}</TableCell>
+              <TableCell align="right">{row.subtype.toUpperCase()}</TableCell>
               <TableCell align="right">${row.balances.current}</TableCell>
             </TableRow>
           ))}
