@@ -63,7 +63,7 @@ const fetchData = async () => {
 
 export default function BankAccounts(props) {
   const classes = useStyles();
-  fetchData();
+  // fetchData();
   return (
     <div className={classes.root}>
      <Paper className={classes.root}>

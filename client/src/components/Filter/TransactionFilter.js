@@ -62,7 +62,7 @@ export default function TransactionFilter(props) {
   const classes = useStyles();
   let date = new Date();
   let current_year = date.getFullYear().toString();
-  let current_month = date.getMonth();
+  let current_month = date.getMonth() + 1;
   const [transaction, setTransaction] = React.useState(1);
   const [type, setType] = React.useState('M');
   const [month, setMonth] = React.useState(current_month);
@@ -122,7 +122,7 @@ export default function TransactionFilter(props) {
   return (
     <div>
       <Grid container className={classes.root} spacing={4}>
-      <Grid item>
+      {/* <Grid item>
           <FormControl className={classes.formControl}>
             <InputLabel id="transaction-label">
               Transaction
@@ -139,7 +139,7 @@ export default function TransactionFilter(props) {
               <MenuItem value={3}>Income</MenuItem>
             </Select>
           </FormControl>
-        </Grid>
+        </Grid> */}
 
         <Grid item>
           <FormControl className={classes.formControl}>

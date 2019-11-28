@@ -25,9 +25,9 @@ export default function CategoryButton() {
   const [open, setOpen] = React.useState(false);
   const [newCategory, setNewCategory] = React.useState('');
   const [categories, addCategory] = React.useState([
-    { key: 1, value: 'Home' },
-    { key: 2, value: 'Food' },
-    { key: 3, value: 'Bills' },
+    { key: 'home', value: 'Home' },
+    { key: 'food', value: 'Food' },
+    { key: 'bills', value: 'Bills' },
     { key: 4, value: 'Auto' },
     { key: 5, value: 'Holidays' },
     { key: 6, value: 'Leisure' },
