@@ -35,52 +35,32 @@ const useStyles = makeStyles(theme => ({
 
 export default function SpendingOnIncome(props) {
   const classes = useStyles();
+  let { totalIncome, categories, categoriesResult } = props;
+  let title;
+  if(totalIncome === 0 || totalIncome === null) {
+   title = <Typography color="textPrimary" className={classes.incomeText}>Please set your income to see the % spending</Typography>
+  } else {
+    title = <Typography color="textPrimary" className={classes.incomeText}>Your total income is {totalIncome}</Typography>
+  }
+
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
         <CardContent component="div" className={classes.content}>
-          <Typography color="textPrimary" className={classes.incomeText}>
-            Your total income is $4500
-          </Typography>
-          <Grid container direction="row" justify="space-around" spacing={2}>
+          <Grid container spacing={2} direction="column">
+            <Grid item>{title}</Grid>
             <Grid item>
-              <ProgressBar category="home" amount="10" />
-            </Grid>
-
-            <Grid item>
-              <ProgressBar category="food" amount="20" />
-            </Grid>
-
-            <Grid item>
-              <ProgressBar category="bills" amount="10" />
-            </Grid>
-
-            <Grid item>
-              <ProgressBar category="auto" amount="6" />
-            </Grid>
-
-            <Grid item>
-              <ProgressBar category="holidays" amount="10" />
-            </Grid>
-
-            <Grid item>
-              <ProgressBar category="leisure" amount="50" />
-            </Grid>
-
-            <Grid item>
-              <ProgressBar category="shopping" amount="60" />
-            </Grid>
-
-            <Grid item>
-              <ProgressBar category="fuel" amount="40" />
-            </Grid>
-
-            <Grid item>
-              <ProgressBar category="health" amount="8" />
-            </Grid>
-
-            <Grid item>
-              <ProgressBar category="general" amount="20" />
+            <Grid container direction="row" justify="space-around" spacing={2}>
+            {(totalIncome === 0 || totalIncome === null) ? (
+              <div></div>
+            ) : (
+              categories.map((category, index) => {
+                return <Grid item>
+                <ProgressBar category={category} expense={categoriesResult[category]} amount={(categoriesResult[category] / totalIncome).toFixed(2)} />
+              </Grid>
+              })
+            )}
+          </Grid>
             </Grid>
           </Grid>
         </CardContent>

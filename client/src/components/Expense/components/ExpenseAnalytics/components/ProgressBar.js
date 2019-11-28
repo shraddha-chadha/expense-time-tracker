@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProgressBar(props) {
   const classes = useStyles();
-  let { category } = props;
+  let { category, expense, amount } = props;
   const ICON_MAP = map.ICON_MAP;
   return (
     <div className={classes.root}>
@@ -74,6 +74,12 @@ export default function ProgressBar(props) {
                 {ICON_MAP[category].title}
               </Typography>
             </Grid>
+
+            <Grid item>
+              <Typography color="textPrimary" className={classes.text}>
+                ${expense}
+              </Typography>
+            </Grid>
           </Grid>
         </Grid>
 
@@ -82,7 +88,7 @@ export default function ProgressBar(props) {
             <Badge badgeContent={`${props.amount}%`} color="primary">
               <BorderLinearProgress
                 variant="determinate"
-                value={parseInt(props.amount)}
+                value={parseInt(amount)}
               />
             </Badge>
           </div>

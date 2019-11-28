@@ -14,6 +14,7 @@ import Filter from '../../../Filter/Filter';
 import SpendingOnIncome from './components/SpendingOnIncome';
 import SpendingOnBudget from './components/SpendingOnBudget';
 import CompareExpense from './components/CompareExpense';
+import APP_ENV from '../../../../env';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,6 +57,86 @@ export default function ExpenseAnalytics() {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const [totals, setTotals] = React.useState({ totalExpense: 0, totalIncome: 0, totalBudget: 0, totalSavings: 0 });
+  const [categoriesResult, setCategoriesResult] = React.useState({});
+  const [categories, setCategories] = React.useState([]);
+
+  React.useEffect(() => {
+    setCategories(Object.keys(categoriesResult))
+  }, [categoriesResult]);
+
+  const searchCallBack = async (values) => {
+    const USERNAME = localStorage.getItem("username");
+    const TOKEN = localStorage.getItem("webToken");
+    const URL = `${APP_ENV.backendUrl}/metrics`;
+    let { type, month, quarter, year } = values
+
+    // Post method for totals
+    let totalURL = `${URL}/all/${USERNAME}/${type}/${month}/${quarter}/${year}`;
+    console.log("URL", totalURL);
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
+
+    const response = await fetch(totalURL, options).then(async (response) => {
+      const results = await response.json();
+      if (results.status === 404) {
+        console.log("ErrorResults", results);
+      } else {
+        console.log("Totals Results", results);
+        let t = {
+          totalExpense: 0,
+          totalIncome: 0,
+          totalBudget: 0,
+          totalSavings: 0
+        }
+
+        if ('totalExpense' in results) {
+          t['totalExpense'] = Number(results.totalExpense).toFixed(2);
+        }
+        if ('totalIncome' in results) {
+          t['totalIncome'] = Number(results.totalIncome).toFixed(2);
+        }
+        if ('totalBudget' in results) {
+          t['totalBudget'] = Number(results.totalBudget).toFixed(2);
+        }
+        if ('totalSavings' in results) {
+          t['totalSavings'] = Number(results.totalSavings).toFixed(2);
+        }
+
+        setTotals(t);
+      }
+    });
+
+    // Post method for top spending categories
+    let categoryURL = `${URL}/expensesByCategory/${USERNAME}/${type}/${month}/${quarter}/${year}`;
+    console.log("URL", categoryURL);
+
+    const categoryOptions = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
+
+    const categoryResponse = await fetch(categoryURL, categoryOptions).then(async (response) => {
+      const results = await response.json();
+      if (results.status === 404) {
+        console.log("ErrorResults", results);
+      } else {
+        console.log("Category Results", results);
+        setCategoriesResult(results);
+      }
+    });
+  };
 
   const handleChange = (event, newValue) => {
     console.log("newValue", newValue)
@@ -94,10 +175,10 @@ export default function ExpenseAnalytics() {
           <TabPanel value={value} index={0}>
             <Grid container direction="column" spacing={2}>
               <Grid item>
-                <Filter />
+                <Filter parentCallback={searchCallBack} />
               </Grid>
               <Grid item>
-                <SpendingOnIncome />
+                <SpendingOnIncome totalIncome={totals.totalIncome} categoriesResult={categoriesResult} categories={categories}/>
               </Grid>
             </Grid>
           </TabPanel>
@@ -105,7 +186,7 @@ export default function ExpenseAnalytics() {
           <TabPanel value={value} index={1}>
             <Grid container direction="column" spacing={2}>
               <Grid item>
-                <Filter />
+                <Filter parentCallback={searchCallBack}/>
               </Grid>
               <Grid item>
                 <SpendingOnBudget />
