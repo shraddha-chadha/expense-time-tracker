@@ -20,10 +20,10 @@ const styles = {
   }
 }
 
-const rows = [
-  {'id': 1,'bankName':'Chase', 'accountNumber':'1234567', 'balance':'$4500'},
-  {'id': 2,'bankName':'Citi', 'accountNumber':'1234567', 'balance':'$2000'}
-];
+// const rows = [
+//   {'id': 1,'bankName':'Chase', 'accountNumber':'1234567', 'balance':'$4500'},
+//   {'id': 2,'bankName':'Citi', 'accountNumber':'1234567', 'balance':'$2000'}
+// ];
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,30 +40,32 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const fetchData = async () => {
-   // Post Method
-   const options = {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${TOKEN}`,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json;charset=UTF-8'
-    }
-  };
-
-  const response = await fetch(URL, options).then(async (response) => {
-    const results = await response.json();
-    if(results.status === 404) {
-      console.log("ErrorResults", results);
-    } else {
-      console.log("Bank Balance Results", results);
-    }
-  });
-}
-
 export default function BankAccounts(props) {
   const classes = useStyles();
-  // fetchData();
+  const [rows, setRows] = React.useState([]);
+
+  const fetchData = async () => {
+    // Post Method
+    const options = {
+     method: 'POST',
+     headers: {
+       'Authorization': `Bearer ${TOKEN}`,
+       'Accept': 'application/json',
+       'Content-Type': 'application/json;charset=UTF-8'
+     }
+   };
+   console.log("I got called too");
+   const response = await fetch(URL, options).then(async (response) => {
+     const results = await response.json();
+     if(results.status === 404) {
+       console.log("ErrorResults", results);
+     } else {
+       console.log("Bank Balance Results", results);
+       setRows(results.accounts);
+     }
+   });
+ }
+  fetchData();
   return (
     <div className={classes.root}>
      <Paper className={classes.root}>
@@ -71,18 +73,16 @@ export default function BankAccounts(props) {
         <TableHead>
           <TableRow>
             <TableCell className={classes.tableHeader} component="th" >Bank</TableCell>
-            <TableCell className={classes.tableHeader} component="th" align="right">Account Number</TableCell>
+            <TableCell className={classes.tableHeader} component="th" align="right">Type</TableCell>
             <TableCell className={classes.tableHeader} align="right" component="th" >Balance</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map(row => (
-            <TableRow key={row.id}>
-              <TableCell>
-                {row.bankName}
-              </TableCell>
-              <TableCell align="right">{row.accountNumber}</TableCell>
-              <TableCell align="right">{row.balance}</TableCell>
+            <TableRow key={row.accountId}>
+              <TableCell>{row.name}</TableCell>
+              <TableCell align="right">{row.subtype.charAt(0).toUpperCase()}</TableCell>
+              <TableCell align="right">${row.balances.current}</TableCell>
             </TableRow>
           ))}
         </TableBody>

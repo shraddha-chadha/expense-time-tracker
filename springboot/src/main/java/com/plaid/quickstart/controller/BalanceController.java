@@ -26,7 +26,7 @@ public class BalanceController {
     private PlaidClient plaidClient;
 
     @PostMapping("/get_balance")
-    public Double getBalance(@RequestParam("username") String username) throws IOException {
+    public AccountsBalanceGetResponse getBalance(@RequestParam("username") String username) throws IOException {
 
         plaidClient = QuickstartApplication.plaidClient;
         User user = userRepository.findByUsername(username);
@@ -34,13 +34,15 @@ public class BalanceController {
         Response<AccountsBalanceGetResponse> accountBalanceResponse = plaidClient.service()
                 .accountsBalanceGet(new AccountsBalanceGetRequest(accessToken)).execute();
         List<Account> accounts = new ArrayList<>();
-        Double balance = 0.0;
-        if(accountBalanceResponse!=null && accountBalanceResponse.body()!=null)
-        {
-            accounts = accountBalanceResponse.body().getAccounts();
-            balance = accounts.get(0).getBalances().getAvailable();
+        Double balance = 12.0;
+        // if(accountBalanceResponse!=null && accountBalanceResponse.body()!=null)
+        // {
+        //     accounts = accountBalanceResponse.body().getAccounts();
+        //     // balance = accounts.get(0).getBalances().getAvailable();
 
-        }
-        return balance;
+        // }
+        // return balance;
+
+        return accountBalanceResponse.body();
     }
 }
