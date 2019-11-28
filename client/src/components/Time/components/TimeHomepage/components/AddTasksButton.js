@@ -18,11 +18,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import APP_ENV from '../../../../../env';
 
-const USERNAME = localStorage.getItem("username");
-const TOKEN = localStorage.getItem("webToken");
-const vpaIndicator = 1;
-const URL= `${APP_ENV.backendUrl}/expense/${USERNAME}/${vpaIndicator}`;
-
 const useStyles = makeStyles(theme => ({
   button: {
     boxShadow: '5px 5px 15px grey'
@@ -105,43 +100,38 @@ export default function AddTasksButton() {
   };
 
   const handleSave = async() => {
-    // // Post the values to the Add expense url
-    // const API_PARAMS = {
-    //   "transactionDate":formatDate(selectedDate),
-    //   "transactionType": "Expense",
-    //   "transactionCategory": category,
-    //   "name": name,
-    //   "amount": amount,
-    //   "isoCurrencyCode": "USD",
-    //   "unofficialCurrencyCode": "",
-    //   "location":"",
-    //   "month": getMonth(selectedDate),
-    //   "year": getYear(selectedDate),
-    //   "quarter": getQuarter(selectedDate),
-    //   "day":getDay(selectedDate),
-    //   "isManuallyInserted":1
-    // };
+    const USERNAME = localStorage.getItem("username");
+    const TOKEN = localStorage.getItem("webToken");
+    const URL= `${APP_ENV.backendUrl}/tasks/addTask/${USERNAME}?username=${USERNAME}`;
+    // Post the values to the Add expense url
+    const API_PARAMS = {
+      "taskName":name,
+      "taskDate": formatDate(selectedDate),
+      "hoursEstimate": estimates,
+      "hoursActual": 0,
+      "username": USERNAME
+    };
 
-    // const options = {
-    //   method: 'POST',
-    //   headers: {
-    //     'Authorization': `Bearer ${TOKEN}`,
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json;charset=UTF-8'
-    //   },
-    //   body: JSON.stringify(API_PARAMS)
-    // };
+    const options = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      },
+      body: JSON.stringify(API_PARAMS)
+    };
 
-    // const response = await fetch(URL, options).then(async (response) => {
-    //   const results = await response.json();
-    //   if(results.status === 404) {
-    //     setOpenError(true);
-    //     console.log("ErrorResults", results);
-    //   } else {
-    //     setOpenSuccess(true);
-    //     console.log("Results", results);
-    //   }
-    // });
+    const response = await fetch(URL, options).then(async (response) => {
+      const results = await response.json();
+      if(results.status >= 200 && results.status < 300) {
+        setOpenSuccess(true);
+        console.log("Results of Task added", results);
+      } else {
+        setOpenError(true);
+        console.log("ErrorResults", results);
+      }
+    });
 
   }
 

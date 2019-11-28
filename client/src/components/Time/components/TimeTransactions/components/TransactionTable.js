@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import FillTimesheetButton from './FillTimesheetButton';
 import TimeChecker from './TimeChecker';
+import APP_ENV from '../../../../../env';
 
 const rows = [
   { id: 1, name: 'test', estimates: 21, actuals: 0, date: '2019-11-27' },
@@ -44,15 +45,43 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const handlectualsChange = (values) => {
+const handleactualsChange = (values) => {
 //Got the actuals
 }
 
+
 export default function TransactionTable(props) {
   const classes = useStyles();
-  const [estimates, setEstimates] = React.useState(0);
-  //let results = props.rows;
+  const [rows, setRows] = React.useState([]);
 
+  const fetchData = async() => {
+    const USERNAME = localStorage.getItem("username");
+    const TOKEN = localStorage.getItem("webToken");
+    const URL= `${APP_ENV.backendUrl}/tasks/all/${USERNAME}?username=${USERNAME}`;
+  
+    const options = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
+  
+    const response = await fetch(URL, options).then(async (response) => {
+      const results = await response.json();
+      if(results.status >= 200 && results.status < 300 || results.status === undefined) {
+        console.log("Results of get Task", results);
+        setRows(results);
+      } else {
+        console.log("ErrorResults", results);
+      }
+    });
+  }
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div>
       <Grid container justify="center">
@@ -70,16 +99,18 @@ export default function TransactionTable(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map(row => (
-                  <StyledTableRow key={row.id}>
-                    <StyledTableCell align="right">{(row.name === ''|| row.name === null)? '-': row.name}</StyledTableCell>
-                    <StyledTableCell align="right">{(row.date === ''|| row.date === null)? '-': row.date}</StyledTableCell>
-                    <StyledTableCell align="right">{(row.estimates === '' || row.estimates === null)? '-': row.estimates}</StyledTableCell>
-                    <StyledTableCell align="right">{(row.actuals === '' || row.actuals === null)? '-': row.actuals}</StyledTableCell>
-                    <StyledTableCell align="right">{<FillTimesheetButton data={row} parentCallback={handlectualsChange} />}</StyledTableCell>
-                    <StyledTableCell align="right">{<TimeChecker estimates={row.estimates} actuals={row.actuals}/>}</StyledTableCell>
+                {rows.length > 0 ?
+                rows.map(row => (
+                  <StyledTableRow key={row.taskId}>
+                    <StyledTableCell align="right">{(row.taskName === ''|| row.taskName === null)? '-': row.taskName}</StyledTableCell>
+                    <StyledTableCell align="right">{(row.taskDate === ''|| row.taskDate === null)? '-': row.taskDate}</StyledTableCell>
+                    <StyledTableCell align="right">{(row.hoursEstimate === '' || row.hoursEstimate === null)? '-': row.hoursEstimate}</StyledTableCell>
+                    <StyledTableCell align="right">{(row.hoursActual === '' || row.hoursActual === null)? '-': row.hoursActual}</StyledTableCell>
+                    <StyledTableCell align="right">{<FillTimesheetButton data={row} parentCallback={handleactualsChange} />}</StyledTableCell>
+                    <StyledTableCell align="right">{<TimeChecker estimates={row.hoursEstimate} actuals={row.hoursActual}/>}</StyledTableCell>
                   </StyledTableRow>
-                ))}
+                )) :
+                "No Data"}
               </TableBody>
             </Table>
           </Paper>

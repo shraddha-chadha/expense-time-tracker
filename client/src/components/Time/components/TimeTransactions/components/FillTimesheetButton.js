@@ -18,11 +18,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import APP_ENV from '../../../../../env';
 
-const USERNAME = localStorage.getItem("username");
-const TOKEN = localStorage.getItem("webToken");
-const vpaIndicator = 1;
-const URL= `${APP_ENV.backendUrl}/expense/${USERNAME}/${vpaIndicator}`;
-
 const useStyles = makeStyles(theme => ({
   button: {
     boxShadow: '5px 5px 15px grey'
@@ -35,12 +30,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function FillTimesheetButton(props) {
   const classes = useStyles();
-  let data = props.data;
+  let {data} = props.data;
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = React.useState(data.name);
-  const [estimates, setEstimates] = React.useState(data.estimates);
-  const [actuals, setActuals] = React.useState(data.actuals);
-  const [selectedDate, setSelectedDate] = React.useState(new Date(data.date) + 1);
+  const [name, setName] = React.useState(data.taskName);
+  const [estimates, setEstimates] = React.useState(data.hoursEstimate);
+  const [actuals, setActuals] = React.useState(data.hoursActual);
+  const [selectedDate, setSelectedDate] = React.useState(new Date(data.taskDate) + 1);
   const [openSuccess, setOpenSuccess] = React.useState(false);
   const [openError, setOpenError] = React.useState(false);
 
@@ -99,43 +94,29 @@ export default function FillTimesheetButton(props) {
 
   const handleSave = async() => {
     props.parentCallback(actuals);
-    // // Post the values to the Add expense url
-    // const API_PARAMS = {
-    //   "transactionDate":formatDate(selectedDate),
-    //   "transactionType": "Expense",
-    //   "transactionCategory": category,
-    //   "name": name,
-    //   "amount": amount,
-    //   "isoCurrencyCode": "USD",
-    //   "unofficialCurrencyCode": "",
-    //   "location":"",
-    //   "month": getMonth(selectedDate),
-    //   "year": getYear(selectedDate),
-    //   "quarter": getQuarter(selectedDate),
-    //   "day":getDay(selectedDate),
-    //   "isManuallyInserted":1
-    // };
+    const USERNAME = localStorage.getItem("username");
+    const TOKEN = localStorage.getItem("webToken");
+    const URL= `${APP_ENV.backendUrl}/tasks/addTask/${data.taskId}/${actuals}?id=${data.taskId}&actual=${actuals}`;
+    // Post the values to the Add expense url
+    const options = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
 
-    // const options = {
-    //   method: 'POST',
-    //   headers: {
-    //     'Authorization': `Bearer ${TOKEN}`,
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json;charset=UTF-8'
-    //   },
-    //   body: JSON.stringify(API_PARAMS)
-    // };
-
-    // const response = await fetch(URL, options).then(async (response) => {
-    //   const results = await response.json();
-    //   if(results.status === 404) {
-    //     setOpenError(true);
-    //     console.log("ErrorResults", results);
-    //   } else {
-    //     setOpenSuccess(true);
-    //     console.log("Results", results);
-    //   }
-    // });
+    const response = await fetch(URL, options).then(async (response) => {
+      const results = await response.json();
+      if(results.status >= 200 && results.status < 300 || results.status === undefined) {
+        setOpenError(true);
+        console.log("ErrorResults", results);
+      } else {
+        setOpenSuccess(true);
+        console.log("Results", results);
+      }
+    });
 
   }
 

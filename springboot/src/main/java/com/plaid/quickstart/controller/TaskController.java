@@ -21,6 +21,7 @@ public class TaskController {
 
     @PostMapping(path = "/addTask/{username}")
     public ResponseEntity<?> addTasks(@RequestBody Task task, @RequestParam("username") String username){
+        System.out.println(username);
         return ResponseEntity.ok(taskService.save(task,username));
     }
 
