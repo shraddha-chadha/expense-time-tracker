@@ -8,11 +8,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-const rows = [
-  { id: 1, transaction: 'Expense', category: 'Food', amount: '500', month: 'January', quarter: '1', year: '2017' },
-  { id: 2, transaction: 'Budget', category: '', amount: '500', month: 'January', quarter: '1', year: '2017' },
-  { id: 3, transaction: 'Income', category: '', amount: '500', month: 'January', quarter: '1', year: '2017' }
-]
+// const rows = [
+//   { id: 1, transaction: 'Expense', category: 'Food', amount: '500', month: 'January', quarter: '1', year: '2017' },
+//   { id: 2, transaction: 'Budget', category: '', amount: '500', month: 'January', quarter: '1', year: '2017' },
+//   { id: 3, transaction: 'Income', category: '', amount: '500', month: 'January', quarter: '1', year: '2017' }
+// ]
 const StyledTableCell = withStyles(theme => ({
   head: {
     backgroundColor: '#3F51B5',
