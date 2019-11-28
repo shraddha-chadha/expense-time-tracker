@@ -19,7 +19,7 @@ export default function TimeHomepage() {
 
       <Grid container>
         <Grid item xs={12}>
-          <TransactionTable />
+          <TransactionTable/>
         </Grid>
       </Grid>
     </div>

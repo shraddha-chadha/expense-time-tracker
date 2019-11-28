@@ -62,7 +62,7 @@ export default function Filter(props) {
   const classes = useStyles();
   let date = new Date();
   let current_year = date.getFullYear();
-  let current_month = date.getMonth();
+  let current_month = date.getMonth() + 1;
   const [type, setType] = React.useState('M');
   const [month, setMonth] = React.useState(current_month);
   const [quarter, setQuarter] = React.useState(1);

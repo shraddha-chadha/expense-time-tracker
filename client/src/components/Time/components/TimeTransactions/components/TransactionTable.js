@@ -11,9 +11,9 @@ import FillTimesheetButton from './FillTimesheetButton';
 import TimeChecker from './TimeChecker';
 
 const rows = [
-  { id: 1, name: 'test', estimates: 23, actuals: 0, date: '2019-11-27' },
-  { id: 2, name: 'test', estimates: 23, actuals: 0, date: '2019-11-27' },
-  { id: 3, name: 'test', estimates: 23, actuals: 0, date: '2019-11-27' },
+  { id: 1, name: 'test', estimates: 21, actuals: 0, date: '2019-11-27' },
+  { id: 2, name: 'test123', estimates: 23, actuals: 0, date: '2019-11-27' },
+  { id: 3, name: 'Add ecfhf', estimates: 344, actuals: 0, date: '2019-11-27' },
 ]
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -44,8 +44,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const handlectualsChange = (values) => {
+//Got the actuals
+}
+
 export default function TransactionTable(props) {
   const classes = useStyles();
+  const [estimates, setEstimates] = React.useState(0);
   //let results = props.rows;
 
   return (
@@ -71,8 +76,8 @@ export default function TransactionTable(props) {
                     <StyledTableCell align="right">{(row.date === ''|| row.date === null)? '-': row.date}</StyledTableCell>
                     <StyledTableCell align="right">{(row.estimates === '' || row.estimates === null)? '-': row.estimates}</StyledTableCell>
                     <StyledTableCell align="right">{(row.actuals === '' || row.actuals === null)? '-': row.actuals}</StyledTableCell>
-                    <StyledTableCell align="right">{<FillTimesheetButton />}</StyledTableCell>
-                    <StyledTableCell align="right">{<TimeChecker />}</StyledTableCell>
+                    <StyledTableCell align="right">{<FillTimesheetButton data={row} parentCallback={handlectualsChange} />}</StyledTableCell>
+                    <StyledTableCell align="right">{<TimeChecker estimates={row.estimates} actuals={row.actuals}/>}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

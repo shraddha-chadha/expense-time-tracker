@@ -33,26 +33,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const categories = [
-  { key: 'home', value: 'Home' },
-  { key: 'food', value: 'Food' },
-  { key: 'bills', value: 'Bills' },
-  { key: 'auto', value: 'Auto' },
-  { key: 'holidays', value: 'Holidays' },
-  { key: 'leisure', value: 'Leisure' },
-  { key: 'shopping', value: 'Shopping' },
-  { key: 'fuel', value: 'Fuel' },
-  { key: 'health', value: 'Health' },
-  { key: 'general', value: 'General' }
-];
-
-export default function FillTimesheetButton() {
+export default function FillTimesheetButton(props) {
   const classes = useStyles();
+  let data = props.data;
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = React.useState('');
-  const [estimates, setEstimates] = React.useState(0);
-  const [actuals, setActuals] = React.useState(0);
-  const [selectedDate, setSelectedDate] = React.useState(new Date(new Date()));
+  const [name, setName] = React.useState(data.name);
+  const [estimates, setEstimates] = React.useState(data.estimates);
+  const [actuals, setActuals] = React.useState(data.actuals);
+  const [selectedDate, setSelectedDate] = React.useState(new Date(data.date) + 1);
   const [openSuccess, setOpenSuccess] = React.useState(false);
   const [openError, setOpenError] = React.useState(false);
 
@@ -75,7 +63,6 @@ export default function FillTimesheetButton() {
   const handleEstimatesChange = event => {
     setEstimates(event.target.value);
   };
-
 
   const handleActualsChange = event => {
     setActuals(event.target.value);
@@ -111,6 +98,7 @@ export default function FillTimesheetButton() {
   };
 
   const handleSave = async() => {
+    props.parentCallback(actuals);
     // // Post the values to the Add expense url
     // const API_PARAMS = {
     //   "transactionDate":formatDate(selectedDate),
