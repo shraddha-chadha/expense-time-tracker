@@ -9,10 +9,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
 import APP_ENV from '../../../../../env';
+import Button from '@material-ui/core/Button';
 
 const USERNAME = localStorage.getItem("username");
 const TOKEN = localStorage.getItem("webToken");
-const URL= `${APP_ENV.backendUrl}/get_balance?username=${USERNAME}`;
+const URL = `${APP_ENV.backendUrl}/get_balance?username=${USERNAME}`;
 
 const styles = {
   icon: {
@@ -47,48 +48,58 @@ export default function BankAccounts(props) {
   const fetchData = async () => {
     // Post Method
     const options = {
-     method: 'POST',
-     headers: {
-       'Authorization': `Bearer ${TOKEN}`,
-       'Accept': 'application/json',
-       'Content-Type': 'application/json;charset=UTF-8'
-     }
-   };
-   const response = await fetch(URL, options).then(async (response) => {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
+    const response = await fetch(URL, options).then(async (response) => {
       const results = await response.json();
-      if(results.status === 404) {
+      if (results.status === 404) {
         console.log("ErrorResults", results);
       } else {
         console.log("Bank Balance Results", results);
         setRows(results.accounts);
       }
-   });
- }
- if(USERNAME !== null) {
-  fetchData();
- }
+    });
+  }
+  //  if(USERNAME !== null) {
+  //   fetchData();
+  //  }
   return (
     <div className={classes.root}>
-     <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell className={classes.tableHeader} component="th" >Bank</TableCell>
-            <TableCell className={classes.tableHeader} component="th" align="right">Type</TableCell>
-            <TableCell className={classes.tableHeader} align="right" component="th" >Balance</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.accountId}>
-              <TableCell>{row.name}</TableCell>
-              <TableCell align="right">{row.subtype.toUpperCase()}</TableCell>
-              <TableCell align="right">${row.balances.current}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Paper>
+      <Grid container direction="column" spacing={2}>
+        <Grid item>
+          <Button onClick={fetchData} color="primary" variant="contained" >
+            Check Balance
+      </Button>
+        </Grid>
+
+        <Grid item>
+          <Paper className={classes.root}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell className={classes.tableHeader} component="th" >Bank</TableCell>
+                  <TableCell className={classes.tableHeader} component="th" align="right">Type</TableCell>
+                  <TableCell className={classes.tableHeader} align="right" component="th" >Balance</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map(row => (
+                  <TableRow key={row.accountId}>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell align="right">{row.subtype.toUpperCase()}</TableCell>
+                    <TableCell align="right">${row.balances.current}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
+        </Grid>
+      </Grid>
     </div>
   );
 }
