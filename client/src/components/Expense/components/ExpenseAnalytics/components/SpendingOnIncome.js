@@ -37,12 +37,12 @@ export default function SpendingOnIncome(props) {
   const classes = useStyles();
   let { totalIncome, categories, categoriesResult } = props;
   let title;
-  if(totalIncome === 0 || totalIncome === null) {
-   title = <Typography color="textPrimary" className={classes.incomeText}>Please set your income to see the % spending</Typography>
+  title = <Typography color="textPrimary" className={classes.incomeText}>Select the filter to see the % spending</Typography>;
+  if(totalIncome === 0) {
+    title = <Typography color="textPrimary" className={classes.incomeText}>Your income is not set for this month!</Typography>
   } else {
     title = <Typography color="textPrimary" className={classes.incomeText}>Your total income is {totalIncome}</Typography>
   }
-
   return (
     <div className={classes.root}>
       <Card className={classes.card}>

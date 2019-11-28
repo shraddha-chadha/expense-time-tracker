@@ -189,7 +189,7 @@ export default function ExpenseAnalytics() {
                 <Filter parentCallback={searchCallBack}/>
               </Grid>
               <Grid item>
-                <SpendingOnBudget />
+                <SpendingOnBudget totalBudget={totals.totalBudget} categoriesResult={categoriesResult} categories={categories}/>
               </Grid>
             </Grid>
           </TabPanel>
