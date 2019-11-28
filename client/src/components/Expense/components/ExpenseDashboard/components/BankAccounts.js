@@ -12,7 +12,7 @@ import APP_ENV from '../../../../../env';
 
 const USERNAME = localStorage.getItem("username");
 const TOKEN = localStorage.getItem("webToken");
-const URL= `${APP_ENV.backendUrl}/get_balance`;
+const URL= `${APP_ENV.backendUrl}/get_balance?username=${USERNAME}`;
 
 const styles = {
   icon: {

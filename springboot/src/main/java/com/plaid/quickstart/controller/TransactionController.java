@@ -27,6 +27,7 @@ public class TransactionController {
     @Autowired
     private UserRepository userRepository;
 
+
     @PostMapping("/transactions/{username}")
     public TransactionsGetResponse getTransactions(@PathVariable("username") String username) throws IOException {
         User user = userRepository.findByUsername(username);
@@ -40,7 +41,7 @@ public class TransactionController {
         Date endDate = new Date();
 
         TransactionsGetRequest request =
-                new TransactionsGetRequest(accessToken, startDate, endDate)
+                new TransactionsGetRequest(user.getAccesstoken(), startDate, endDate)
                         .withCount(100);
 
         Response<TransactionsGetResponse> response = null;

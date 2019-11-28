@@ -89,7 +89,7 @@ public class TransactionService {
         {
             Transaction t = null;
             plaidClient = QuickstartApplication.plaidClient;
-            String accessToken = QuickstartApplication.accessToken;
+            String accessToken = user.getAccesstoken();
             Date startDate = new Date(System.currentTimeMillis() - 86400000L * 100);
             Date endDate = new Date();
 
@@ -98,6 +98,10 @@ public class TransactionService {
                             .withCount(100);
 
             Response<TransactionsGetResponse> response = null;
+            String[] arr = new String[]{"home","food","bills","auto","holidays","leisure","shopping","fuel","health","other"};
+            String[] billArr = new String[]{"cash advance","tax","bank fees","interest","payment","transfer","fees"};
+            List<String> catList = Arrays.asList(arr);
+            List<String> billList = Arrays.asList(billArr);
             for (int i = 0; i < 5; i++) {
                 response = plaidClient.service().transactionsGet(request).execute();
                 System.out.println("Response plaid"+ response);
@@ -111,7 +115,54 @@ public class TransactionService {
                         t.setIsManuallyInserted(vpaIndicator);
                         t.setTransactionDate(transaction.getDate());
                         t.setTransactionType("Expense");
-                        t.setTransactionCategory(transaction.getCategory().get(0));
+                        Boolean b = false;
+                        for(String cat:catList)
+                        {
+                            for(String plaidCat: transaction.getCategory()){
+                                if(plaidCat.equalsIgnoreCase("recreation"))
+                                {
+                                    t.setTransactionCategory("leisure");
+                                    b=true;
+                                    break;
+                                }
+                                else if(billList.contains(plaidCat.toLowerCase())){
+                                    t.setTransactionCategory("bills");
+                                    b=true;
+                                    break;
+                                }
+                                else if(cat.contains(plaidCat) || plaidCat.contains(cat)){
+                                    t.setTransactionCategory(cat);
+                                    b=true;
+                                    break;
+                                }
+                                else if(plaidCat.equalsIgnoreCase("travel"))
+                                {
+                                    t.setTransactionCategory("holidays");
+                                    b=true;
+                                    break;
+                                }
+                                else if(plaidCat.equalsIgnoreCase("shops"))
+                                {
+                                    t.setTransactionCategory("shopping");
+                                    b=true;
+                                    break;
+                                }
+                                else if(plaidCat.toLowerCase().contains("gas"))
+                                {
+                                    t.setTransactionCategory("Fuel");
+                                    b=true;
+                                    break;
+                                }
+                                else {
+                                    t.setTransactionCategory("general");
+                                    b = true;
+                                    break;
+                                }
+                            }
+
+                            if(b)
+                                break;
+                        }
                         t.setName(transaction.getName());
                         t.setAmount((transaction.getAmount()));
                         t.setIsoCurrencyCode(transaction.getIsoCurrencyCode());

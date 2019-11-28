@@ -10,6 +10,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Path("/categories")
 @Produces(MediaType.APPLICATION_JSON)
@@ -23,10 +26,18 @@ public class CategoryResource {
     }
 
     @GET
-    public CategoriesGetResponse getCategoryResponse() throws IOException{
+    public Set<String> getCategoryResponse() throws IOException{
         Response<CategoriesGetResponse> categoriesGetResponseResponse = plaidClient.service()
                 .categoriesGet(new CategoriesGetRequest())
                 .execute();
-        return categoriesGetResponseResponse.body();
+       List<CategoriesGetResponse.Category> categories =  categoriesGetResponseResponse.body().getCategories();
+        Set<String> categorySet = new HashSet<>();
+       for(CategoriesGetResponse.Category category: categories){
+
+
+               categorySet.add(category.getHierarchy().get(0));
+
+       }
+        return categorySet;
     }
 }

@@ -52,7 +52,7 @@ public class User implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
-
+    private String accesstoken;
 
 
 
@@ -137,5 +137,11 @@ public class User implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public String getAccesstoken() {
+        return accesstoken;
+    }
 
+    public void setAccesstoken(String accesstoken) {
+        this.accesstoken = accesstoken;
+    }
 }
