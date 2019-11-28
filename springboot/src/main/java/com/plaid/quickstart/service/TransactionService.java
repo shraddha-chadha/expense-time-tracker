@@ -391,7 +391,7 @@ public class TransactionService {
         for (Transaction transaction:transactions) {
 
             String category = transaction.getTransactionCategory();
-            if(!list.contains(category)) {
+            if(!list.contains(category) && category!="" && category!=null && category!= " ") {
 
                 if (map.containsKey(category)) {
                     map.put(category, map.get(category) + transaction.getAmount());
