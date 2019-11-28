@@ -114,16 +114,16 @@ export default function ExpenseDashboard() {
         }
 
         if('totalExpense' in results) {
-          t['totalExpense'] = results.totalExpense;
+          t['totalExpense'] = Number(results.totalExpense).toFixed(2);
         } 
         if ('totalIncome' in results) {
-          t['totalIncome'] = results.totalIncome;
+          t['totalIncome'] = Number(results.totalIncome).toFixed(2);
         }
         if ('totalBudget' in results) {
-          t['totalBudget'] = results.totalBudget;
+          t['totalBudget'] = Number(results.totalBudget).toFixed(2);
         }
         if ('totalSavings' in results) {
-          t['totalSavings'] = results.totalSavings;
+          t['totalSavings'] = Number(results.totalSavings).toFixed(2);
         }
 
         setTotals(t);
