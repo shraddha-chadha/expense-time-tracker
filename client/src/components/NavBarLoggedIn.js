@@ -7,6 +7,10 @@ import { HomeCurrencyUsd } from 'mdi-material-ui';
 import { makeStyles } from '@material-ui/core/styles';
 import { NavLink as Link } from "react-router-dom";
 import SvgIcon from '@material-ui/core/SvgIcon';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import {Redirect} from 'react-router-dom';
+import ENV from '../env';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,6 +51,18 @@ const useStyles = makeStyles(theme => ({
 
 export default function NavBarLoggedIn() {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleMenuClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    window.localStorage.removeItem("webToken");
+    window.localStorage.removeItem("username");
+    setAnchorEl(null);
+    window.location.href = ENV.frontendUrl
+  };
 
   return (
     <div id="nav-bar">
@@ -54,7 +70,7 @@ export default function NavBarLoggedIn() {
         <Toolbar >
           <Link exact to="/">
             <Fab aria-label="like" color="primary">
-              <HomeCurrencyUsd className={classes.logo}/>
+              <HomeCurrencyUsd className={classes.logo} />
             </Fab>
           </Link>
           <Typography color="primary" type="title" className={classes.title}>
@@ -62,17 +78,24 @@ export default function NavBarLoggedIn() {
         </Typography>
 
           <Typography>
-            <Link exact to="/expense" activeClassName={classes.activeLink}  className={classes.link}>Home</Link>
+            <Link exact to="/expense" activeClassName={classes.activeLink} className={classes.link}>Home</Link>
             <Link to="/expense/dashboard" activeClassName={classes.activeLink} className={classes.link}>Dashboard</Link>
             <Link to="/expense/analytics" activeClassName={classes.activeLink} className={classes.link}>Insights</Link>
             <Link to="/expense/transactions" activeClassName={classes.activeLink} className={classes.link}>Transactions</Link>
-            <Link to="/" className={classes.link}>
-              <Fab aria-label="like" color="default" className={classes.fab}>
-                <SvgIcon color="primary">
-                  <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
-                </SvgIcon>
-              </Fab>
-            </Link>
+            <Fab aria-label="like" color="default" className={classes.fab} onClick={handleMenuClick}>
+              <SvgIcon color="primary">
+                <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
+              </SvgIcon>
+            </Fab>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Logout</MenuItem>
+            </Menu>
           </Typography>
         </Toolbar>
       </AppBar>
