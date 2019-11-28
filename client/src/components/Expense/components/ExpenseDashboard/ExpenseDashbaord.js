@@ -13,10 +13,6 @@ import BankAccounts from './components/BankAccounts';
 import Header from '../../../Header';
 import APP_ENV from '../../../../env';
 
-const USERNAME = localStorage.getItem("username");
-const TOKEN = localStorage.getItem("webToken");
-const URL= `${APP_ENV.backendUrl}/metrics`;
-
 const iconTitleMap = {
   totalExpense: {
     icon: 'M11.5,1L2,6V8H21V6M16,10V17H19V10M2,22H21V19H2M10,10V17H13V10M4,10V17H7V10H4Z',
@@ -63,29 +59,38 @@ const useStyles = makeStyles(theme => ({
 
 export default function ExpenseDashboard() {
   const classes = useStyles();
-  const [totals, setTotals] = React.useState({totalExpense: 0, totalIncome: 0, totalBudget: 0, totalSavings: 0});
-  const [budgetCheck, setBudgetCheck] = React.useState({type: 'underbudget', amount: 0});
+  const [totals, setTotals] = React.useState({ totalExpense: 0, totalIncome: 0, totalBudget: 0, totalSavings: 0 });
+  const [categoriesResult, setCategoriesResult] = React.useState({});
+  const [categories, setCategories] = React.useState([]);
+  const [budgetCheck, setBudgetCheck] = React.useState({ type: 'underbudget', amount: 0 });
 
   React.useEffect(() => {
     setBudgetChecker();
   }, [totals]);
 
+  React.useEffect(() => {
+    setCategories(Object.keys(categoriesResult))
+  }, [categoriesResult]);
+
   const setBudgetChecker = () => {
-    let {totalExpense, totalBudget} = totals;
+    let { totalExpense, totalBudget } = totals;
     console.log("Set budget checker", totalExpense, totalBudget);
     let amount = 0;
 
-    if(totalExpense > totalBudget) {
+    if (totalExpense > totalBudget) {
       amount = totalExpense - totalBudget;
-      setBudgetCheck({type: 'overbudget', amount: amount});
+      setBudgetCheck({ type: 'overbudget', amount: amount });
     } else {
       amount = totalBudget - totalExpense;
-      setBudgetCheck({type: 'underbudget', amount: amount})
+      setBudgetCheck({ type: 'underbudget', amount: amount })
     }
-    
+
   }
   const searchCallBack = async (values) => {
-    let {type, month, quarter, year} = values
+    const USERNAME = localStorage.getItem("username");
+    const TOKEN = localStorage.getItem("webToken");
+    const URL = `${APP_ENV.backendUrl}/metrics`;
+    let { type, month, quarter, year } = values
 
     // Post method for totals
     let totalURL = `${URL}/all/${USERNAME}/${type}/${month}/${quarter}/${year}`;
@@ -102,20 +107,20 @@ export default function ExpenseDashboard() {
 
     const response = await fetch(totalURL, options).then(async (response) => {
       const results = await response.json();
-      if(results.status === 404) {
+      if (results.status === 404) {
         console.log("ErrorResults", results);
       } else {
         console.log("Totals Results", results);
         let t = {
-          totalExpense: 0, 
-          totalIncome: 0, 
-          totalBudget: 0, 
+          totalExpense: 0,
+          totalIncome: 0,
+          totalBudget: 0,
           totalSavings: 0
         }
 
-        if('totalExpense' in results) {
+        if ('totalExpense' in results) {
           t['totalExpense'] = Number(results.totalExpense).toFixed(2);
-        } 
+        }
         if ('totalIncome' in results) {
           t['totalIncome'] = Number(results.totalIncome).toFixed(2);
         }
@@ -145,10 +150,11 @@ export default function ExpenseDashboard() {
 
     const categoryResponse = await fetch(categoryURL, categoryOptions).then(async (response) => {
       const results = await response.json();
-      if(results.status === 404) {
+      if (results.status === 404) {
         console.log("ErrorResults", results);
       } else {
         console.log("Category Results", results);
+        setCategoriesResult(results);
       }
     });
   };
@@ -160,7 +166,7 @@ export default function ExpenseDashboard() {
 
       <Grid container direction="column" spacing={1}>
         <Grid item>
-          <Filter parentCallback= {searchCallBack}/>
+          <Filter parentCallback={searchCallBack} />
         </Grid>
 
         <Grid item>
@@ -204,43 +210,25 @@ export default function ExpenseDashboard() {
             <Grid item>
               <Card className={classes.card}>
                 <CardContent component="div" className={classes.content}>
-                  <Grid container style={{ marginTop: 10, marginBottom: 20 }} justify="center" spacing={6} >
-                    <Grid item className={classes.header}>
-                      <Typography component="h5" variant="h5">
-                        Top Spending Categories
-                    </Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid container direction="row" justify='center' spacing={6}>
+                  <Grid container spacing={2} justify="center">
                     <Grid item>
-                      <CategoryIcon category="home" amount="$400" />
+                      <Grid container style={{ marginTop: 10, marginBottom: 20 }} justify="center" spacing={6} >
+                        <Grid item className={classes.header}>
+                          <Typography component="h5" variant="h5">
+                            Top Spending Categories
+                          </Typography>
+                        </Grid>
+                      </Grid>
                     </Grid>
+
                     <Grid item>
-                      <CategoryIcon category="bills" amount="$500" />
-                    </Grid>
-                    <Grid item>
-                      <CategoryIcon category="auto" amount="$500" />
-                    </Grid>
-                    <Grid item>
-                      <CategoryIcon category="holidays" amount="$500" />
-                    </Grid>
-                    <Grid item>
-                      <CategoryIcon category="leisure" amount="$500" />
-                    </Grid>
-                    <Grid item>
-                      <CategoryIcon category="shopping" amount="$500" />
-                    </Grid>
-                    <Grid item>
-                      <CategoryIcon category="fuel" amount="$500" />
-                    </Grid>
-                    <Grid item>
-                      <CategoryIcon category="health" amount="$500" />
-                    </Grid>
-                    <Grid item>
-                      <CategoryIcon category="general" amount="$500" />
-                    </Grid>
-                    <Grid item>
-                      <CategoryIcon category="food" amount="$500" />
+                      <Grid container direction="row" justify='center' spacing={6}>
+                        {categories.map((category, index) => {
+                          return <Grid item key={index}>
+                            <CategoryIcon category={category} amount={categoriesResult[category]} />
+                          </Grid>
+                        })}
+                      </Grid>
                     </Grid>
                   </Grid>
                 </CardContent>
