@@ -80,7 +80,7 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(token,userDetails.getUsername()));
     }
 
-    @RequestMapping(value = "/authenticateVpa", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/authenticateVpa", method = RequestMethod.POST)
     public ResponseEntity<?> createVpaAuthenticationToken(@RequestParam String vpaIndicator,
                                                           @RequestParam String token) throws Exception {
         User user = null;
@@ -90,6 +90,24 @@ public class UserController {
             user = userRepository.findByGoogleId(token);
         if(user!=null) {
            // authenticate(user.getUsername(), user.getPassword());
+
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+
+            final String JwtToken = jwtTokenUtil.generateToken(userDetails);
+
+            return ResponseEntity.ok(new JwtResponse(JwtToken, userDetails.getUsername()));
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }*/
+
+    @RequestMapping(value = "/authenticateVpa", method = RequestMethod.POST)
+    public ResponseEntity<?> createVpaAuthenticationToken(@RequestParam String username) throws Exception {
+        User user = null;
+        user = userRepository.findByUsername(username);
+        if(user!=null) {
+            // authenticate(user.getUsername(), user.getPassword());
 
             final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
 
