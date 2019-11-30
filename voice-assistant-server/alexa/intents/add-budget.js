@@ -1,34 +1,40 @@
-const APP_ENV = require('../../env');                       // application environment variables
-const tokenService =require('../../token-service');         // token service
-const URL = APP_ENV.backendUrl + '/add-budget';             // BACKEND API URL
+const fetch = require("node-fetch");
+const APP_ENV = require('../../env');             // application environment variables
+const URL = `${APP_ENV.backendUrl}/addTransaction`;
+const months = require('./months')
+
 
 module.exports = async (req, res) => {
-    const slots = req.body.request.intent.slots;
-    console.log("===> ADD BUDGET", slots);
-    /*
-    const tokenResponse = await tokenService.getAmazonToken();
-    const API_PARAMS = {
-        month: slots.month.value,
-        year: slots.year.value
-    };
-    const options = {
-        header: {
-            'Authorization': 'Bearer ' + tokenResponse.token,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(API_PARAMS)
-    };
-    const results = await fetch(URL, options);
-    */
-    return res.send({
-        "version": "1.0",
-        "response": {
-            "outputSpeech": {
-                "type": "SSML",
-                "ssml": "<speak>Add budget intent called</speak>"
-                }
-            }
+  const slots = req.body.request.intent.slots;
+  console.log("===> ADD BUDGET", slots);
+
+  let totalURL = `${URL}/${global.username}/Budget/M/?amount=${slots.dollars.value}&day=0&month=${months.mapping[slots.month.value]}&year=${slots.year.value}&quarter=0`;
+  console.log(totalURL)
+
+  const options = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${global.token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
         }
-    );
+      };
+
+  const response = await fetch(totalURL, options).then(async (response) => {
+    var results = await response.json();
+    if(results.status === 404) {
+      console.log("ErrorResults", results);
+    } else {
+      console.log("Totals Results", results);  
+      return res.send({
+      version: "1.0",
+      response: {
+        outputSpeech: {
+          type: "SSML",
+          ssml: `<speak>Your budget for ${slots.month.value} ${slots.year.value} has been set</speak>`
+        }
+      }
+      })
+          }
+        });
 };

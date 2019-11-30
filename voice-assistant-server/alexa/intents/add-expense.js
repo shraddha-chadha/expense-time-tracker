@@ -1,34 +1,56 @@
-const APP_ENV = require('../../env');                       // application environment variables
-const tokenService =require('../../token-service');         // token service
-const URL = APP_ENV.backendUrl + '/add-expense';            // BACKEND API URL
+const fetch = require("node-fetch");
+const APP_ENV = require('../../env');             // application environment variables
+const URL = `${APP_ENV.backendUrl}/expense`;
+
 
 module.exports = async (req, res) => {
-    const slots = req.body.request.intent.slots;
-    console.log("===> ADD EXPENSE", slots);
-    /*
-    const tokenResponse = await tokenService.getAmazonToken();
-    const API_PARAMS = {
-        month: slots.month.value,
-        year: slots.year.value
-    };
-    const options = {
-        header: {
-            'Authorization': 'Bearer ' + tokenResponse.token,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=utf-8'
+  const slots = req.body.request.intent.slots;
+  console.log("===> ADD EXPENSE", slots);
+
+  let totalURL = `${URL}/${global.username}/1`;
+
+  const API_PARAMS = {
+        "transactionDate":slots.time.value,
+        "transactionType": "Expense",
+        "transactionCategory": slots.class.value,
+        "name": "",
+        "amount": slots.dollars.value,
+        "isoCurrencyCode": "USD",
+        "unofficialCurrencyCode": "",
+        "location":"",
+        "month":"",
+        "year":"",
+        "quarter":"",
+        "day":"",
+        "isManuallyInserted":""
+}
+  console.log(API_PARAMS)
+
+  const options = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${global.token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
         },
         body: JSON.stringify(API_PARAMS)
-    };
-    const results = await fetch(URL, options);
-    */
-    return res.send({
-        "version": "1.0",
-        "response": {
-            "outputSpeech": {
-                "type": "SSML",
-                "ssml": "<speak>Add expense intent called</speak>"
-                }
-            }
+      };
+
+  const response = await fetch(totalURL, options).then(async (response) => {
+    var results = await response.json();
+    if(results.status === 404) {
+      console.log("ErrorResults", results);
+    } else {
+      console.log("Totals Results", results);  
+      return res.send({
+      version: "1.0",
+      response: {
+        outputSpeech: {
+          type: "SSML",
+          ssml: `<speak>Your expense has been added</speak>`
         }
-    );
+      }
+      })
+          }
+        });
 };

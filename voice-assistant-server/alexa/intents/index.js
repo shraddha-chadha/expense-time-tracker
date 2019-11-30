@@ -30,7 +30,6 @@ module.exports = {
     getYearlySavings: getYearlySavings,
     getMonthlySavings: getMonthlySavings,
     getQuarterlySavings: getQuarterlySavings,
-    getYearlyIncome: getYearlyIncome,
     getQuarterlyIncome: getQuarterlyIncome,
     getYearlyIncome: getYearlyIncome,
     getLastTransaction: getLastTransaction,

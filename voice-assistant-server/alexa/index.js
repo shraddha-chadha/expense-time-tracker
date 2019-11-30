@@ -91,7 +91,7 @@ module.exports = (req, res) => {
                 break;
 
             // WRITE OPERATIONS
-            case 'AddBuget':
+            case 'AddBudget':
                 IntentHandler.addBudget(req, res);
                 break;
 
