@@ -8,7 +8,7 @@ const getYearlySavings = require('./get-yearly-savings');
 const getMonthlyIncome = require('./get-monthly-income');
 const getQuarterlyIncome = require('./get-quarterly-income');
 const getYearlyIncome = require('./get-yearly-income');
-const getMonthlyTopCategories = require('./get-monthly-top-categories');
+const getMonthlyTopCategory = require('./get-monthly-top-category');
 const getQuarterlyTopCategories = require('./get-quarterly-top-categories');
 const getYearlyTopCategories = require('./get-yearly-top-categories');
 const getMonthlyBudget = require('./get-monthly-budget');
@@ -33,7 +33,7 @@ module.exports = {
     getQuarterlyIncome: getQuarterlyIncome,
     getYearlyIncome: getYearlyIncome,
     getLastTransaction: getLastTransaction,
-    getMonthlyTopCategories: getMonthlyTopCategories,
+    getMonthlyTopCategory: getMonthlyTopCategory,
     getQuarterlyTopCategories: getQuarterlyTopCategories,
     getQuarterlyTopCategories: getQuarterlyTopCategories,
     getMonthlyBudget: getMonthlyBudget,

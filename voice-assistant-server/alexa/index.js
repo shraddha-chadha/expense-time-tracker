@@ -31,6 +31,7 @@ module.exports = (req, res) => {
                 break;
 
             case 'GetYearlyIncome':
+                console.log('here')
                 IntentHandler.getYearlyIncome(req, res);
                 break;
 
@@ -78,8 +79,8 @@ module.exports = (req, res) => {
                 break;
 
             // TOP CATEGORIES BY MONTH / QUARTER / YEAR
-            case 'GetMonthlyTopCategories':
-                IntentHandler.getMonthlyTopCategories(req, res);
+            case 'GetMonthlyTopCategory':
+                IntentHandler.getMonthlyTopCategory(req, res);
                 break;
 
             case 'GetQuarterlyTopCategories':

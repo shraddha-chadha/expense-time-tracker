@@ -5,7 +5,7 @@ const URL = `${APP_ENV.backendUrl}/metrics/all`;
 
 module.exports = async (req, res) => {
   const slots = req.body.request.intent.slots;
-  console.log("===> GET YEARLY EXPENSE ksdnksa", slots);
+  console.log("===> GET YEARLY EXPENSE in expense", slots);
 
   let totalURL = `${URL}/${global.username}/Y/0/0/${slots.year.value}`;
 
@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
       response: {
         outputSpeech: {
           type: "SSML",
-          ssml: `<speak>Your yearly expense for ${slots.year.value} is $${results.totalExpense} </speak>`
+          ssml: `<speak>Your yearly expense for ${slots.year.value} is $${Number(results.totalExpense).toFixed(2)} </speak>`
         }
       }
       })

@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
       response: {
         outputSpeech: {
           type: "SSML",
-          ssml: `<speak>Your quarterly expense for quarter ${slots.quarter.value} ${slots.year.value} is $${results.totalExpense} </speak>`
+          ssml: `<speak>Your quarterly expense for quarter ${slots.quarter.value} ${slots.year.value} is $${Number(results.totalExpense).toFixed(2)} </speak>`
         }
       }
       })
