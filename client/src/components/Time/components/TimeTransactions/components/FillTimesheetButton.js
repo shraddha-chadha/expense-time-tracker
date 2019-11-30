@@ -31,6 +31,9 @@ const useStyles = makeStyles(theme => ({
 export default function FillTimesheetButton(props) {
   const classes = useStyles();
   let {data} = props.data;
+  if(data === undefined) {
+    data = {taskId: 0, taskName:"No data", hoursEstimate:0, hoursActual:0, taskDate:"2019-12-12" };
+  } 
   const [open, setOpen] = React.useState(false);
   const [name, setName] = React.useState(data.taskName);
   const [estimates, setEstimates] = React.useState(data.hoursEstimate);
@@ -41,6 +44,8 @@ export default function FillTimesheetButton(props) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    //Refresh data
+    // props.parentCallback()
   };
 
   const handleClose = () => {
@@ -110,12 +115,12 @@ export default function FillTimesheetButton(props) {
     const response = await fetch(URL, options).then(async (response) => {
       const results = await response.json();
       if(results.status >= 200 && results.status < 300 || results.status === undefined) {
-        setOpenError(true);
-        console.log("ErrorResults", results);
-      } else {
         setOpenSuccess(true);
         console.log("Results", results);
-      }
+      } else {
+        setOpenError(true);
+        console.log("ErrorResults", results);
+      } 
     });
 
   }

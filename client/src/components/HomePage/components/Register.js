@@ -109,14 +109,13 @@ export default function Register() {
 
     const response = await fetch(REGISTER_URL, options).then(async (response) => {
       const results = await response.json();
-      if(results.status === 404) {
+      if(results.status >= 200 && results.status < 300 || results.status === undefined) {
+        console.log("Results", results);
+        setOpen(true);
+      } else {
         console.log("ErrorResults", results);
         setErrorMessage(results.message);
         setOpenError(true);
-
-      } else {
-        console.log("Results", results);
-        setOpen(true);
       }
     });
   }

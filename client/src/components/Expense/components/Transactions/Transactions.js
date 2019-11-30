@@ -8,10 +8,6 @@ import TransactionFilter from '../../../Filter/TransactionFilter';
 import TransactionTable from './TransactionTable';
 import APP_ENV from '../../../../env';
 
-const USERNAME = localStorage.getItem("username");
-const TOKEN = localStorage.getItem("webToken");
-const URL = `${APP_ENV.backendUrl}/metrics/allExpenses/${USERNAME}`;
-
 const rows = [
   { id: 1, transaction: 'Expense', category: 'Food', amount: '500', month: 'January', quarter: '1', year: '2017' },
   { id: 2, transaction: 'Budget', category: '', amount: '500', month: 'January', quarter: '1', year: '2017' },
@@ -26,6 +22,9 @@ export default function Transactions() {
   const [rows, setRows] = React.useState([]);
 
   const searchCallBack = async (values) => {
+    const USERNAME = localStorage.getItem("username");
+    const TOKEN = localStorage.getItem("webToken");
+    const URL = `${APP_ENV.backendUrl}/metrics/allExpenses/${USERNAME}`;
     let {type, month, quarter, year} = values
 
     // Post method
@@ -43,11 +42,11 @@ export default function Transactions() {
 
     const response = await fetch(totalURL, options).then(async (response) => {
       const results = await response.json();
-      if(results.status === 404) {
-        console.log("ErrorResults", results);
-      } else {
+      if(results.status >= 200 && results.status < 300 || results.status === undefined) {
         console.log("Totals Results", results);
         setRows(results);
+      } else {
+        console.log("ErrorResults", results);
       }
     });
   };

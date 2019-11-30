@@ -11,12 +11,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import APP_ENV from '../../../../../env';
 import Typography from '@material-ui/core/Typography';
 
-const USERNAME = localStorage.getItem("username");
-const TOKEN = localStorage.getItem("webToken");
-const BUDINC_INDICATOR = 'Income';
-const DAYMON_INDIACTOR = 'M';
-const URL= `${APP_ENV.backendUrl}/addTransaction/${USERNAME}/${BUDINC_INDICATOR}/${DAYMON_INDIACTOR}?`;
-
 const useStyles = makeStyles(theme => ({
   button: {
     boxShadow: '5px 5px 15px grey'
@@ -99,6 +93,11 @@ export default function IncomeButton() {
   };
 
   const handleSave = async() => {
+    const USERNAME = localStorage.getItem("username");
+    const TOKEN = localStorage.getItem("webToken");
+    const BUDINC_INDICATOR = 'Income';
+    const DAYMON_INDIACTOR = 'M';
+    const URL= `${APP_ENV.backendUrl}/addTransaction/${USERNAME}/${BUDINC_INDICATOR}/${DAYMON_INDIACTOR}?`;
     // Post the values to the Add Budget url
     let quarter = getQuarter(month);
     let incomeURL = `${URL}amount=${amount}&day=0&month=${month}&quarter=${quarter}&year=${year}`
@@ -114,12 +113,12 @@ export default function IncomeButton() {
 
     const response = await fetch(incomeURL, options).then(async (response) => {
       const results = await response.json();
-      if(results.status === 404) {
-        setOpenError(true);
-        console.log("ErrorResults", results);
-      } else {
+      if(results.status >= 200 && results.status < 300 || results.status === undefined) {
         setOpenSuccess(true);
         console.log("Results", results);
+      } else {
+        setOpenError(true);
+        console.log("ErrorResults", results);
       }
     });
 

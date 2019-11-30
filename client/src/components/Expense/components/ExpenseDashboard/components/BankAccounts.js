@@ -11,10 +11,6 @@ import { Typography } from '@material-ui/core';
 import APP_ENV from '../../../../../env';
 import Button from '@material-ui/core/Button';
 
-const USERNAME = localStorage.getItem("username");
-const TOKEN = localStorage.getItem("webToken");
-const URL = `${APP_ENV.backendUrl}/get_balance?username=${USERNAME}`;
-
 const styles = {
   icon: {
     fontSize: 50
@@ -46,6 +42,9 @@ export default function BankAccounts(props) {
   const [rows, setRows] = React.useState([]);
 
   const fetchData = async () => {
+    const USERNAME = localStorage.getItem("username");
+    const TOKEN = localStorage.getItem("webToken");
+    const URL = `${APP_ENV.backendUrl}/get_balance?username=${USERNAME}`;
     // Post Method
     const options = {
       method: 'POST',
@@ -57,11 +56,11 @@ export default function BankAccounts(props) {
     };
     const response = await fetch(URL, options).then(async (response) => {
       const results = await response.json();
-      if (results.status === 404) {
-        console.log("ErrorResults", results);
-      } else {
+      if (results.status >= 200 && results.status < 300 || results.status === undefined) {
         console.log("Bank Balance Results", results);
         setRows(results.accounts);
+      } else {
+        console.log("ErrorResults", results);
       }
     });
   }

@@ -69,15 +69,15 @@ export default function Login() {
 
     const response = await fetch(LOGIN_URL, options).then(async (response) => {
       const results = await response.json();
-      if(results.status === 404) {
-        console.log("ErrorResults", results);
-
-      } else {
+      if(results.status >= 200 && results.status < 300 || results.status === undefined) {
         console.log("Results", results);
         window.localStorage.setItem("webToken",results.token);
         window.localStorage.setItem("username",results.username);
         setRedirect(true);
-      }
+      } else {
+        console.log("ErrorResults", results);
+
+      } 
     });
   }
 

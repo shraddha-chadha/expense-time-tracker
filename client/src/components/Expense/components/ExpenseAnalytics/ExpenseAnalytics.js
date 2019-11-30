@@ -60,6 +60,8 @@ export default function ExpenseAnalytics() {
   const [totals, setTotals] = React.useState({ totalExpense: 0, totalIncome: 0, totalBudget: 0, totalSavings: 0 });
   const [categoriesResult, setCategoriesResult] = React.useState({});
   const [categories, setCategories] = React.useState([]);
+  const [budgetTitle, setBudgetTitle] = React.useState("Select the filter to see the % spending");
+  const [incomeTitle, setIncomeTitle] = React.useState("Select the filter to see the % spending");
 
   React.useEffect(() => {
     setCategories(Object.keys(categoriesResult))
@@ -86,9 +88,7 @@ export default function ExpenseAnalytics() {
 
     const response = await fetch(totalURL, options).then(async (response) => {
       const results = await response.json();
-      if (results.status === 404) {
-        console.log("ErrorResults", results);
-      } else {
+      if (results.status >= 200 && results.status < 300 || results.status === undefined) {
         console.log("Totals Results", results);
         let t = {
           totalExpense: 0,
@@ -111,6 +111,20 @@ export default function ExpenseAnalytics() {
         }
 
         setTotals(t);
+        if(results.totalBudget === 0 || results.totalBudget === undefined) {
+          setBudgetTitle("Your budget is not set for this month!");
+        } else {
+          setBudgetTitle(`Your total budget is ${Number(results.totalBudget).toFixed(2)}`);
+        }
+
+        if(results.totalIncome === 0 || results.totalIncome === undefined) {
+          setIncomeTitle("Your income is not set for this month!");
+        } else {
+          setIncomeTitle(`Your total income is ${Number(results.totalIncome).toFixed(2)}`);
+        }
+
+      }  else {
+        console.log("ErrorResults", results);
       }
     });
 
@@ -129,11 +143,11 @@ export default function ExpenseAnalytics() {
 
     const categoryResponse = await fetch(categoryURL, categoryOptions).then(async (response) => {
       const results = await response.json();
-      if (results.status === 404) {
-        console.log("ErrorResults", results);
-      } else {
+      if (results.status >= 200 && results.status < 300 || results.status === undefined) {
         console.log("Category Results", results);
         setCategoriesResult(results);
+      } else {
+        console.log("ErrorResults", results);
       }
     });
   };
@@ -178,7 +192,7 @@ export default function ExpenseAnalytics() {
                 <Filter parentCallback={searchCallBack} />
               </Grid>
               <Grid item>
-                <SpendingOnIncome totalIncome={totals.totalIncome} categoriesResult={categoriesResult} categories={categories}/>
+                <SpendingOnIncome title={incomeTitle} totalIncome={totals.totalIncome} categoriesResult={categoriesResult} categories={categories}/>
               </Grid>
             </Grid>
           </TabPanel>
@@ -189,7 +203,7 @@ export default function ExpenseAnalytics() {
                 <Filter parentCallback={searchCallBack}/>
               </Grid>
               <Grid item>
-                <SpendingOnBudget totalBudget={totals.totalBudget} categoriesResult={categoriesResult} categories={categories}/>
+                <SpendingOnBudget title={budgetTitle} totalBudget={totals.totalBudget} categoriesResult={categoriesResult} categories={categories}/>
               </Grid>
             </Grid>
           </TabPanel>

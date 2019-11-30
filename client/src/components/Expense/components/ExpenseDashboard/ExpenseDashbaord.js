@@ -76,8 +76,7 @@ export default function ExpenseDashboard() {
     let { totalExpense, totalBudget } = totals;
     console.log("Set budget checker", totalExpense, totalBudget);
     let amount = 0;
-
-    if (totalExpense > totalBudget) {
+    if (parseInt(totalExpense) > parseInt(totalBudget)) {
       amount = totalExpense - totalBudget;
       setBudgetCheck({ type: 'overbudget', amount: amount });
     } else {
@@ -107,9 +106,7 @@ export default function ExpenseDashboard() {
 
     const response = await fetch(totalURL, options).then(async (response) => {
       const results = await response.json();
-      if (results.status === 404) {
-        console.log("ErrorResults", results);
-      } else {
+      if (results.status >= 200 && results.status < 300 || results.status === undefined) {
         console.log("Totals Results", results);
         let t = {
           totalExpense: 0,
@@ -132,6 +129,8 @@ export default function ExpenseDashboard() {
         }
 
         setTotals(t);
+      } else {
+        console.log("ErrorResults", results);
       }
     });
 
@@ -150,11 +149,11 @@ export default function ExpenseDashboard() {
 
     const categoryResponse = await fetch(categoryURL, categoryOptions).then(async (response) => {
       const results = await response.json();
-      if (results.status === 404) {
-        console.log("ErrorResults", results);
-      } else {
+      if (results.status >= 200 && results.status < 300 || results.status === undefined) {
         console.log("Category Results", results);
         setCategoriesResult(results);
+      } else {
+        console.log("ErrorResults", results);
       }
     });
   };
@@ -210,7 +209,7 @@ export default function ExpenseDashboard() {
             <Grid item>
               <Card className={classes.card}>
                 <CardContent component="div" className={classes.content}>
-                  <Grid container spacing={2} justify="center">
+                  <Grid container spacing={2} justify="center" direction="column">
                     <Grid item>
                       <Grid container style={{ marginTop: 10, marginBottom: 20 }} justify="center" spacing={6} >
                         <Grid item className={classes.header}>
@@ -225,7 +224,7 @@ export default function ExpenseDashboard() {
                       <Grid container direction="row" justify='center' spacing={6}>
                         {categories.map((category, index) => {
                           return <Grid item key={index}>
-                            <CategoryIcon category={category} amount={categoriesResult[category]} />
+                            <CategoryIcon category={category} amount={Number(categoriesResult[category]).toFixed(2)} />
                           </Grid>
                         })}
                       </Grid>
