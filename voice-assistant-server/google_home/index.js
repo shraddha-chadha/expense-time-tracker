@@ -334,27 +334,29 @@ function getMonthlyExpense(req, res) {
     })
 }
 
-// function getQuarterlyExpense(req, res) {
-//     console.log('Inside get quarterly expense')
-//     console.log(req.body.queryResult.parameters)
-//     let year = req.body.queryResult.parameters['year'];
-//     let quarter = req.body.queryResult.parameters['quarter'];
-//     if (year === '' && quarter === '')
-//     return res.send({
-//         "fulfillmentText": "Please mention quarter of expense."
-//     }) 
-//     if (quarter !== '' && year === '')
-//     return res.send({
-//         "fulfillmentText": "Please mention year of expense."
-//     }) 
-//     console.log('********************************')
-//     console.log(quarter, year)
-//     console.log('********************************')
-//     return res.send({
+function getQuarterlyExpense(req, res) {
+    console.log('Inside get quarterly expense')
+    // console.log(req.body.queryResult.parameters)
+    let year = req.body.queryResult.parameters['year'];
+    let quarterText = req.body.queryResult.parameters['quarter'];
+    let quarter = parseInt(quarterText); 
+    console.log(typeof(quarter)); 
+    if (year === '' && quarter === '')
+    return res.send({
+        "fulfillmentText": "Please mention quarter of expense."
+    }) 
+    if (quarter !== '' && year === '')
+    return res.send({
+        "fulfillmentText": "Please mention year of expense."
+    }) 
+    console.log('********************************')
+    console.log(quarter, year)
+    console.log('********************************')
+    return res.send({
         
-//         "fulfillmentText": `Your quarterly expenses for the quarter ${quarter} in the year ${year} was`
-//     })
-// }
+        "fulfillmentText": `Your quarterly expenses for the quarter ${quarter} in the year ${year} was`
+    })
+}
 
 function getMonthlyIncome(req, res) {
     console.log('Inside get monthly income')
