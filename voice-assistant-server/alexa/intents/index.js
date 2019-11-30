@@ -20,8 +20,10 @@ const addBudget = require('./add-budget');
 const addIncome = require('./add-income');
 const addCategory = require('./add-category');
 const addExpense = require('./add-expense');
+const login = require('./login');
 
 module.exports = {
+    login: login,
     getYearlyExpense: getYearlyExpense,
     getMonthlyExpense: getMonthlyExpense,
     getQuarterlyExpense: getQuarterlyExpense,

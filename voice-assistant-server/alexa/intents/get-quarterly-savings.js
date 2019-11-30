@@ -1,36 +1,38 @@
-const APP_ENV = require('../../env');                       // application environment variables
-const tokenService =require('../../token-service');         // token service
-const URL = APP_ENV.backendUrl + '/last-transaction';       // BACKEND API URL
+const fetch = require("node-fetch");
+const APP_ENV = require('../../env');             // application environment variables
+const URL = `${APP_ENV.backendUrl}/metrics/all`;
 
 
 module.exports = async (req, res) => {
-    const slots = req.body.request.intent.slots;
-    console.log("===> GET YEARLY EXPENSE", slots);
-    /*
-    const tokenResponse = await tokenService.getAmazonToken();
-    const url = APP_ENV.backendUrl;
-    const API_PARAMS = {
-        month: slots.month.value,
-        year: slots.year.value
-    };
-    const options = {
-        header: {
-            'Authorization': 'Bearer ' + tokenResponse.token,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(API_PARAMS)
-    };
-    const results = await fetch(url, options);
-    */
-    return res.send({
-        "version": "1.0",
-        "response": {
-            "outputSpeech": {
-                "type": "SSML",
-                "ssml": "<speak>Your yearly expense for " + slots.month.value + " " + slots.year.value + " was $4500.</speak>"
-                }
-            }
+  const slots = req.body.request.intent.slots;
+  console.log("===> GET QUARTERLY SAVINGS", slots);
+
+  let totalURL = `${URL}/${global.username}/Q/0/${slots.quarter.value}/${slots.year.value}`;
+
+  const options = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${global.token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
         }
-    );
+      };
+
+  const response = await fetch(totalURL, options).then(async (response) => {
+    var results = await response.json();
+    if(results.status === 404) {
+      console.log("ErrorResults", results);
+    } else {
+      console.log("Totals Results", results);  
+      return res.send({
+      version: "1.0",
+      response: {
+        outputSpeech: {
+          type: "SSML",
+          ssml: `<speak>Your quarterly savings for quarter ${slots.quarter.value} ${slots.year.value} is $${results.totalSavings} </speak>`
+        }
+      }
+      })
+          }
+        });
 };
