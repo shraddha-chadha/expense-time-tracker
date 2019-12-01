@@ -17,6 +17,10 @@ module.exports = (req, res) => {
         const intentType = req.body.request.intent.name;
         switch (intentType) {
 
+            case 'Login':
+                IntentHandler.login(req, res);
+                break;
+
             // INCOME BY MONTH / QUARTER / YEAR
             case 'GetMonthlyIncome':
                 IntentHandler.getMonthlyIncome(req, res);
@@ -27,6 +31,7 @@ module.exports = (req, res) => {
                 break;
 
             case 'GetYearlyIncome':
+                console.log('here')
                 IntentHandler.getYearlyIncome(req, res);
                 break;
 
@@ -69,10 +74,13 @@ module.exports = (req, res) => {
                 IntentHandler.getYearlyBudget(req, res);
                 break;
 
+            case 'GetMonthlyIncome':
+                IntentHandler.getMonthlyIncome(req, res);
+                break;
 
             // TOP CATEGORIES BY MONTH / QUARTER / YEAR
-            case 'GetMonthlyTopCategories':
-                IntentHandler.getMonthlyTopCategories(req, res);
+            case 'GetMonthlyTopCategory':
+                IntentHandler.getMonthlyTopCategory(req, res);
                 break;
 
             case 'GetQuarterlyTopCategories':
@@ -84,7 +92,7 @@ module.exports = (req, res) => {
                 break;
 
             // WRITE OPERATIONS
-            case 'AddBuget':
+            case 'AddBudget':
                 IntentHandler.addBudget(req, res);
                 break;
 

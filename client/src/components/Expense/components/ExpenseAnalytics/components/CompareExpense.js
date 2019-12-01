@@ -8,10 +8,6 @@ import APP_ENV from '../../../../../env';
 import YearFilter from '../../../../Filter/YearFilter';
 import { Typography } from '@material-ui/core';
 
-const USERNAME = localStorage.getItem("username");
-const TOKEN = localStorage.getItem("webToken");
-const URL = `${APP_ENV.backendUrl}/metrics/compareExpense/${USERNAME}`;
-
 const selector = '#compare-expenses-chart';
 // const response = [
 //   {
@@ -173,6 +169,9 @@ export default function CompareExpense(props) {
   const classes = useStyles();
 
   const handleSearch = async(years) => {
+    const USERNAME = localStorage.getItem("username");
+    const TOKEN = localStorage.getItem("webToken");
+    const URL = `${APP_ENV.backendUrl}/metrics/compareExpense/${USERNAME}`;
     let compareURL = URL;
     years.forEach((year) => {
       compareURL += `/${year}`;
@@ -190,9 +189,8 @@ export default function CompareExpense(props) {
 
     const response = await fetch(compareURL, options).then(async (response) => {
       const results = await response.json();
-      if(results.status === 404) {
-        console.log("ErrorResults", results);
-      } else {
+
+      if(results.status >= 200 && results.status < 300 || results.status === undefined) {
         let formatedResults = [];
         console.log("Compare Expense Results", results);
         results.forEach((result) => {
@@ -214,7 +212,9 @@ export default function CompareExpense(props) {
         });
         console.log("Formated Compare results", formatedResults);
         drawChart(formatedResults);
-      }
+      } else {
+        console.log("ErrorResults", results);
+      } 
     });
   }
   

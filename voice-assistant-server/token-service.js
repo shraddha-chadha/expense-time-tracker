@@ -2,7 +2,7 @@ const APP_ENV = require('./env');
 const fetch = require('node-fetch');
 module.exports = {
     getAmazonToken: async (amazonId) => {
-        const URL = APP_ENV.backendUrl + '/user/authenticateVpa?vpaIndicator=amazon&token=gygy';
+        const URL = APP_ENV.backendUrl + `/user/authenticateVpa?username=${amazonId}`; //vpaIndicator=amazon&token=gygy;
         const OPTIONS = {
             method: 'POST',
             headers: {

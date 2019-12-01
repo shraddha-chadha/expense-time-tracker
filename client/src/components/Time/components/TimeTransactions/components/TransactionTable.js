@@ -11,11 +11,8 @@ import FillTimesheetButton from './FillTimesheetButton';
 import TimeChecker from './TimeChecker';
 import APP_ENV from '../../../../../env';
 
-const rows = [
-  { id: 1, name: 'test', estimates: 21, actuals: 0, date: '2019-11-27' },
-  { id: 2, name: 'test123', estimates: 23, actuals: 0, date: '2019-11-27' },
-  { id: 3, name: 'Add ecfhf', estimates: 344, actuals: 0, date: '2019-11-27' },
-]
+
+
 const StyledTableCell = withStyles(theme => ({
   head: {
     backgroundColor: '#3F51B5',
@@ -53,6 +50,7 @@ const handleactualsChange = (values) => {
 export default function TransactionTable(props) {
   const classes = useStyles();
   const [rows, setRows] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   const fetchData = async() => {
     const USERNAME = localStorage.getItem("username");
@@ -73,6 +71,7 @@ export default function TransactionTable(props) {
       if(results.status >= 200 && results.status < 300 || results.status === undefined) {
         console.log("Results of get Task", results);
         setRows(results);
+        setLoading(false);
       } else {
         console.log("ErrorResults", results);
       }
@@ -80,42 +79,47 @@ export default function TransactionTable(props) {
   }
 
   React.useEffect(() => {
+    setLoading(true);
     fetchData();
   }, []);
+
   return (
     <div>
-      <Grid container justify="center">
-        <Grid item>
-          <Paper className={classes.root}>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell align="right">Name</StyledTableCell>
-                  <StyledTableCell align="right">Date</StyledTableCell>
-                  <StyledTableCell align="right">Estimates</StyledTableCell>
-                  <StyledTableCell align="right">Actuals</StyledTableCell>
-                  <StyledTableCell align="right">Fill Timesheet</StyledTableCell>
-                  <StyledTableCell align="right">Time Checker</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.length > 0 ?
-                rows.map(row => (
-                  <StyledTableRow key={row.taskId}>
-                    <StyledTableCell align="right">{(row.taskName === ''|| row.taskName === null)? '-': row.taskName}</StyledTableCell>
-                    <StyledTableCell align="right">{(row.taskDate === ''|| row.taskDate === null)? '-': row.taskDate}</StyledTableCell>
-                    <StyledTableCell align="right">{(row.hoursEstimate === '' || row.hoursEstimate === null)? '-': row.hoursEstimate}</StyledTableCell>
-                    <StyledTableCell align="right">{(row.hoursActual === '' || row.hoursActual === null)? '-': row.hoursActual}</StyledTableCell>
-                    <StyledTableCell align="right">{<FillTimesheetButton data={row} parentCallback={handleactualsChange} />}</StyledTableCell>
-                    <StyledTableCell align="right">{<TimeChecker estimates={row.hoursEstimate} actuals={row.hoursActual}/>}</StyledTableCell>
-                  </StyledTableRow>
-                )) :
-                "No Data"}
-              </TableBody>
-            </Table>
-          </Paper>
+      {!loading ? (
+        <div>
+        <Grid container justify="center">
+          <Grid item>
+            <Paper className={classes.root}>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell align="right">Name</StyledTableCell>
+                    <StyledTableCell align="right">Date</StyledTableCell>
+                    <StyledTableCell align="right">Estimates</StyledTableCell>
+                    <StyledTableCell align="right">Actuals</StyledTableCell>
+                    <StyledTableCell align="right">Fill Timesheet</StyledTableCell>
+                    <StyledTableCell align="right">Time Checker</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map(row => (
+                    <StyledTableRow key={row.taskId}>
+                      <StyledTableCell align="right">{(row.taskName === ''|| row.taskName === null)? '-': row.taskName}</StyledTableCell>
+                      <StyledTableCell align="right">{(row.taskDate === ''|| row.taskDate === null)? '-': row.taskDate}</StyledTableCell>
+                      <StyledTableCell align="right">{(row.hoursEstimate === '' || row.hoursEstimate === null)? '-': row.hoursEstimate}</StyledTableCell>
+                      <StyledTableCell align="right">{(row.hoursActual === '' || row.hoursActual === null)? '-': row.hoursActual}</StyledTableCell>
+                      <StyledTableCell align="right">{<FillTimesheetButton data={row} parentCallback={handleactualsChange} />}</StyledTableCell>
+                      <StyledTableCell align="right">{<TimeChecker estimates={row.hoursEstimate} actuals={row.hoursActual}/>}</StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Paper>
+          </Grid>
         </Grid>
-      </Grid>
+      </div>
+      ) :
+      null }
     </div>
   );
 }

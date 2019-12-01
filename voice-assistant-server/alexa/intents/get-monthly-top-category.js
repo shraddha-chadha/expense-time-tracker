@@ -1,15 +1,15 @@
 const fetch = require("node-fetch");
-const APP_ENV = require('../../env');             // application environment variables
-const URL = `${APP_ENV.backendUrl}/addTransaction`;
+const APP_ENV = require('../../env');           // application environment variables
+const URL = `${APP_ENV.backendUrl}/metrics/expensesByCategory`;      // BACKEND API URL
 const months = require('./months')
-
 
 module.exports = async (req, res) => {
   const slots = req.body.request.intent.slots;
-  console.log("===> ADD BUDGET", slots);
+  console.log("===> GET MONTHLY TOP CATEGORY", slots);
 
-  let totalURL = `${URL}/${global.username}/Budget/M/?amount=${slots.dollars.value}&day=0&month=${months.mapping[slots.month.value]}&year=${slots.year.value}&quarter=0`;
-  console.log(totalURL)
+//   http://localhost:8080/metrics/expensesByCategory/Mahitee/M/11/0/2019
+
+  let totalURL = `${URL}/${global.username}/M/${months.mapping[slots.month.value]}/0/${slots.year.value}`;
 
   const options = {
         method: 'POST',
@@ -25,13 +25,15 @@ module.exports = async (req, res) => {
     if(results.status === 404) {
       console.log("ErrorResults", results);
     } else {
-      console.log("Totals Results", results);  
+      console.log("Totals Results", results);
+      var maxKey = Object.keys(results).reduce((a, b) => results[a] > results[b] ? a : b);
+    //   var maxKey = _.max(Object.keys(results), o => results[o]);
       return res.send({
       version: "1.0",
       response: {
         outputSpeech: {
           type: "SSML",
-          ssml: `<speak>Your budget for ${slots.month.value} ${slots.year.value} has been set</speak>`
+          ssml: `<speak>Your top spending category for ${slots.month.value} ${slots.year.value} is ${maxKey} with amount $${results[maxKey]} </speak>`
         }
       }
       })

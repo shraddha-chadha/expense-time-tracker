@@ -18,11 +18,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import APP_ENV from '../../../../../env';
 
-const USERNAME = localStorage.getItem("username");
-const TOKEN = localStorage.getItem("webToken");
-const vpaIndicator = 1;
-const URL= `${APP_ENV.backendUrl}/expense/${USERNAME}/${vpaIndicator}`;
-
 const useStyles = makeStyles(theme => ({
   button: {
     boxShadow: '5px 5px 15px grey'
@@ -49,7 +44,7 @@ const categories = [
 export default function AddExpenseButton() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [category, setCategory] = React.useState('Home');
+  const [category, setCategory] = React.useState('home');
   const [name, setName] = React.useState('');
   const [amount, setAmount] = React.useState(0);
   const [selectedDate, setSelectedDate] = React.useState(new Date(new Date()));
@@ -115,6 +110,10 @@ export default function AddExpenseButton() {
   };
 
   const handleSave = async() => {
+    const USERNAME = localStorage.getItem("username");
+    const TOKEN = localStorage.getItem("webToken");
+    const vpaIndicator = 1;
+    const URL= `${APP_ENV.backendUrl}/expense/${USERNAME}/${vpaIndicator}`;
     // Post the values to the Add expense url
     const API_PARAMS = {
       "transactionDate":formatDate(selectedDate),
@@ -144,12 +143,12 @@ export default function AddExpenseButton() {
 
     const response = await fetch(URL, options).then(async (response) => {
       const results = await response.json();
-      if(results.status === 404) {
-        setOpenError(true);
-        console.log("ErrorResults", results);
-      } else {
+      if(results.status >= 200 && results.status < 300 || results.status === undefined) {
         setOpenSuccess(true);
         console.log("Results", results);
+      } else {
+        setOpenError(true);
+        console.log("ErrorResults", results);
       }
     });
 
@@ -174,7 +173,6 @@ export default function AddExpenseButton() {
                   select
                   label="Select Category"
                   className={classes.textField}
-                  value={category}
                   onChange={handleChange}
                   SelectProps={{
                     native: true,
@@ -185,7 +183,7 @@ export default function AddExpenseButton() {
                   margin="normal"
                 >
                   {categories.map(option => (
-                    <option key={option.key} value={option.value}>
+                    <option key={option.key} value={option.key}>
                       {option.value}
                     </option>
                   ))}

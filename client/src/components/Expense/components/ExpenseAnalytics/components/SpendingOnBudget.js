@@ -36,19 +36,17 @@ const useStyles = makeStyles(theme => ({
 export default function SpendingOnBudget(props) {
   const classes = useStyles();
   let { totalBudget, categories, categoriesResult } = props;
-  let title;
-  title = <Typography color="textPrimary" className={classes.incomeText}>Select the filter to see the % spending</Typography>;
-  if(totalBudget === 0) {
-    title = <Typography color="textPrimary" className={classes.incomeText}>Your budget is not set for this month!</Typography>
-  } else {
-    title = <Typography color="textPrimary" className={classes.incomeText}>Your total budget is {totalBudget}</Typography>
-  }
+
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
         <CardContent component="div" className={classes.content}>
           <Grid container spacing={2} direction="column">
-            <Grid item>{title}</Grid>
+            <Grid item>
+              <Typography color="textPrimary" className={classes.incomeText}>
+              {props.title}
+              </Typography>
+            </Grid>
             <Grid item>
             <Grid container direction="row" justify="space-around" spacing={2}>
             {(totalBudget === 0 || totalBudget === null) ? (

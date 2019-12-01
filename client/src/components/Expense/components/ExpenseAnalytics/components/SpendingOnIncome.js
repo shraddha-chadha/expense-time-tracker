@@ -36,26 +36,24 @@ const useStyles = makeStyles(theme => ({
 export default function SpendingOnIncome(props) {
   const classes = useStyles();
   let { totalIncome, categories, categoriesResult } = props;
-  let title;
-  title = <Typography color="textPrimary" className={classes.incomeText}>Select the filter to see the % spending</Typography>;
-  if(totalIncome === 0) {
-    title = <Typography color="textPrimary" className={classes.incomeText}>Your income is not set for this month!</Typography>
-  } else {
-    title = <Typography color="textPrimary" className={classes.incomeText}>Your total income is {totalIncome}</Typography>
-  }
+  
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
         <CardContent component="div" className={classes.content}>
           <Grid container spacing={2} direction="column">
-            <Grid item>{title}</Grid>
+            <Grid item>
+              <Typography color="textPrimary" className={classes.incomeText}>
+              {props.title}
+              </Typography>
+            </Grid>
             <Grid item>
             <Grid container direction="row" justify="space-around" spacing={2}>
             {(totalIncome === 0 || totalIncome === null) ? (
               <div></div>
             ) : (
               categories.map((category, index) => {
-                return <Grid item>
+                return <Grid item key={index}>
                 <ProgressBar category={category} expense={categoriesResult[category]} amount={(categoriesResult[category] / totalIncome).toFixed(2)} />
               </Grid>
               })

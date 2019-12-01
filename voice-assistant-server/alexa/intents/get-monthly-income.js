@@ -1,36 +1,41 @@
-const APP_ENV = require('../../env');                       // application environment variables
-const tokenService =require('../../token-service');         // token service
-const URL = APP_ENV.backendUrl + '/last-transaction';       // BACKEND API URL
+const fetch = require("node-fetch");
+const APP_ENV = require("../../env"); // application environment variables
+const URL = `${APP_ENV.backendUrl}/metrics/all`;
+const months = require('./months')
+
 
 
 module.exports = async (req, res) => {
-    const slots = req.body.request.intent.slots;
-    console.log("===> GET MONTHLY INCOME", slots);
-    /*
-    const tokenResponse = await tokenService.getAmazonToken();
-    const url = APP_ENV.backendUrl;
-    const API_PARAMS = {
-        month: slots.month.value,
-        year: slots.year.value
-    };
-    const options = {
-        header: {
-            'Authorization': 'Bearer ' + tokenResponse.token,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(API_PARAMS)
-    };
-    const results = await fetch(url, options);
-    */
-    return res.send({
-        "version": "1.0",
-        "response": {
-            "outputSpeech": {
-                "type": "SSML",
-                "ssml": "<speak>Your monthly income for " + slots.month.value + " " + slots.year.value + " was $4500.</speak>"
-                }
-            }
+  const slots = req.body.request.intent.slots;
+  console.log("===> GET MONTHLY INCOME", slots);
+
+  let totalURL =  `${URL}/${global.username}/M/${months.mapping[slots.month.value]}/0/${slots.year.value}` //`${URL}/${global.username}/M/${slots.time.value.slice(
+    // -2)}/0/${Number(slots.time.value.substring(0, 4)) - 1}`;
+
+  const options = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${global.token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
         }
-    );
+      };
+
+  const response = await fetch(totalURL, options).then(async (response) => {
+    var results = await response.json();
+    if(results.status === 404) {
+      console.log("ErrorResults", results);
+    } else {
+      console.log("Totals Results", results);  
+      return res.send({
+      version: "1.0",
+      response: {
+        outputSpeech: {
+          type: "SSML",
+          ssml: `<speak>Your monthly income for ${slots.month.value} ${slots.year.value}  is $${results.totalIncome} </speak>`
+        }
+      }
+      })
+          }
+        });
 };

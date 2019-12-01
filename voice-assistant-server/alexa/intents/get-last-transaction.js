@@ -4,7 +4,7 @@ const URL = APP_ENV.backendUrl + '/last-transaction';       // BACKEND API URL
 
 module.exports = async (req, res) => {
     const slots = req.body.request.intent.slots;
-    console.log("===> GET LAST TRANSACTION", slots);
+    console.log("===> GET LAST TRANSACTIONmmmmm", slots);
     /*
     const tokenResponse = await tokenService.getAmazonToken();
     const API_PARAMS = {

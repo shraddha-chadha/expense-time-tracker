@@ -1,37 +1,38 @@
-const APP_ENV = require('../../env');                       // application environment variables
-const tokenService =require('../../token-service');         // token service
-const fetch = require('node-fetch');                        // fetch alternate for node
+const fetch = require("node-fetch");
+const APP_ENV = require('../../env');             // application environment variables
+const URL = `${APP_ENV.backendUrl}/metrics/all`;
+
 
 module.exports = async (req, res) => {
-    const slots = req.body.request.intent.slots;
-    console.log("===> GET YEARLY EXPENSESS", slots);
-    const tokenResponse = await tokenService.getAmazonToken(req.body.session.user.userId).catch((e) => { console.log(e) });
-    console.log("TOKEN", tokenResponse);
-    const token = await tokenResponse.json();
-    
-    // const url = APP_ENV.backendUrl + '/';
-    // const API_PARAMS = {
-    //     year: slots.year.value
-    // };
-    // const options = {
-    //     method: 'POST',
-    //     headers: {
-    //         'Authorization': 'Bearer ' + tokenResponse.token,
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json;charset=utf-8'
-    //     },
-    //     body: JSON.stringify(API_PARAMS)
-    // };
-    // const results = await fetch(url, options);
-    // console.log("RESULTS", await results.json());
-    return res.send({
-        "version": "1.0",
-        "response": {
-            "outputSpeech": {
-                "type": "SSML",
-                "ssml": "<speak>Your yearly expense for TEST was $4590.</speak>"
-                }
-            }
+  const slots = req.body.request.intent.slots;
+  console.log("===> GET YEARLY EXPENSE in expense", slots);
+
+  let totalURL = `${URL}/${global.username}/Y/0/0/${slots.year.value}`;
+
+  const options = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${global.token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
         }
-    );
+      };
+
+  const response = await fetch(totalURL, options).then(async (response) => {
+    var results = await response.json();
+    if(results.status === 404) {
+      console.log("ErrorResults", results);
+    } else {
+      console.log("Totals Results", results);  
+      return res.send({
+      version: "1.0",
+      response: {
+        outputSpeech: {
+          type: "SSML",
+          ssml: `<speak>Your yearly expense for ${slots.year.value} is $${Number(results.totalExpense).toFixed(2)} </speak>`
+        }
+      }
+      })
+          }
+        });
 };

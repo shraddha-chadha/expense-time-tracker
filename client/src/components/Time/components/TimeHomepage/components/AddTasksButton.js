@@ -124,7 +124,7 @@ export default function AddTasksButton() {
 
     const response = await fetch(URL, options).then(async (response) => {
       const results = await response.json();
-      if(results.status >= 200 && results.status < 300) {
+      if(results.status >= 200 && results.status < 300 || results.status === undefined) {
         setOpenSuccess(true);
         console.log("Results of Task added", results);
       } else {
