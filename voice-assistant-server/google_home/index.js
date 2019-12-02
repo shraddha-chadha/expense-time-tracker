@@ -1,11 +1,27 @@
+const fetch = require("node-fetch");
+const APP_ENV = require('../env');         // application environment variables
+const GET_MONTHLY_BUDGET_URL = `${APP_ENV.backendUrl}/metrics/all`;       // BACKEND API URL
+const months = require('./months')
+const tokenService =require('../token-service'); 
+const ADD_BUDGET_URL = `${APP_ENV.backendUrl}/addTransaction`;
+const ADD_EXPENSE_URL = `${APP_ENV.backendUrl}/expense`;
+const MONTHLY_TOP_CATEGORY_URL = `${APP_ENV.backendUrl}/metrics/expensesByCategory`;
+
+
+
+
+
 const defaultResponse = require('./intents/default'); 
       
 module.exports = (req, res) => {
     const intentName = req.body.queryResult.intent.displayName;
     console.log(req.body);
     switch(intentName) {
+        case "Login":
+            login(req,res);
+            break;
         case "Last Transaction":
-            lastTransaction(res);
+            lastTransaction(req,res);
             break;
         case "Add Expense":
             addExpense(req, res);
@@ -86,102 +102,201 @@ module.exports = (req, res) => {
     }
 };
 
-function lastTransaction(res) {
+async function login(req,res) {
+    const username = req.body.queryResult.parameters['username'];
+    console.log("===> LOGIN", username);
+
+    const response = await tokenService.getAmazonToken(username).then(async (response) => {
+        const results = await response.json();
+        if(results.status === 404) {
+          console.log("ErrorResults", results);
+  
+        } else {
+          console.log("Results", results);
+          global.token = results.token
+          global.username = results.username
+}
+    })
+    return res.send({
+        "fulfillmentText" : "You are logged in."
+    })
+}; 
+
+
+    function lastTransaction(req, res) {
     console.log('Inside last transaction');    
-    return res.send({"fulfillmentText": "Your last transaction was 5 dollars."})
+    return res.send({"fulfillmentText": "Your last transaction was 5.46 dollars."})
 }
 
-function addExpense(req, res) {
-    console.log(req.body.queryResult.parameters); 
+    async function addExpense(req, res) {
+    // console.log(req.body.queryResult.parameters); 
     let amount = 0
-    let dollar = req.body.queryResult.parameters['dollars'];
-    let cents = req.body.queryResult.parameters['cents'];
+    let dollars = req.body.queryResult.parameters['dollars'];
+    // let cents = req.body.queryResult.parameters['cents'];
     let time = req.body.queryResult.parameters['time'];
     let category = req.body.queryResult.parameters['class'];
-    if(dollar === '' && cents !== '') 
-        amount = parseFloat('.' + cents.toString())
-    else if(dollar !== '' && cents === 0)
-        amount = parseFloat(dollar.toString())
-    else if (dollar === '' && cents === '')
+    if(dollars === '')
     return res.send({
         "fulfillmentText" : "Please mention the expense amount"
     })
-    else if (dollar !== '' && cents !== '') {
-    amount = (dollar + (cents/100)).toString()
+    else if (dollars !== '') {
+    amount = dollars.toString()
     console.log(amount)
     if (time === '')
     return res.send({
         "fulfillmentText" : "Please mention the expense time"
     })
+}
     if (category === '')
     return res.send({
         "fulfillmentText" : "Please mention the expense category"
     })
+    let totalURL = `${ADD_EXPENSE_URL}/${global.username}/1`;
+
+    const API_PARAMS = {
+            "transactionDate":time,
+            "transactionType": "Expense",
+            "transactionCategory": category,
+            "name": "",
+            "amount": dollars,
+            "isoCurrencyCode": "USD",
+            "unofficialCurrencyCode": "",
+            "location":"",
+            "month":"",
+            "year":"",
+            "quarter":"",
+            "day":"",
+            "isManuallyInserted":""
+    }
+    console.log(API_PARAMS)
+
+    const options = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${global.token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
+        body: JSON.stringify(API_PARAMS)
+      };
+
+    const response = await fetch(totalURL, options).then(async (response) => {
+    var results = await response.json();
+    if(results.status === 404) {
+      console.log("ErrorResults", results);
+    } else {
+      console.log("Totals Results", results); 
+
     console.log('********************************')
-    console.log(amount, time, category)
+    console.log("===> ADD EXPENSE", amount, time, category)
     console.log('********************************')
     return res.send({
         
-                "fulfillmentText": `The amount has been added to your expenses for the ${category} category`
-            }
-        
-    
-    )
+                "fulfillmentText": `The amount of ${dollars} has been added to your expenses for ${time} for the ${category} category`
+            })
         }
-    }
+    })
+}; 
 
 
-function addBudget(req, res) {
+    async function addBudget(req, res) {
     console.log('Inside add budget')
-    console.log(req.body.queryResult.parameters)
+    // console.log(req.body.queryResult.parameters)
     let dollars = req.body.queryResult.parameters['dollars'];
     let month = req.body.queryResult.parameters['month'];
-    let category = req.body.queryResult.parameters['class'];
+    let year = req.body.queryResult.parameters['year'];
     if (dollars === '')
     return res.send({
         "fulfillmentText": "Please mention dollar amount"})
-    else if (category === '')
+    else if (year === '')
     return res.send({
-        "fulfillmentText": "Please mention budget category"})
+        "fulfillmentText": "Please mention budget year"})
     else if (month === '')
     return res.send({
         "fulfillmentText": "Please mention budget month"})
     else {
+    let totalURL = `${ADD_BUDGET_URL}/${global.username}/Budget/M/?amount=${dollars}&day=0&month=${months.mapping[month]}&year=${year}&quarter=0`;
+    console.log(totalURL)
+    
+    const options = {
+            method: 'POST',
+            headers: {
+            'Authorization': `Bearer ${global.token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8'
+            }
+        };
+    
+    const response = await fetch(totalURL, options).then(async (response) => {
+        var results = await response.json();
+        if(results.status === 404) {
+        console.log("ErrorResults", results);
+        } else {
+        console.log("Totals Results", results);  
     console.log('********************************')
-    console.log(dollars, month, category)
+    console.log("===> ADD BUDGET", dollars, month, year); 
     console.log('********************************')
     return res.send({
         
-        "fulfillmentText": `Your budget for ${category} has been set.`
+        "fulfillmentText": `Your budget of $${dollars} for ${month} ${year} has been set.`
     })
 }
-}
+})
+    }
+}; 
 
-function addIncome(req, res) {
+    async function addIncome(req, res) {
     console.log('Inside add income')
     console.log(req.body.queryResult.parameters)
     let dollars = req.body.queryResult.parameters['dollars'];
-    let time = req.body.queryResult.parameters['time'];
+    let month = req.body.queryResult.parameters['month'];
+    let year = req.body.queryResult.parameters['year'];
     if (dollars === '')
     return res.send({
         
         "fulfillmentText": "Please mention dollar amount."
     })
-    else if (time === '')
+    else if (month === '')
     return res.send({
         
-        "fulfillmentText": "Please mention the income date."
+        "fulfillmentText": "Please mention the income month."
+    })
+    else if (year === '')
+    return res.send({
+        
+        "fulfillmentText": "Please mention the income year."
     })
     else {
+    let totalURL = `${ADD_BUDGET_URL}/${global.username}/Budget/M/?amount=${dollars}&day=0&month=${months.mapping[month]}&year=${year}&quarter=0`;
+    console.log(totalURL)
+    
+    const options = {
+            method: 'POST',
+            headers: {
+            'Authorization': `Bearer ${global.token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8'
+            }
+        };
+    
+    const response = await fetch(totalURL, options).then(async (response) => {
+        var results = await response.json();
+        if(results.status === 404) {
+        console.log("ErrorResults", results);
+        } else {
+        console.log("Totals Results", results);  
     console.log('********************************')
-    console.log(dollars, time)
+    console.log("===> ADD INCOME", dollars, month, year); 
     console.log('********************************')
     return res.send({
         
-        "fulfillmentText": `Your income amount of ${dollars} dollars has been added.`
+        "fulfillmentText": `Your budget of $${dollars} for ${month} ${year} has been set.`
     })
-}
-}
+    }
+    })
+        }
+    }; 
+    
 
 function addCategory(req, res) {
     console.log('Inside add category')
@@ -293,28 +408,45 @@ function getTopCategories(req, res) {
     )
 }
 
-function getYearlyExpense(req, res) {
-    console.log('Inside get yearly expense')
-    console.log(req.body.queryResult.parameters)
+    async function getYearlyExpense(req, res) {
     let year = req.body.queryResult.parameters['year'];
     if (year === '')
     return res.send({
         "fulfillmentText": "Please mention year of expense."
     }) 
     else {
+    console.log("===> GET YEARLY EXPENSE", year);
     console.log('********************************')
     console.log(year)
     console.log('********************************')
-    return res.send({
+    let totalURL = `${GET_MONTHLY_BUDGET_URL}/${global.username}/Y/0/0/${year}`;
+
+    const options = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${global.token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      };
+    
+    const response = await fetch(totalURL, options).then(async (response) => {
+    var results = await response.json();
+    if(results.status === 404) {
+        console.log("ErrorResults", results);
+    } else {
+        console.log("Totals Results", results);  
+      return res.send({
         
-        "fulfillmentText": `Your yearly expenses for ${year} was`
+        "fulfillmentText": `Your yearly expense for ${year} is $${Number(results.totalExpense).toFixed(2)}`
     })
 }
-}
+})
+    }}; 
 
-function getMonthlyExpense(req, res) {
-    console.log('Inside get monthly expense')
-    console.log(req.body.queryResult.parameters)
+    async function getMonthlyExpense(req, res) {
+    // console.log('Inside get monthly expense')
+    // console.log(req.body.queryResult.parameters)
     let year = req.body.queryResult.parameters['year'];
     let month = req.body.queryResult.parameters['month'];
     if (year === '' && month === '')
@@ -325,15 +457,34 @@ function getMonthlyExpense(req, res) {
     return res.send({
         "fulfillmentText": "Please mention year of expense."
     }) 
+    console.log("===> GET MONTHLY EXPENSE", month, year);
     console.log('********************************')
     console.log(month, year)
     console.log('********************************')
-    return res.send({
+    let totalURL = `${GET_MONTHLY_BUDGET_URL}/${global.username}/M/${months.mapping[month]}/0/${year}`;
+  
+    const options = {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${global.token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8'
+          }
+        };
+    const response = await fetch(totalURL, options).then(async (response) => {
+        var results = await response.json();
+        if(results.status === 404) {
+            console.log("ErrorResults", results);
+        } else {
+            console.log("Totals Results", results);  
+            return res.send({
         
-        "fulfillmentText": `Your monthly expenses for ${month} ${year} was`
-    })
-}
-
+                "fulfillmentText": `Your monthly expenses for ${month} ${year} was $${results.totalExpense}`
+            })
+                }
+            });
+    };    
+    
 function getQuarterlyExpense(req, res) {
     console.log('Inside get quarterly expense')
     // console.log(req.body.queryResult.parameters)
@@ -358,9 +509,9 @@ function getQuarterlyExpense(req, res) {
     })
 }
 
-function getMonthlyIncome(req, res) {
-    console.log('Inside get monthly income')
-    console.log(req.body.queryResult.parameters)
+    async function getMonthlyIncome(req, res) {
+    // console.log('Inside get monthly income')
+    // console.log(req.body.queryResult.parameters)
     let year = req.body.queryResult.parameters['year'];
     let month = req.body.queryResult.parameters['month'];
     if (year === '' && month === '')
@@ -371,14 +522,33 @@ function getMonthlyIncome(req, res) {
     return res.send({
         "fulfillmentText": "Please mention year of income."
     }) 
+    console.log("===> GET MONTHLY INCOME", month, year);
     console.log('********************************')
     console.log(month, year)
     console.log('********************************')
+    let totalURL =  `${GET_MONTHLY_BUDGET_URL}/${global.username}/M/${months.mapping[month]}/0/${year}` 
+    const options = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${global.token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      };
+
+    const response = await fetch(totalURL, options).then(async (response) => {
+    var results = await response.json();
+    if(results.status === 404) {
+      console.log("ErrorResults", results);
+    } else {
+      console.log("Totals Results", results);  
     return res.send({
         
-        "fulfillmentText": `Your monthly income for ${month} ${year} was`
+        "fulfillmentText": `Your monthly income for ${month} ${year}  was $${results.totalIncome}`
     })
 }
+    })
+}; 
 
 // function getQuarterlyIncome(req, res) {
 //     console.log('Inside get quarterly income')
@@ -402,28 +572,45 @@ function getMonthlyIncome(req, res) {
 //     })
 // }
 
-function getYearlyIncome(req, res) {
-    console.log('Inside get yearly income')
-    console.log(req.body.queryResult.parameters)
+    async function getYearlyIncome(req, res) {
     let year = req.body.queryResult.parameters['year'];
     if (year === '')
     return res.send({
         "fulfillmentText": "Please mention year of income."
     }) 
     else {
+    console.log("===> GET YEARLY INCOME", year);
     console.log('********************************')
     console.log(year)
     console.log('********************************')
-    return res.send({
+    let totalURL = `${GET_MONTHLY_BUDGET_URL}/${global.username}/Y/0/0/${year}`;
+
+    const options = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${global.token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      };
+    
+    const response = await fetch(totalURL, options).then(async (response) => {
+    var results = await response.json();
+    if(results.status === 404) {
+        console.log("ErrorResults", results);
+    } else {
+        console.log("Totals Results", results);  
+      return res.send({
         
-        "fulfillmentText": `Your yearly income for ${year} was`
+        "fulfillmentText": `Your yearly income for ${year} is $${Number(results.totalIncome).toFixed(2)}`
     })
 }
-}
-
-function getMonthlySavings(req, res) {
-    console.log('Inside get monthly savings')
-    console.log(req.body.queryResult.parameters)
+})
+    }}; 
+    
+    async function getMonthlySavings(req, res) {
+    // console.log('Inside get monthly savings')
+    // console.log(req.body.queryResult.parameters)
     let year = req.body.queryResult.parameters['year'];
     let month = req.body.queryResult.parameters['month'];
     if (year === '' && month === '')
@@ -434,14 +621,33 @@ function getMonthlySavings(req, res) {
     return res.send({
         "fulfillmentText": "Please mention year of savings."
     }) 
+    console.log("===> GET MONTHLY INCOME", month, year);
     console.log('********************************')
     console.log(month, year)
     console.log('********************************')
+    let totalURL =  `${GET_MONTHLY_BUDGET_URL}/${global.username}/M/${months.mapping[month]}/0/${year}` 
+    const options = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${global.token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      };
+
+    const response = await fetch(totalURL, options).then(async (response) => {
+    var results = await response.json();
+    if(results.status === 404) {
+      console.log("ErrorResults", results);
+    } else {
+      console.log("Totals Results", results);  
     return res.send({
         
-        "fulfillmentText": `Your monthly savings for ${month} ${year} was`
+        "fulfillmentText": `Your monthly savings for ${month} ${year}  was $${results.totalSavings}`
     })
 }
+    })
+}; 
 
 // function getQuarterlySavings(req, res) {
 //     console.log('Inside get quarterly savings')
@@ -465,26 +671,45 @@ function getMonthlySavings(req, res) {
 //     })
 // }
 
-function getYearlySavings(req, res) {
-    console.log('Inside get yearly savings')
-    console.log(req.body.queryResult.parameters)
+    async function getYearlySavings(req, res) {
+    // console.log('Inside get yearly savings')
+    // console.log(req.body.queryResult.parameters)
     let year = req.body.queryResult.parameters['year'];
     if (year === '')
     return res.send({
         "fulfillmentText": "Please mention year of savings."
     }) 
     else {
+    console.log("===> GET YEARLY SAVINGS", year);
     console.log('********************************')
     console.log(year)
     console.log('********************************')
-    return res.send({
+    let totalURL = `${GET_MONTHLY_BUDGET_URL}/${global.username}/Y/0/0/${year}`;
+
+    const options = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${global.token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      };
+    
+    const response = await fetch(totalURL, options).then(async (response) => {
+    var results = await response.json();
+    if(results.status === 404) {
+        console.log("ErrorResults", results);
+    } else {
+        console.log("Totals Results", results);  
+      return res.send({
         
-        "fulfillmentText": `Your yearly savings for ${year} was`
+        "fulfillmentText": `Your yearly savings for ${year} is $${Number(results.totalSavings).toFixed(2)}`
     })
 }
-}
+})
+    }}; 
 
-function getMonthlyBudget(req, res) {
+    async function getMonthlyBudget(req, res) {
     console.log('Inside get monthly budget')
     console.log(req.body.queryResult.parameters)
     let year = req.body.queryResult.parameters['year'];
@@ -496,15 +721,40 @@ function getMonthlyBudget(req, res) {
     if (month !== '' && year === '')
     return res.send({
         "fulfillmentText": "Please mention year of budget."
-    }) 
-    console.log('********************************')
-    console.log(month, year)
-    console.log('********************************')
+    })
+    
+    console.log("===> GET MONTHLY BUDGET", month, year);
+    let totalURL = `${GET_MONTHLY_BUDGET_URL}/${global.username}/M/${months.mapping[month]}/0/${year}`;
+  
+    const options = {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${global.token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8'
+          }
+        };
+    
+    const response = await fetch(totalURL, options).then(async (response) => {
+        var results = await response.json();
+        if(results.status === 404) {
+            console.log("ErrorResults", results);
+        } else {
+            console.log("Totals Results", results);  
+    
     return res.send({
         
-        "fulfillmentText": `Your monthly budget for ${month} ${year} was`
+        "fulfillmentText": `Your monthly budget for ${month} ${year} was $${results.totalBudget}`
     })
 }
+    })
+}
+
+
+  
+    
+  
+    
 
 
 // function getQuarterlyBudget(req, res) {
@@ -529,28 +779,45 @@ function getMonthlyBudget(req, res) {
 //     })
 // }
 
-function getYearlyBudget(req, res) {
-    console.log('Inside get yearly budget')
-    console.log(req.body.queryResult.parameters)
+    async function getYearlyBudget(req, res) {
     let year = req.body.queryResult.parameters['year'];
     if (year === '')
     return res.send({
         "fulfillmentText": "Please mention year of budget."
     }) 
     else {
+    console.log("===> GET YEARLY BUDGET", year);
     console.log('********************************')
     console.log(year)
     console.log('********************************')
-    return res.send({
+    let totalURL = `${GET_MONTHLY_BUDGET_URL}/${global.username}/Y/0/0/${year}`;
+
+    const options = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${global.token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      };
+    
+    const response = await fetch(totalURL, options).then(async (response) => {
+    var results = await response.json();
+    if(results.status === 404) {
+        console.log("ErrorResults", results);
+    } else {
+        console.log("Totals Results", results);  
+      return res.send({
         
-        "fulfillmentText": `Your yearly budget for ${year} was`
+        "fulfillmentText": `Your yearly budget for ${year} is $${Number(results.totalBudget).toFixed(2)}`
     })
 }
-}
+})
+    }}; 
 
-function getTopCategoriesMonthly(req, res) {
+    async function getTopCategoriesMonthly(req, res) {
     console.log('Inside get top categories monthly')
-    console.log(req.body.queryResult.parameters)
+    // console.log(req.body.queryResult.parameters)
     let year = req.body.queryResult.parameters['year'];
     let month = req.body.queryResult.parameters['month'];
     if (year === '' && month === '')
@@ -561,14 +828,33 @@ function getTopCategoriesMonthly(req, res) {
     return res.send({
         "fulfillmentText": "Please mention year of top category."
     }) 
+    let totalURL = `${MONTHLY_TOP_CATEGORY_URL}/${global.username}/M/${months.mapping[month]}/0/${year}`;
+
+    const options = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${global.token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      };
     console.log('********************************')
-    console.log(month, year)
-    console.log('********************************')
+    console.log("===> GET MONTHLY TOP CATEGORY", month, year)
+    console.log('********************************'); 
+    const response = await fetch(totalURL, options).then(async (response) => {
+    var results = await response.json();
+    if(results.status === 404) {
+        console.log("ErrorResults", results);
+    } else {
+        console.log("Totals Results", results);
+    var maxKey = Object.keys(results).reduce((a, b) => results[a] > results[b] ? a : b);
     return res.send({
         
-        "fulfillmentText": `Your monthly top category for ${month} ${year} was`
+        "fulfillmentText": `Your monthly top category amount for ${month} ${year} was $${results[maxKey]} `
     })
 }
+    })
+}; 
 
 // function getTopCategoriesQuarterly(req, res) {
 //     console.log('Inside get top categories quarterly')
@@ -620,8 +906,5 @@ function getTopCategoriesYearly(req, res) {
 
 
     
-
-
-
 
 
