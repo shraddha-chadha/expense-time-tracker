@@ -35,28 +35,29 @@ Quarterly expense
 ![Screenshot from 2019-12-02 19-18-55](https://user-images.githubusercontent.com/33761930/70018306-90368500-153a-11ea-988a-c1c8edd7d805.png)
 
 Quarterly income
-![Screenshot from 2019-12-02 19-20-26](https://user-images.githubusercontent.com/33761930/70018318-9e84a100-153a-11ea-868b-cb0a5e66b57e.png)
+![Screenshot from 2019-12-02 19-19-10](https://user-images.githubusercontent.com/33761930/70018510-34b8c700-153b-11ea-8a4e-326fc9760da4.png)
 
 Quarterly saving
-![Screenshot from 2019-12-02 19-20-53](https://user-images.githubusercontent.com/33761930/70018331-a2182800-153a-11ea-9fb7-5b1384f7b90f.png)
+![Screenshot from 2019-12-02 19-20-26](https://user-images.githubusercontent.com/33761930/70018318-9e84a100-153a-11ea-868b-cb0a5e66b57e.png)
 
 Quarterly budget
+![Screenshot from 2019-12-02 19-20-53](https://user-images.githubusercontent.com/33761930/70018331-a2182800-153a-11ea-9fb7-5b1384f7b90f.png)
+
+Quarterly expense
 ![Screenshot from 2019-12-02 19-21-17](https://user-images.githubusercontent.com/33761930/70018335-a5131880-153a-11ea-8cd0-ba78735b1edc.png)
 
-Yearly expense
+Yearly budget
 ![Screenshot from 2019-12-02 19-21-31](https://user-images.githubusercontent.com/33761930/70018336-a7757280-153a-11ea-82d8-fbbcf6bf8dba.png)
 
-Yearly budget
+Add expense
 ![Screenshot from 2019-12-02 19-23-01](https://user-images.githubusercontent.com/33761930/70018341-acd2bd00-153a-11ea-9c5c-44b492d83079.png)
 
-Add expense
+Add income
 ![Screenshot from 2019-12-02 19-23-38](https://user-images.githubusercontent.com/33761930/70018348-b0feda80-153a-11ea-9291-54b293baf567.png)
 
-Add income
+Add budget
 ![Screenshot from 2019-12-02 19-24-00](https://user-images.githubusercontent.com/33761930/70018358-b6f4bb80-153a-11ea-87a3-359a27a805de.png)
 
-Add budget
-![Screenshot from 2019-12-02 19-24-32](https://user-images.githubusercontent.com/33761930/70018366-b9efac00-153a-11ea-98c8-e46078baa658.png)
-
 Top spending category
+![Screenshot from 2019-12-02 19-24-32](https://user-images.githubusercontent.com/33761930/70018366-b9efac00-153a-11ea-98c8-e46078baa658.png)
 
