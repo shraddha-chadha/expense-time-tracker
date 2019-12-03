@@ -43,7 +43,7 @@ Quarterly saving
 Quarterly budget
 ![Screenshot from 2019-12-02 19-20-53](https://user-images.githubusercontent.com/33761930/70018331-a2182800-153a-11ea-9fb7-5b1384f7b90f.png)
 
-Quarterly expense
+Yearly expense
 ![Screenshot from 2019-12-02 19-21-17](https://user-images.githubusercontent.com/33761930/70018335-a5131880-153a-11ea-8cd0-ba78735b1edc.png)
 
 Yearly budget
