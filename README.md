@@ -17,3 +17,8 @@ http://localhost:8080/
 Personal Voice Assistant is serving at port 3001
 http://localhost:3001/
 
+Alexa 
+
+![Screenshot from 2019-12-02 18-41-02](https://user-images.githubusercontent.com/33761930/70016086-3763ee00-1534-11ea-8a1a-94b365229f82.png)
+
+![Screenshot from 2019-12-02 18-41-46](https://user-images.githubusercontent.com/33761930/70016119-49de2780-1534-11ea-8551-90b8d98d00aa.png)
