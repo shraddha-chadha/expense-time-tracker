@@ -19,6 +19,44 @@ http://localhost:3001/
 
 Alexa Frontend Screenshots
 
-![Screenshot from 2019-12-02 18-41-02](https://user-images.githubusercontent.com/33761930/70016086-3763ee00-1534-11ea-8a1a-94b365229f82.png)
+Login
+![Screenshot from 2019-12-02 19-16-26](https://user-images.githubusercontent.com/33761930/70018024-ab54c500-1539-11ea-940f-10b09f4c844e.png)
 
+Monthly expense
 ![Screenshot from 2019-12-02 18-41-46](https://user-images.githubusercontent.com/33761930/70016119-49de2780-1534-11ea-8551-90b8d98d00aa.png)
+
+Monthly income
+![Screenshot from 2019-12-02 19-17-14](https://user-images.githubusercontent.com/33761930/70018273-772dd400-153a-11ea-8b52-3145f3d596dd.png)
+
+Monthly budget
+![Screenshot from 2019-12-02 19-18-10](https://user-images.githubusercontent.com/33761930/70018302-8b71d100-153a-11ea-9399-d1b801fb683e.png)
+
+Quarterly expense
+![Screenshot from 2019-12-02 19-18-55](https://user-images.githubusercontent.com/33761930/70018306-90368500-153a-11ea-988a-c1c8edd7d805.png)
+
+Quarterly income
+![Screenshot from 2019-12-02 19-20-26](https://user-images.githubusercontent.com/33761930/70018318-9e84a100-153a-11ea-868b-cb0a5e66b57e.png)
+
+Quarterly saving
+![Screenshot from 2019-12-02 19-20-53](https://user-images.githubusercontent.com/33761930/70018331-a2182800-153a-11ea-9fb7-5b1384f7b90f.png)
+
+Quarterly budget
+![Screenshot from 2019-12-02 19-21-17](https://user-images.githubusercontent.com/33761930/70018335-a5131880-153a-11ea-8cd0-ba78735b1edc.png)
+
+Yearly expense
+![Screenshot from 2019-12-02 19-21-31](https://user-images.githubusercontent.com/33761930/70018336-a7757280-153a-11ea-82d8-fbbcf6bf8dba.png)
+
+Yearly budget
+![Screenshot from 2019-12-02 19-23-01](https://user-images.githubusercontent.com/33761930/70018341-acd2bd00-153a-11ea-9c5c-44b492d83079.png)
+
+Add expense
+![Screenshot from 2019-12-02 19-23-38](https://user-images.githubusercontent.com/33761930/70018348-b0feda80-153a-11ea-9291-54b293baf567.png)
+
+Add income
+![Screenshot from 2019-12-02 19-24-00](https://user-images.githubusercontent.com/33761930/70018358-b6f4bb80-153a-11ea-87a3-359a27a805de.png)
+
+Add budget
+![Screenshot from 2019-12-02 19-24-32](https://user-images.githubusercontent.com/33761930/70018366-b9efac00-153a-11ea-98c8-e46078baa658.png)
+
+Top spending category
+
