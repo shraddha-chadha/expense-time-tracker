@@ -15,13 +15,13 @@ const budgetMap = {
     icon: 'M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z',
     title: 'Over-Budget',
     subtitle: 'You are over-budget by',
-    color: 'red'
+    color: '#F40057'
   },
   underbudget: {
     icon: 'M10,17L5,12L6.41,10.58L10,14.17L17.59,6.58L19,8M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z',
     title: 'Under-Budget',
     subtitle: 'You are under-budget by',
-    color: 'green'
+    color: '#F40057'
   }
 }
 const useStyles = makeStyles(theme => ({
@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   icon: {
-    color: 'red'
+    color: '#F40057'
   },
 
   container: {
@@ -77,7 +77,7 @@ export default function BudgetChecker(props) {
 
         <Grid item>
           <Typography color="textSecondary" className={classes.amountText}>
-             {subtitle} ${amount}
+             {subtitle} ${amount.toFixed(2)}
           </Typography>
         </Grid>
       </Grid>

@@ -71,7 +71,7 @@ export default function BankAccounts(props) {
     <div className={classes.root}>
       <Grid container direction="column" spacing={2}>
         <Grid item>
-          <Button onClick={fetchData} color="primary" variant="contained" >
+          <Button onClick={fetchData} color="secondary" variant="contained" >
             Check Balance
       </Button>
         </Grid>

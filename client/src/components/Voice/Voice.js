@@ -58,8 +58,8 @@ export default function Voice() {
 
   return(
     <div>
-      <NavBar />
-      <Header title="Check out the cool features with Alexa and Gogle Home" />
+      <NavBar title="Voice Assistants"/>
+      {/* <Header title="Check out the cool features with Alexa and Gogle Home" /> */}
 
       <Grid container justify="center">
         <Grid item>

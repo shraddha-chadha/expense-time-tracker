@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
   titleBackground: {
     position: 'relative',
     height: 100,
-    background: 'linear-gradient(180deg, #FE6B8B 30%, #FF8E53 90%)',
+    background: "#3F50B5",
   },
 
   text: {

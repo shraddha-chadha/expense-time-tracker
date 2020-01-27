@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   header: {
-    background: '#E94155',
+    background: '#3F51B5',
     color: 'white'
   }
 }));
@@ -160,8 +160,8 @@ export default function ExpenseDashboard() {
 
   return (
     <div>
-      <NavBar />
-      <Header title="Get a snapshot of your expenses" />
+      <NavBar title ="Dashboard"/>
+      {/* <Header title="Get a snapshot of your expenses" /> */}
 
       <Grid container direction="column" spacing={1}>
         <Grid item>

@@ -53,8 +53,8 @@ export default function Transactions() {
 
   return(
     <div>
-      <NavBar />
-      <Header title="Search the expense, budget and income transactions" />
+      <NavBar title ="Transactions"/>
+      {/* <Header title="Search the expense, budget and income transactions" /> */}
 
       <Grid container justify="center" direction="column" spacing={2}>
         <Grid item>

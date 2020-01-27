@@ -10,7 +10,7 @@ import { Typography } from '@material-ui/core';
 const styles = {
   icon: {
     fontSize: 100,
-    color: "white"
+    color: "#3F51B5"
   }
 }
 
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 25,
     marginBottom: 10,
     fontWeight: 'bold',
-    color: 'white'
+    color: '#3F51B5',
   },
 
   amountText: {
@@ -53,7 +53,8 @@ const useStyles = makeStyles(theme => ({
   },
 
   colorContainer: {
-    background: '#3F51B5'
+    background: theme.palette.grey[300]
+    //background: '#3F51B5'
   }
 }));
 
@@ -76,7 +77,7 @@ export default function DashboardCard(props) {
                 </Grid>
 
                 <Grid item>
-                  <Typography color="textPrimary" className={classes.text}>
+                  <Typography className={classes.text}>
                     {props.title}
                   </Typography>
                 </Grid>
@@ -85,7 +86,7 @@ export default function DashboardCard(props) {
             </Grid>
 
             <Grid item xs={12}>
-              <Typography color="textPrimary" className={classes.amountText}>
+              <Typography className={classes.amountText}>
                 ${props.amount}
               </Typography>
             </Grid>

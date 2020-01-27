@@ -37,7 +37,7 @@ export default function CategoryIcon(props) {
       <Grid container direction="column">
         <Grid item>
           <IconButton className={classes.iconButton}>
-            <SvgIcon style={styles.icon} color="primary">
+            <SvgIcon style={styles.icon} color="secondary">
               <path d={ICON_MAP[category].icon} />
             </SvgIcon>
           </IconButton>
@@ -51,7 +51,7 @@ export default function CategoryIcon(props) {
 
         <Grid item>
           <Typography color="textPrimary" className={classes.amountText}>
-            {props.amount}
+            ${props.amount}
           </Typography>
         </Grid>
       </Grid>

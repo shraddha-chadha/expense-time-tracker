@@ -8,12 +8,10 @@ import AddExpenseButton from './components/AddExpenseButton';
 import LinkAccountButton from './components/LinkAccountButton';
 import BudgetButton from './components/BudgetButton';
 import IncomeButton from './components/IncomeButton';
-import CategoryButton from './components/CategoryButton';
 import AlexaButton from './components/AlexaButton';
 import GoogleButton from './components/GoogleButton';
 import UtterancesButton from './components/UtterancesButton'
 import TimeButton from './components/TimeButton';
-import Header from '../../../Header';
 
 const iconTitleMap = {
   linkAccount: {
@@ -94,8 +92,8 @@ export default function ExpenseHomePage() {
 
     return (
       <div>
-        <NavBar />
-        <Header title="Take actions to manage your expenses" />
+        <NavBar title ="Homepage" />
+        {/* <Header title="Take actions to manage your expenses" /> */}
         
         <Grid container>
           <Grid item xs={12}>

@@ -163,8 +163,8 @@ export default function ExpenseAnalytics() {
 
   return (
     <div>
-      <NavBar />
-      <Header title="Get deeper insights of your expenses" />
+      <NavBar title ="Insights" />
+      {/* <Header title="Get deeper insights of your expenses" /> */}
 
       <div className={classes.root}>
         <AppBar position="static" color="default">

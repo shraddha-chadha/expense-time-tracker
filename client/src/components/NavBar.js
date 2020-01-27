@@ -11,7 +11,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    background: theme.palette.primary,
     color: theme.palette.white
   },
 
@@ -38,7 +38,7 @@ export default function NavBar() {
       <AppBar position="static" className={classes.root}>
         <Toolbar >
           <Fab color="inherit">
-            <HomeCurrencyUsd color="secondary" />
+            <HomeCurrencyUsd color="primary" />
           </Fab>
           <Typography type="title" className={classes.title}>
             CashClock
