@@ -14,7 +14,7 @@ import ENV from '../env';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    background: theme.palette.grey[200],
+    background: theme.palette.primary,
   },
 
   button: {
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   link: {
     margin: theme.spacing(1),
     textDecoration: 'none',
-    color: '#3F51B5',
+    color: 'white',
     fontWeight: 'bold'
   },
 
@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   logo: {
-    color: 'white'
+    color: '#3F51B5'
   }
 }));
 
@@ -70,11 +70,11 @@ export default function TimeNavBarLoggedIn() {
       <AppBar position="static" className={classes.root}>
         <Toolbar >
           <Link exact to="/">
-            <Fab color="primary">
+            <Fab color="default">
               <HomeCurrencyUsd className={classes.logo}/>
             </Fab>
           </Link>
-          <Typography color="primary" type="title" className={classes.title}>
+          <Typography color="default" type="title" className={classes.title}>
             CashClock
         </Typography>
 

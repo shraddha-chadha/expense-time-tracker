@@ -7,7 +7,7 @@ const AMAZON_REDIRECT_URL = "https://3000-ddde7944-15c1-4915-88a3-2a5271a9064b.w
 
 const useStyles = makeStyles(theme => ({
   button: {
-    boxShadow: '5px 5px 15px grey'
+    // boxShadow: '5px 5px 15px grey'
   },
 }));
 

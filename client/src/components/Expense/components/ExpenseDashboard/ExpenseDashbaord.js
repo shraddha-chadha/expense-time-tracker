@@ -160,8 +160,8 @@ export default function ExpenseDashboard() {
 
   return (
     <div>
-      <NavBar title ="Dashboard"/>
-      {/* <Header title="Get a snapshot of your expenses" /> */}
+      <NavBar title ="CashClock"/>
+      <Header title ="Dashboard" subtitle="Get a snapshot of your expenses" />
 
       <Grid container direction="column" spacing={1}>
         <Grid item>

@@ -1,25 +1,14 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 import Typing from 'react-typing-animation';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  titleBackground: {
-    position: 'relative',
-    height: 100,
-    background: "#3F50B5",
+  title: {
+    padding: theme.spacing(8, 0, 6),
   },
-
-  text: {
-    position: 'absolute',
-    left: '50%',
-    top: '25%',
-    transform: 'translate(-50%,-50%)',
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center'
-  }
 }));
 
 export default function Header(props) {
@@ -27,13 +16,17 @@ export default function Header(props) {
 
   return(
     <div>
-      <Grid container>
-      <Grid item xs={12} className={classes.titleBackground}>
-          <Typing>
+      {/* <Typing>
             <p className={classes.text}> {props.title} </p>
-          </Typing>
-        </Grid>
-      </Grid>
+          </Typing> */}
+      <Container maxWidth="sm" component="main" className={classes.title}>
+        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+          {props.title}
+        </Typography>
+        <Typography variant="h5" align="center" color="textSecondary" component="p">
+          {props.subtitle}
+        </Typography>
+      </Container>
     </div>
   );
 }

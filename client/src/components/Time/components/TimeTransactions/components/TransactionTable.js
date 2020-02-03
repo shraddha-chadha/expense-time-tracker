@@ -40,6 +40,10 @@ const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 700,
   },
+
+  text: {
+    textAlign: 'center'
+  }
 }));
 
 const handleactualsChange = (values) => {
@@ -102,7 +106,8 @@ export default function TransactionTable(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map(row => (
+                  {rows.length === 0? <p className={classes.text}>No items to display</p>: 
+                  rows.map(row => (
                     <StyledTableRow key={row.taskId}>
                       <StyledTableCell align="right">{(row.taskName === ''|| row.taskName === null)? '-': row.taskName}</StyledTableCell>
                       <StyledTableCell align="right">{(row.taskDate === ''|| row.taskDate === null)? '-': row.taskDate}</StyledTableCell>

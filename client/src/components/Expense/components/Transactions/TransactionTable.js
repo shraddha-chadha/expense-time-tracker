@@ -38,8 +38,12 @@ const useStyles = makeStyles(theme => ({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 700,
+    minWidth: 1040,
   },
+
+  text: {
+    textAlign: 'center'
+  }
 }));
 
 export default function TransactionTable(props) {
@@ -66,7 +70,8 @@ export default function TransactionTable(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {results.map(row => (
+                {results.length === 0? <p className={classes.text}>No items to display</p> : 
+                results.map(row => (
                   <StyledTableRow key={row.id}>
                     <StyledTableCell component="th" scope="row">
                       {row.transactionType}

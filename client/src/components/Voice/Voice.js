@@ -58,8 +58,8 @@ export default function Voice() {
 
   return(
     <div>
-      <NavBar title="Voice Assistants"/>
-      {/* <Header title="Check out the cool features with Alexa and Gogle Home" /> */}
+      <NavBar title="Cash Clock"/>
+      <Header title="Voice Assistants" title="Check out the cool features with Alexa and Google Home" />
 
       <Grid container justify="center">
         <Grid item>
@@ -75,7 +75,7 @@ export default function Voice() {
                 {rows.map(row => (
                   <StyledTableRow key={row.id}>
                     <StyledTableCell align="right">{(row.name === ''|| row.name === null)? '-': row.name}</StyledTableCell>
-                    <StyledTableCell align="right">{(row.utterance === ''|| row.date === null)? '-': row.utterance}</StyledTableCell>
+                    {/* <StyledTableCell align="right">{(row.utterance === ''|| row.date === null)? '-': row.utterance}</StyledTableCell> */}
                   </StyledTableRow>
                 ))}
               </TableBody>

@@ -27,8 +27,8 @@ const iconTitleMap = {
 };
 
 const useStyles = makeStyles(theme => ({
-  cardContainer1: {
-    background: theme.palette.grey[300],
+  cardContainer: {
+    background: 'white',
     justifyContent: "center"
   },
 
@@ -40,11 +40,6 @@ const useStyles = makeStyles(theme => ({
     marginTop: 40
   },
 
-  cardContainer2: {
-    background: theme.palette.grey[400],
-    justifyContent: "center"
-  },
-
 }));
 
 export default function TimeHomepage() {
@@ -53,45 +48,32 @@ export default function TimeHomepage() {
   return (
     <div>
       <TimeNavBarLoggedIn />
-      <Header title="Track your tasks and time spent on it" />
+      <Header title="Time Tracker" subtitle="Track your tasks and time spent on it" />
 
-      <Grid container>
-        <Grid item xs={12}>
-          <Grid container className={classes.cardContainer1} >
-            <Grid item xs={12}>
-              <Typography className={classes.actionPannelText}>
-                Time Tracking
-          </Typography>
-            </Grid>
+      <Grid container className={classes.cardContainer} >
 
-            <Grid item>
-              <ActionCard
-                icon={iconTitleMap.task.icon}
-                subtitle={iconTitleMap.task.subtitle}
-                button={<AddTasksButton />}
-              />
-            </Grid>
-
-            <Grid item>
-              <ActionCard
-                icon={iconTitleMap.timesheet.icon}
-                subtitle={iconTitleMap.timesheet.subtitle}
-                button={<TimesheetButton />}
-              />
-            </Grid>
-          </Grid>
+        <Grid item>
+          <ActionCard
+            icon={iconTitleMap.task.icon}
+            subtitle={iconTitleMap.task.subtitle}
+            button={<AddTasksButton />}
+          />
         </Grid>
-      </Grid>
 
-      <Grid item xs={12}>
-        <Grid container className={classes.cardContainer2}>
-          <Grid item>
-            <ActionCard
-              icon={iconTitleMap.expense.icon}
-              subtitle={iconTitleMap.expense.subtitle}
-              button={<ExpenseButton />}
-            />
-          </Grid>
+        <Grid item>
+          <ActionCard
+            icon={iconTitleMap.timesheet.icon}
+            subtitle={iconTitleMap.timesheet.subtitle}
+            button={<TimesheetButton />}
+          />
+        </Grid>
+
+        <Grid item>
+          <ActionCard
+            icon={iconTitleMap.expense.icon}
+            subtitle={iconTitleMap.expense.subtitle}
+            button={<ExpenseButton />}
+          />
         </Grid>
       </Grid>
 

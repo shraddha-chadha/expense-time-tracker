@@ -60,8 +60,8 @@ export default function ExpenseAnalytics() {
   const [totals, setTotals] = React.useState({ totalExpense: 0, totalIncome: 0, totalBudget: 0, totalSavings: 0 });
   const [categoriesResult, setCategoriesResult] = React.useState({});
   const [categories, setCategories] = React.useState([]);
-  const [budgetTitle, setBudgetTitle] = React.useState("Select the filter to see the % spending");
-  const [incomeTitle, setIncomeTitle] = React.useState("Select the filter to see the % spending");
+  const [budgetTitle, setBudgetTitle] = React.useState("Select the filter to see the % spending on budget");
+  const [incomeTitle, setIncomeTitle] = React.useState("Select the filter to see the % spending on income");
 
   React.useEffect(() => {
     setCategories(Object.keys(categoriesResult))
@@ -163,8 +163,7 @@ export default function ExpenseAnalytics() {
 
   return (
     <div>
-      <NavBar title ="Insights" />
-      {/* <Header title="Get deeper insights of your expenses" /> */}
+      <NavBar title ="CashClock" />
 
       <div className={classes.root}>
         <AppBar position="static" color="default">
@@ -178,7 +177,7 @@ export default function ExpenseAnalytics() {
           >
             <Tab label="% Spending on Income" {...a11yProps(0)} className={classes.tab} />
             <Tab label="% Spending on Budget" {...a11yProps(1)} className={classes.tab} />
-            <Tab label="Compare Expenses" {...a11yProps(2)} className={classes.tab} />
+            {/* <Tab label="Compare Expenses" {...a11yProps(2)} className={classes.tab} /> */}
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -187,6 +186,7 @@ export default function ExpenseAnalytics() {
           onChangeIndex={handleChangeIndex}
         >
           <TabPanel value={value} index={0}>
+            <Header title ="Insights"  subtitle="Get deeper insights of your expenses" />
             <Grid container direction="column" spacing={2}>
               <Grid item>
                 <Filter parentCallback={searchCallBack} />
@@ -198,6 +198,7 @@ export default function ExpenseAnalytics() {
           </TabPanel>
 
           <TabPanel value={value} index={1}>
+            <Header title ="Insights"  subtitle="Get deeper insights of your expenses" />
             <Grid container direction="column" spacing={2}>
               <Grid item>
                 <Filter parentCallback={searchCallBack}/>
@@ -208,11 +209,12 @@ export default function ExpenseAnalytics() {
             </Grid>
           </TabPanel>
 
-          <TabPanel value={value} index={2}>
-              <Grid item>
-                  <CompareExpense />
-              </Grid>
-          </TabPanel>
+          {/* <TabPanel value={value} index={2}>
+            <Header title ="Insights"  subtitle="Get deeper insights of your expenses" />
+            <Grid item>
+              <CompareExpense />
+            </Grid>
+          </TabPanel> */}
         </SwipeableViews>
       </div>
     </div>

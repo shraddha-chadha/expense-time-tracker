@@ -12,6 +12,7 @@ import AlexaButton from './components/AlexaButton';
 import GoogleButton from './components/GoogleButton';
 import UtterancesButton from './components/UtterancesButton'
 import TimeButton from './components/TimeButton';
+import Header from '../../../Header';
 
 const iconTitleMap = {
   linkAccount: {
@@ -51,7 +52,7 @@ const iconTitleMap = {
 
   utterances: {
     icon: 'M9,5A4,4 0 0,1 13,9A4,4 0 0,1 9,13A4,4 0 0,1 5,9A4,4 0 0,1 9,5M9,15C11.67,15 17,16.34 17,19V21H1V19C1,16.34 6.33,15 9,15M16.76,5.36C18.78,7.56 18.78,10.61 16.76,12.63L15.08,10.94C15.92,9.76 15.92,8.23 15.08,7.05L16.76,5.36M20.07,2C24,6.05 23.97,12.11 20.07,16L18.44,14.37C21.21,11.19 21.21,6.65 18.44,3.63L20.07,2Z',
-    subtitle: 'Check the features to try with personal voice assistants'
+    subtitle: 'Features with personal voice assistants'
   },
 
 
@@ -62,18 +63,8 @@ const iconTitleMap = {
 };
 
 const useStyles = makeStyles(theme => ({
-  cardContainer1: {
-    background: theme.palette.grey[300],
-    justifyContent: "center"
-  },
-
-  cardContainer2: {
-    background: theme.palette.grey[400],
-    justifyContent: "center"
-  },
-
-  cardContainer3: {
-    background: theme.palette.grey[500],
+  cardContainer: {
+    background: '#FFFFFF',
     justifyContent: "center"
   },
 
@@ -92,17 +83,12 @@ export default function ExpenseHomePage() {
 
     return (
       <div>
-        <NavBar title ="Homepage" />
-        {/* <Header title="Take actions to manage your expenses" /> */}
+        <NavBar title ="CashClock" />
+        <Header title ="Expense Tracker" subtitle="Take actions to manage your expenses" />
         
         <Grid container>
           <Grid item xs={12}>
-            <Grid container className={classes.cardContainer1} >
-              <Grid item xs={12}>
-                <Typography className={classes.actionPannelText}>
-                  Expense Tracking
-                </Typography>
-              </Grid>
+            <Grid container className={classes.cardContainer} >
   
               <Grid item>
                 <ActionCard
@@ -135,24 +121,11 @@ export default function ExpenseHomePage() {
                   button = {<IncomeButton />}
                 />
               </Grid>
-  
-              {/* <Grid item>
-                <ActionCard
-                  icon={iconTitleMap.addCategory.icon}
-                  subtitle={iconTitleMap.addCategory.subtitle}
-                  button = {<CategoryButton />}
-                />
-              </Grid> */}
             </Grid>
           </Grid>
   
           <Grid item xs={12}>
-            <Grid container className={classes.cardContainer2}>
-              <Grid item xs={12}>
-                <Typography className={classes.actionPannelText}>
-                  Personal Voice Assistants
-                </Typography>
-              </Grid>
+            <Grid container className={classes.cardContainer}>
   
               <Grid item>
                 <ActionCard
@@ -177,17 +150,7 @@ export default function ExpenseHomePage() {
                   button = {<UtterancesButton />}
                 />
               </Grid>
-            </Grid>
-          </Grid>
-  
-          <Grid item xs={12}>
-            <Grid container className={classes.cardContainer3}>
-              <Grid item xs={12}>
-                <Typography className={classes.actionPannelText}>
-                  Time Tracking
-                </Typography>
-              </Grid>
-  
+
               <Grid item>
                 <ActionCard
                   icon={iconTitleMap.time.icon}

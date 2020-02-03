@@ -39,7 +39,11 @@ const useStyles = makeStyles(theme => ({
 
   iconButton: {
     padding: 0
-  }
+  },
+
+  iconBackground: {
+    background: theme.palette.grey[200]
+  } 
 }));
 
 export default function ActionCard(props) {
@@ -51,7 +55,7 @@ export default function ActionCard(props) {
         <Card className={classes.card} color="default">
           <CardContent component="div" className={classes.content}>
             <Grid container direction="column" spacing={3}>
-              <Grid item xs={12}>
+              <Grid item xs={12} className={classes.iconBackground}>
                 <IconButton className={classes.iconButton}>
                   <SvgIcon style={styles.icon} color="primary">
                     <path d={props.icon} />

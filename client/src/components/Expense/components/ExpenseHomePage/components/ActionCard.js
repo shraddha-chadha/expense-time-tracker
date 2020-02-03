@@ -6,6 +6,7 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
+import { AlignHorizontalCenter } from 'mdi-material-ui';
 
 const styles = {
   icon: {
@@ -17,6 +18,10 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     margin: 25
+  },
+
+  iconBackground: {
+    background: theme.palette.grey[200]
   },
 
   card: {
@@ -39,6 +44,10 @@ const useStyles = makeStyles(theme => ({
 
   iconButton: {
     padding: 0
+  },
+
+  button: {
+    marginBottom: '20px'
   }
 }));
 
@@ -51,12 +60,16 @@ export default function ActionCard(props) {
         <Card className={classes.card} color="default">
           <CardContent component="div" className={classes.content}>
             <Grid container direction="column" spacing={3}>
-              <Grid item xs={12}>
-                <IconButton className={classes.iconButton}>
-                  <SvgIcon style={styles.icon} color="primary">
-                    <path d={props.icon} />
-                  </SvgIcon>
-                </IconButton>
+              <Grid item xs={12} className={classes.iconBackground} >
+                <Grid container justify="center">
+                  <Grid item>
+                    <IconButton className={classes.iconButton}>
+                      <SvgIcon style={styles.icon} color="primary">
+                        <path d={props.icon} />
+                      </SvgIcon>
+                    </IconButton>
+                  </Grid>
+                </Grid>
               </Grid>
 
               <Grid item xs={12}>
@@ -65,7 +78,7 @@ export default function ActionCard(props) {
                 </Typography>
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid item xs={12} className={classes.button}>
                {props.button}
               </Grid>
             </Grid>

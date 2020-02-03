@@ -15,7 +15,7 @@ export default function TimeHomepage() {
   return (
     <div>
       <TimeNavBarLoggedIn />
-      <Header title="Search your tasks and time spent on it" />
+      <Header title="Transactions" subtitle="Search your tasks and time spent on it" />
 
       <Grid container>
         <Grid item xs={12}>
