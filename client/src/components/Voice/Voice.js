@@ -18,22 +18,23 @@ const useStyles = makeStyles(theme => ({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 700,
+    minWidth: 300,
   },
 }));
 
 const rows = [
   { id: 1, name: 'Add Expense', utterance: '' },
   { id: 2, name: 'Set Budget', utterance: '' },
-  { id: 3, name: 'Get Monthly Expense', utterance: '' },
-  { id: 4, name: 'Get Quarter Expense', utterance: '' },
-  { id: 5, name: 'Get Yearly Expense', utterance: '' },
-  { id: 6, name: 'Get Monthly Budget', utterance: '' },
-  { id: 7, name: 'Get Quarter Budget', utterance: '' },
-  { id: 8, name: 'Get Yearly Budget', utterance: '' },
-  { id: 9, name: 'Get Monthly Income', utterance: '' },
-  { id: 10, name: 'Get Quarter Income', utterance: '' },
-  { id: 11, name: 'Get Yearly Income', utterance: '' },
+  { id: 3, name: 'Set Income', utterance: '' },
+  { id: 4, name: 'Get Monthly Expense', utterance: '' },
+  { id: 5, name: 'Get Quarter Expense', utterance: '' },
+  { id: 6, name: 'Get Yearly Expense', utterance: '' },
+  { id: 7, name: 'Get Monthly Budget', utterance: '' },
+  { id: 8, name: 'Get Quarter Budget', utterance: '' },
+  { id: 9, name: 'Get Yearly Budget', utterance: '' },
+  { id: 10, name: 'Get Monthly Income', utterance: '' },
+  { id: 11, name: 'Get Quarter Income', utterance: '' },
+  { id: 12, name: 'Get Yearly Income', utterance: '' },
 ];
 
 const StyledTableCell = withStyles(theme => ({
@@ -58,8 +59,8 @@ export default function Voice() {
 
   return(
     <div>
-      <NavBar title="Cash Clock"/>
-      <Header title="Voice Assistants" title="Check out the cool features with Alexa and Google Home" />
+      <NavBar title="CashClock"/>
+      <Header title="Voice Assistants" subtitle="Check out the cool features with Alexa and Google Home" />
 
       <Grid container justify="center">
         <Grid item>
@@ -67,14 +68,14 @@ export default function Voice() {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell align="right">Name</StyledTableCell>
-                  <StyledTableCell align="right">Utterance</StyledTableCell>
+                  <StyledTableCell align="center">Features</StyledTableCell>
+                  {/* <StyledTableCell align="right">Utterance</StyledTableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {rows.map(row => (
                   <StyledTableRow key={row.id}>
-                    <StyledTableCell align="right">{(row.name === ''|| row.name === null)? '-': row.name}</StyledTableCell>
+                    <StyledTableCell align="center">{(row.name === ''|| row.name === null)? '-': row.name}</StyledTableCell>
                     {/* <StyledTableCell align="right">{(row.utterance === ''|| row.date === null)? '-': row.utterance}</StyledTableCell> */}
                   </StyledTableRow>
                 ))}
